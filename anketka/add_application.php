@@ -1,0 +1,97 @@
+<?php 
+require_once (dirname(dirname(__DIR__)).'/config.php'); 
+require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
+require_once($CFG->dirroot.'/blocks/anketka/application_form.php');
+global $PAGE;	
+	
+require_login();
+
+
+if (isguestuser()) {
+    die();
+}
+
+$returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
+$applicationid = optional_param('id', 0, PARAM_INT);
+
+if (empty($returnurl)) {
+    $returnurl = new moodle_url('/blocks/anketka/add_application.php');
+}
+
+
+
+$context = context_user::instance($USER->id);
+//$context = context_user::instance ($pustbudet);
+
+
+
+$struser = get_string('user');
+
+$PAGE->set_url('/blocks/anketka/add_application.php');
+$PAGE->set_context($context);
+//$PAGE->set_title($title);
+$PAGE->set_heading(fullname($USER));
+$PAGE->set_pagelayout('standard');
+
+
+$PAGE->set_pagetype('my-index');
+
+echo $OUTPUT->header();	
+
+//$DB -> set_debug (true);
+	
+$mform = new anketka_application_form($applicationid);
+if ($mform->is_cancelled()) {
+    //Handle form cancel operation, if cancel button is present on form
+    redirect('./view_applications_list.php');
+} else if ($data = $mform->get_data()) 
+{
+    //In this case you process validated data. $mform->get_data() returns data posted in form
+    var_dump($data);
+    $obj = new stdClass();
+    if(isset($data->id)){
+        $applicationid = $data->id;
+    }
+    //$obj->applicantid = $data->applicantid;
+	$obj->applicantid = $USER->id;
+    $obj->applicantname = protection_unauthorized ($data -> firstname);
+    $obj->applicantmiddlename = protection_unauthorized ($data -> middlename);
+    $obj->applicantlastname = protection_unauthorized ($data -> lastname);
+	$obj->applicantinstitute = conversion_parametr_i ($data -> institut);
+    //$obj->applicantinstitute = protection_unauthorized ($data -> institut);
+    //$obj->applicantcourse = protection_unauthorized ($data -> kurs);
+	$obj->applicantcourse = conversion_parametr_k ($data -> kurs);
+    $obj->applicantgroup = protection_unauthorized ($data -> group);
+    $obj->applicantphone = protection_unauthorized ($data -> phone);
+	$obj->applicantemail = protection_unauthorized ($data -> email);
+    $obj->applicationstatus = 1;
+    $activity = $data -> activity;
+    $activity = conversion_parametr_a ($activity);
+    $obj->directionofactivity = $activity;
+    $yesno = $data -> received;
+    $yesno = conversion_parametr_y ($yesno);
+    $obj->scholarshipholder = $yesno;
+	$applicationidcheck = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} WHERE (applicantid = ?)', [$USER->id]);
+/* нет проверки на существование записи в базе данных*/    
+	//if(($applicationid=='') and ($applicationid == 0) and ($applicationidcheck == [])){
+    if ($applicationid=='')
+	{		
+		$obj->applicationcreatedate = time();
+        $applicationid = $DB->insert_record('block_anketka_applicants', $obj, $returnid = true, $bulk = false);
+    }
+		else
+		{ 
+			$obj->id = $applicationid;
+			$obj->applicationmodifieddate = time();
+			$DB->update_record('block_anketka_applicants', $obj);
+		}
+    redirect('/blocks/anketka/upload_documents.php?id='.$applicationid);
+	//redirect('/blocks/anketka/upload_documents.php?id='.$USER->id);
+
+} else {
+    // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed
+    // or on the first display of the form.
+    $mform->display();
+}
+   
+echo $OUTPUT->footer();
