@@ -103,6 +103,7 @@ class anketa_soiskatelya_form extends moodleform
 				$mform -> addElement('textarea', 'institut', 'Институт', 'wrap="virtual" rows = "1" cols = "30"');
 				$mform -> setDefault('institut', $institut);
 				$mform -> addElement('textarea', 'kurs', get_string("course"), 'wrap="virtual" rows = "1" cols = "30"');
+$mform->addRule('kurs', get_string('required'), 'required', null, 'client');				
 				$mform -> setDefault('kurs', $kurs);
 				$mform -> addElement('textarea', 'gruppa', get_string("group"), 'wrap="virtual" rows = "1" cols = "30"');
 				$mform -> setDefault('gruppa', $gruppa);
