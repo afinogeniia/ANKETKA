@@ -61,7 +61,7 @@ if (!empty($data))
         $k = $item -> applicantinstitute;
         $y = $item -> applicantphone;
         $m = $item -> applicantemail;
-		$d = $item->applicationsenddate;
+		$d = date('d.m.y', $item->applicationsenddate);
 		$docs = render_docs_list($item->id,$item->itemid,$item->contextid);
 		
 		# TODO Сделать нормальный формат дат
