@@ -1,23 +1,10 @@
 <?php 
 	require_once (dirname(dirname(__DIR__)).'/config.php'); 
-	require_once ($CFG->dirroot . '/lib/formslib.php'); 
-	//require_once($CFG->libdir.'/ddl/database_manager.php');
-	require_once ($CFG -> libdir.'/adminlib.php');
-	require_once($CFG->libdir . '/classes/filetypes.php');
-	require_once($CFG->dirroot . '/lib/classes/filetypes.php');
-	require_once($CFG->dirroot.'/blocks/edit_form.php');
-	require_once($CFG->dirroot . '/my/lib.php');
-require_once($CFG->libdir . '/outputcomponents.php');
-require_once($CFG->dirroot .'/blocks/anketka/applicantslib.php');
+	require_once($CFG->libdir . '/outputcomponents.php');
+	require_once($CFG->dirroot .'/blocks/anketka/applicantslib.php');
 	global $PAGE;
-	global $USER;
-	global $frm;	
-	global $DB;
-	global $CFG;
-	global $_FILES;
 require_login();
 
-//$DB -> set_debug (true);
 if (isguestuser()) {
     die();
 }
