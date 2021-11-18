@@ -72,8 +72,6 @@ if ($mform->is_cancelled()) {
     $yesno = conversion_parametr_y ($yesno);
     $obj->scholarshipholder = $yesno;
 	$applicationidcheck = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} WHERE (applicantid = ?)', [$USER->id]);
-/* нет проверки на существование записи в базе данных*/    
-	//if(($applicationid=='') and ($applicationid == 0) and ($applicationidcheck == [])){
     if ($applicationid=='')
 	{		
 		$obj->applicationcreatedate = time();
