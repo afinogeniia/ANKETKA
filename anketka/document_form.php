@@ -47,18 +47,24 @@ class application_document_form extends moodleform
 		$mform -> addElement('header', 'moodle', 'Информация о достижениях соискателя');
 		
 		$mform -> addElement('textarea', 'achievement', 'Достижение', 'wrap="virtual" rows = "1" cols = "30"');
-$mform->addRule('achievement', get_string('required'), 'required', null, 'client');		
+		$mform->addRule('achievement', get_string('required'), 'required', null, 'client');		
 		$mform -> setDefault ('achievement', '');
+		
 		$mform -> addElement ('date_selector', 'date_achievement', 'Дата');
-$mform->addRule('date_achievement', get_string('required'), 'required', null, 'client');
+		$mform->addRule('date_achievement', get_string('required'), 'required', null, 'client');
+		
 		$mform -> addElement('textarea', 'document_name', 'Документ', 'wrap="virtual" rows = "1" cols = "30"');
-$mform->addRule('document_name', get_string('required'), 'required', null, 'client');		
+		$mform->addRule('document_name', get_string('required'), 'required', null, 'client');		
 		$mform -> setDefault ('document_name', '');
+		
 		$mform -> addElement('textarea', 'comment', 'Примечание', 'wrap="virtual" rows = "1" cols = "30"');
 		$mform -> setDefault ('comment', '');
+		
 		$mform->addElement('filemanager', 'attachments', 'Подтверждающий документ', null,
                     array('subdirs' => 0, 'maxbytes' => $maxbytes, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
                           'accepted_types' => array('document')));
+		$mform->addRule('attachments', get_string('required'), 'required', null, 'client');
+		
 		$this->add_action_buttons(true, 'Далее');
     }
 
