@@ -60,6 +60,7 @@ if ($mform->is_cancelled()) {
 	$obj->applicantinstitute = conversion_parametr_i ($data -> institut);
 	$obj->applicantcourse = conversion_parametr_k ($data -> kurs);
     $obj->applicantgroup = protection_unauthorized ($data -> group);
+	echo (checking_validity_phone($data -> phone));
     $obj->applicantphone = protection_unauthorized ($data -> phone);
 	$obj->applicantemail = protection_unauthorized ($data -> email);
     $obj->applicationstatus = 1;
