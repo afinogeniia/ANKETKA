@@ -58,8 +58,6 @@ if ($mform->is_cancelled()) {
     $obj->applicantmiddlename = protection_unauthorized ($data -> middlename);
     $obj->applicantlastname = protection_unauthorized ($data -> lastname);
 	$obj->applicantinstitute = conversion_parametr_i ($data -> institut);
-    //$obj->applicantinstitute = protection_unauthorized ($data -> institut);
-    //$obj->applicantcourse = protection_unauthorized ($data -> kurs);
 	$obj->applicantcourse = conversion_parametr_k ($data -> kurs);
     $obj->applicantgroup = protection_unauthorized ($data -> group);
     $obj->applicantphone = protection_unauthorized ($data -> phone);
