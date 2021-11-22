@@ -3,7 +3,7 @@
 unset($CONF);
 global $CONF;
 $CONF = new stdClass();
-$CONF-> cogorta = 'Заявление';
+$CONF-> cogorta = 'Соискание';
 
 //$CFG->dbtype    = 'mariadb';
 //$CFG->dblibrary = 'native';
