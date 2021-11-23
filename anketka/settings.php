@@ -37,7 +37,7 @@ defined('MOODLE_INTERNAL') || die;
 if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('block_anketka', 'нужно ли создать глобальную группу',
                        'нужно ли создать Глобальную ГрУппУ', 0));
-	$settings->add(new admin_setting_configtext('bolck_anketka', 'вопрос', 'ОТВЕТ', 640, PARAM_INT);
+	$settings->add(new admin_setting_configtext('bolck_anketka', 'вопрос', 'ОТВЕТ', 640, PARAM_INT));
 }
 
 
