@@ -50,9 +50,9 @@ class block_anketka extends block_list
 	}
 	function has_config()
 	{
-		return false;
+		return true;
 	}
-	function applicable_formats()
+	/*function applicable_formats()
 	{
 		return array('my' => true);
 	}
@@ -63,7 +63,7 @@ class block_anketka extends block_list
 	function instance_allow_config()
 	{
 		return true;
-	}
+	}*/
 	public function get_content()
 	{	
 		global $DB;
