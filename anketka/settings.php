@@ -38,10 +38,6 @@ if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configcheckbox('block_anketka', 'нужно ли создать глобальную группу',
                        'нужно ли создать Глобальную ГрУппУ', 0));
 	$settings->add(new admin_setting_configtext('bolck_anketka', 'вопрос', 'ОТВЕТ', 640, PARAM_INT);
-	echo ('______________SETTINGS______________');
-	var_dump ($settings);
-	echo ('______________ADMIN______________');
-	var_dump ($ADMIN);
 }
 
 
