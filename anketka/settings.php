@@ -28,11 +28,22 @@ defined('MOODLE_INTERNAL') || die;
     //$settings->add(new admin_setting_configcheckbox('block_anketka', get_string('allowadditionalcssclasses', 'block_anketka'),
                        //get_string('configallowadditionalcssclasses', 'block_anketka'), 0));
 //}
-if ($ADMIN->fulltree) {
+/*if ($ADMIN->fulltree) {
     $settings->add(new admin_setting_configtext('block_anketka', 'save',
                        //get_string('apikeyinfo', 'block_tag_youtube'), '', PARAM_RAW_TRIMMED, 40));
 					   'write', '', PARAM_RAW_TRIMMED, 40));
+}*/
+
+if ($ADMIN->fulltree) {
+    $settings->add(new admin_setting_configcheckbox('block_anketka', 'нужно ли создать глобальную группу',
+                       'нужно ли создать Глобальную ГрУппУ', 0));
+	$settings->add(new admin_setting_configtext('bolck_anketka', 'вопрос', 'ОТВЕТ', 640, PARAM_INT);
+	echo ('______________SETTINGS______________');
+	var_dump ($settings);
+	echo ('______________ADMIN______________');
+	var_dump ($ADMIN);
 }
+
 
 
 
