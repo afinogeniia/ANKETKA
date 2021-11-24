@@ -22,6 +22,7 @@
 *@license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later*/
 //require_once ($CFG->dirroot . '/lib/formslib.php');
 require_once ($CFG->dirroot . '/config.php');
+require_once ($CFG ->dirroot. '/blocks/anketka/config.php');
 require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
 
 class block_anketka extends block_list
@@ -45,37 +46,31 @@ class block_anketka extends block_list
 	public function init()
 	{
 		$this -> title = 'Соискание стипендии';
-		//$this->title = get_string('pluginname','block_tag_youtube');
         //$this->config = new stdClass();
 	}
-	function has_config()
+	
+	function has_config() 
 	{
-		return true;
-	}
-	/*function applicable_formats()
-	{
-		return array('my' => true);
-	}
-	function instance_allow_multiple()
-	{
-		return false;
-	}	
-	function instance_allow_config()
-	{
-		return true;
-	}*/
+        return true;
+    }
+	
 	public function get_content()
 	{	
 		global $DB;
-		//global $CFG;
-		//global $COURSE;
+		global $CONF;
 		global $USER;
 		//global $_FILES;
 		
+		//$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', [$CONF-> cogorta]);
 		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', ['Заявление']);
 		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
 		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);
-
+$pluginconfigs = get_config('block_anketka');
+//echo ('_________PLUGINCONFIG__________');
+//var_dump ($pluginconfigs);
+//echo ('___________________PLUGINCONFIG____________');
+$n = $pluginconfigs -> kafedra1;
+echo ($n);
 	/*1*/ //Определяю права пользователя, - if - admin; else - все остальные.
 		$context = context_system::instance();		
 		//if (has_capability('mod/folder:managefiles', $context))
@@ -100,5 +95,14 @@ class block_anketka extends block_list
 			else $this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/anketka/add_application.php'));
 			return $this -> content;
 		}		
-	}	
+	}
+
+	 public function get_config_for_external() 
+	 {
+        // Return all settings for all users since it is safe (no private keys, etc..).
+        $configs = get_config('block_anketka');
+		echo ('________________CONFIGS__________________');
+		var_dump ($configs);
+	 }
+	
 }
