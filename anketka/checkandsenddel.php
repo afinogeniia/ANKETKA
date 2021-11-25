@@ -1,31 +1,8 @@
 <?php 
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-require_once ($CFG->dirroot . '/lib/formslib.php'); 
-require_once($CFG->libdir.'/ddl/database_manager.php');
-require_once ($CFG -> libdir.'/adminlib.php');
-require_once($CFG->libdir . '/classes/filetypes.php');
-require_once($CFG->dirroot . '/lib/classes/filetypes.php');
-require_once($CFG->dirroot.'/repository/lib.php');
 require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
-require_once($CFG->dirroot.'/blocks/edit_form.php');
 require_once($CFG->dirroot.'/blocks/anketka/document_form.php');
-require_once($CFG->dirroot.'/user/profile/lib.php');
-require_once($CFG->dirroot.'/user/lib.php');
-require_once($CFG->libdir . '/filelib.php');
-require_once($CFG->libdir . '/badgeslib.php');
-require_once($CFG->libdir.'/gdlib.php');
-require_once($CFG->dirroot.'/user/edit_form.php');
-require_once($CFG->dirroot.'/user/editlib.php');
-require_once($CFG->dirroot.'/user/profile/lib.php');
-require_once($CFG->dirroot.'/user/lib.php');
-require_once($CFG->dirroot . '/my/lib.php');
-require_once($CFG->dirroot."/repository/lib.php");
-global $CFG;
-global $DB;
-global $PAGE;
-global $USER;
-global $frm;	
-global $_FILES;	
+global $DB;	
 # TODO нужно почистить require_once их явно больше чем надо	
 require_login();
 

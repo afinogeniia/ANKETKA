@@ -44,25 +44,25 @@ class application_document_form extends moodleform
 		$mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
 		$mform -> setDefault ('id', $this->applicationid);
-		$mform -> addElement('header', 'moodle', 'Информация о достижениях соискателя');
+		$mform -> addElement('header', 'moodle', get_string('informationachievements', 'block_anketka'));
 		
-		$mform -> addElement('textarea', 'achievement', 'Достижение', 'wrap="virtual" rows = "1" cols = "30"');
+		$mform -> addElement('textarea', 'achievement', get_string('achievement', 'block_anketka'), 'wrap="virtual" rows = "1" cols = "30"');
 		$mform->addRule('achievement', get_string('required'), 'required', null, 'client');		
 		
-		$mform -> addElement ('date_selector', 'date_achievement', 'Дата');
+		$mform -> addElement ('date_selector', 'date_achievement', get_string('documentdate', 'block_anketka'));
 		$mform->addRule('date_achievement', get_string('required'), 'required', null, 'client');
 		
-		$mform -> addElement('textarea', 'document_name', 'Документ', 'wrap="virtual" rows = "1" cols = "30"');
+		$mform -> addElement('textarea', 'document_name', get_string('documentname', 'block_anketka'), 'wrap="virtual" rows = "1" cols = "30"');
 		$mform->addRule('document_name', get_string('required'), 'required', null, 'client');		
 		
 		$mform -> addElement('textarea', 'comment', 'Примечание', 'wrap="virtual" rows = "1" cols = "30"');
 		
-		$mform->addElement('filemanager', 'attachments', 'Подтверждающий документ', null,
+		$mform->addElement('filemanager', 'attachments', get_string('confirmation', 'block_anketka'), null,
                     array('subdirs' => 0, 'maxbytes' => $maxbytes, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
                           'accepted_types' => array('document')));
-		$mform->addRule('attachments', get_string('required'), 'required', null, 'client');
+		$mform->addRule('attachments', get_string('required'), 'required', null, 'client');		
 		
-		$this->add_action_buttons(true, 'Далее');
+		$this->add_action_buttons(true, get_string('buttoncontinued', 'block_anketka'));
     }
 
 	function validation ($data, $files)

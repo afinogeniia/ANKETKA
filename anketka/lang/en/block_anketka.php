@@ -45,7 +45,7 @@ $string['buttoncontinued'] = 'Continue';
 //function create_table_doclist
 $string['achievement'] = 'Achievement';
 $string['confirmation'] = 'Supporting document';
-$string['documentdate'] = 'Document date';
+$string['documentdate'] = 'Achievement date';
 $string['download'] = 'Download';
 $string['delete'] = 'Delete';
 //function render_application_document_page
@@ -60,8 +60,17 @@ $string['isbeingformed'] = 'Is being formed';
 $string['hasbeensent'] = 'Нas been sent';
 //function render_docs_list
 $string['scholarshipapplication'] = 'Scholarship Application';
-
-/*$string['lastname'] = 'Last Name';
+//checkandsend.php
+$string['uploadscanned'] = 'Upload a scanned application';
+$string['scanapplication'] = 'Scan of the application';
+$string['deletescan'] = 'Delete the downloaded scan';
+//document_form.php
+$string['informationachievements'] = 'Information about the achievements of the applicant';
+$string['documentname'] = 'Document name';
+/*
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';

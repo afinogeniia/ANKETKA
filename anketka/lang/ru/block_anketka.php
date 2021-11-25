@@ -52,7 +52,7 @@ $string['buttoncontinued'] = 'Далее';
 //function create_table_doclist
 $string['achievement'] = 'Достижение';
 $string['confirmation'] = 'Подтверждающий документ';
-$string['documentdate'] = 'Дата документа';
+$string['documentdate'] = 'Дата достижения';
 $string['download'] = 'Скачать';
 $string['delete'] = 'Удалить';
 //function render_application_document_page
@@ -67,8 +67,16 @@ $string['isbeingformed'] = 'Формируется';
 $string['hasbeensent'] = 'Отправлено';
 //function render_docs_list
 $string['scholarshipapplication'] = 'Заявление на стипендию';
-
-/*$string['telephone'] = 'Телефон';
+//checkandsend.php
+$string['uploadscanned'] = 'Загрузить отсканированное заявление';
+$string['scanapplication'] = 'Скан заявления';
+$string['deletescan'] = 'Удалить загруженный скан';
+//document_form.php
+$string['informationachievements'] = 'Информация о достижениях соискателя';
+$string['documentname'] = 'Название документа';
+/*
+$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
