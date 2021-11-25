@@ -26,5 +26,55 @@ $string['anketka:addinstance'] = 'Add a new Anketka block';
 $string['anketka:myadinstance'] = 'Add a new Anketka block to Dashboard';
 $string['pluginname'] = 'ANKETKA';
 $string['label'] = 'AnketInfA';
-$string['attachment'] = 'Dobavlenie faila';
-$string['anketkalastname'] = 'Last Name';
+
+$string['informationapplicant'] = 'Information about the applicant';
+$string['firstname'] = 'First Name';
+$string['middlename'] = 'Middle Name';
+$string['lastname'] = 'Last Name';
+$string['institute'] = 'Institute';
+$string['course'] = 'Course';
+$string['group'] = 'Group';
+$string['telephone'] = 'Telephone';
+$string['email'] = 'Email address';
+$string['type'] = 'The direction of educational activity';
+$string['flag'] = 'Вid you receive an increased scholarship in the previous semester?';
+$string['buttoncontinued'] = 'Continue';
+/*$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';
+$string['lastname'] = 'Last Name';*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

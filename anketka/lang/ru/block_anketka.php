@@ -26,33 +26,52 @@
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-defined('MOODLE_INTERNAL') || die();
+//defined('MOODLE_INTERNAL') || die();
 
 $string['anketka'] = 'ANKETKA';
 $string['anketka:addinstance'] = 'Add a new Anketka block';
 $string['anketka:myadinstance'] = 'Add a new Anketka block to Dashboard';
 $string['pluginname'] = 'ANKETKA';
 $string['label'] = 'AnketInfA';
-/*$string['modulename'] = 'Indigo Results Dist';
-$string['modulenameplural'] = 'Indigo Results Dist';
-$string['modulename_help'] = 'Модуль предназначен для интеграции тестовой системы INDIGO (pmm.usla.ru) в курсы MOODLE';
-$string['newmodulefieldset'] = 'Custom example fieldset';
-$string['indigoresultsdistname'] = 'Тесты системы INDIGO';
-$string['indigoresultsdistname_help'] = 'This is the content of the help tooltip associated with the newmodulename field. Markdown syntax is supported.';
-$string['indigoresultsdist'] = 'INDIGO';
-$string['pluginadministration'] = 'Администрирование INDIGO';
-$string['pluginname'] = 'indigoresultsdist';
-$string['indigoresultsdistfldname'] = 'Имя теста';
-$string['indigoresultsdistfldnumber'] = 'Выберите тест из списка';
-$string['from'] = 'С';
-$string['to'] = 'По';*/
-$string['anketkalastname'] = 'Фамилия';
-$string['anketkaname'] = 'Имя';
-$string['anketkainf'] = 'Информация о соискателях';
-/*$string['indigoresultsdistcolgroup'] = 'Группа';
-$string['indigoresultsdistcoltestname'] = 'Название теста';
-$string['indigoresultsdistcolstatus'] = 'Статус';
-$string['indigoresultsdistcolbegin'] = 'Время начала тестирования';
-$string['indigoresultsdistcolend'] = 'Время окончания тестирования';
-$string['indigoresultsdistcolresult'] = 'Результат';
-$string['indigoresultsdistdownload'] = 'Скачать результаты в формате:';*/
+
+$string['informationapplicant'] = 'Информация о соискателе';
+$string['firstname'] = 'Имя';
+$string['middlename'] = 'Отчество';
+$string['lastname'] = 'Фамилия';
+$string['institute'] = 'Институт';
+$string['course'] = 'Курс';
+$string['group'] = 'Группа';
+$string['telephone'] = 'Номер телефона';
+$string['email'] = 'Адрес электронной почты';
+$string['type'] = 'Направление учебной деятельности';
+$string['flag'] = 'Получали ли стипендию повышенную в предыдущем семестре';
+$string['buttoncontinued'] = 'Далее';
+/*$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';*/
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -31,7 +31,7 @@ if ($ADMIN->fulltree) {
 	$items[] = new admin_setting_configtext('block_anketka_3', 'Вопрос', 'Ответ', 'language', PARAM_TEXT, 50);
 	echo ('___________________ITEMS________________');
 	var_dump ($items);*/
-	$settings -> add(new admin_setting_configtext('block_anketka/kafedra1', 'Вопрос', 'Ответ', 'language', PARAM_TEXT, 50));
+	$settings -> add(new admin_setting_configtext('block_anketka/kafedra1', get_string('lastname', 'block_anketka'), 'Ответ', 'language', PARAM_TEXT, 50));
 	$settings -> add(new admin_setting_configtext('block_anketka/kafedra2', 'Вопрос1', 'Ответ1', 'simple', PARAM_TEXT, 33));
 	$settings -> add(new admin_setting_configtext('block_anketka/kafedra3', 'Вопрос3', 'Ответ3', 'simple', PARAM_TEXT, 33));
 }
