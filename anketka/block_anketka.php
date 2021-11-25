@@ -22,7 +22,6 @@
 *@license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later*/
 //require_once ($CFG->dirroot . '/lib/formslib.php');
 require_once ($CFG->dirroot . '/config.php');
-require_once ($CFG ->dirroot. '/blocks/anketka/config.php');
 require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
 
 class block_anketka extends block_list
@@ -57,11 +56,7 @@ class block_anketka extends block_list
 	public function get_content()
 	{	
 		global $DB;
-		global $CONF;
 		global $USER;
-		//global $_FILES;
-		
-		//$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', [$CONF-> cogorta]);
 		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', ['Заявление']);
 		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
 		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);

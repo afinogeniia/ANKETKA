@@ -67,19 +67,29 @@ $string['isbeingformed'] = 'Формируется';
 $string['hasbeensent'] = 'Отправлено';
 //function render_docs_list
 $string['scholarshipapplication'] = 'Заявление на стипендию';
+
 //checkandsend.php
 $string['uploadscanned'] = 'Загрузить отсканированное заявление';
 $string['scanapplication'] = 'Скан заявления';
 $string['deletescan'] = 'Удалить загруженный скан';
+
 //document_form.php
 $string['informationachievements'] = 'Информация о достижениях соискателя';
 $string['documentname'] = 'Название документа';
+
+//upload_application_form.php
+$string['signedscan'] = 'Подписанный скан заявления';
+
+//view_applications_list.php
+$string['fio'] = 'Фамилия, имя, отчество';
+$string['documents'] = 'Документы';
+$string['status'] = 'Статус';
+$string['yourapplication'] = 'Ваши заявления';
+
+//viewing_table_applicants.php
+$string['date'] = 'Дата';
+
 /*
-$string['telephone'] = 'Телефон';
-$string['telephone'] = 'Телефон';
-$string['telephone'] = 'Телефон';
-$string['telephone'] = 'Телефон';
-$string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';

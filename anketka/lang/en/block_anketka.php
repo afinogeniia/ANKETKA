@@ -60,20 +60,29 @@ $string['isbeingformed'] = 'Is being formed';
 $string['hasbeensent'] = 'Нas been sent';
 //function render_docs_list
 $string['scholarshipapplication'] = 'Scholarship Application';
+
 //checkandsend.php
 $string['uploadscanned'] = 'Upload a scanned application';
 $string['scanapplication'] = 'Scan of the application';
 $string['deletescan'] = 'Delete the downloaded scan';
+
 //document_form.php
 $string['informationachievements'] = 'Information about the achievements of the applicant';
 $string['documentname'] = 'Document name';
+
+//upload_application_form.php
+$string['signedscan'] = 'Signed scan of the application';
+
+//view_applications_list.php
+$string['fio'] = 'LastName, FirstName, MiddleName';
+$string['documents'] = 'Documents';
+$string['status'] = 'Status';
+$string['yourapplication'] = 'Your application';
+
+//viewing_table_applicants.php
+$string['date'] = 'Date';
+
 /*
-$string['lastname'] = 'Last Name';
-$string['lastname'] = 'Last Name';
-$string['lastname'] = 'Last Name';
-$string['lastname'] = 'Last Name';
-$string['lastname'] = 'Last Name';
-$string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';
