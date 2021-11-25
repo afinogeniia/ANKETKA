@@ -40,7 +40,10 @@ $data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} where 
 if (!empty($data))
 {
     $table = new html_table();
-    $table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта','Дата', 'Документы');
+    //$table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта','Дата', 'Документы');
+	$table->head = array(get_string('fio', 'block_anketka'), get_string('institute', 'block_anketka'), 
+	get_string('telephone', 'block_anketka'), get_string('email', 'block_anketka'),
+	get_string('date', 'block_anketka'), get_string('documents', 'block_anketka'));
     
     foreach ($data as $item)
     {
@@ -53,8 +56,10 @@ if (!empty($data))
 		
 		# TODO Сделать нормальный формат дат
         $table->data[] = array ($f, $k, $y, $m,$d, $docs);
+		
     }
-    echo $OUTPUT->heading('Ваши заявления', 2);
+    //echo $OUTPUT->heading('Ваши заявления', 2);
+	echo $OUTPUT->heading(get_string('yourapplication', 'block_anketka'), 2);
     echo html_writer::table($table);
 }
 

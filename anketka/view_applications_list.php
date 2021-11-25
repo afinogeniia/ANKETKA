@@ -1,23 +1,17 @@
 <?php 
 	require_once (dirname(dirname(__DIR__)).'/config.php'); 
-	//require_once ($CFG->dirroot . '/lib/formslib.php'); 
-	//require_once($CFG->libdir.'/ddl/database_manager.php');
-	//require_once ($CFG -> libdir.'/adminlib.php');
-	//require_once($CFG->libdir . '/classes/filetypes.php');
-	//require_once($CFG->dirroot . '/lib/classes/filetypes.php');
-	//require_once($CFG->dirroot.'/blocks/edit_form.php');
+	
     require_once($CFG->dirroot.'/blocks/anketka/applicantslib.php');
-	//require_once($CFG->dirroot . '/my/lib.php');
+	
 require_once($CFG->libdir . '/outputcomponents.php');
 	global $PAGE;
 	global $USER;
-	//global $frm;	
+	
 	global $DB;
-	//global $CFG;
-	//global $_FILES;
+	
 require_login();
 
-//$DB -> set_debug (true);
+
 if (isguestuser()) {
     die();
 }
@@ -53,8 +47,10 @@ $data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} where 
 if (!empty($data))
 {
     $table = new html_table();
-    $table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта', 'Документы','Статус','');
-    
+    //$table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта', 'Документы','Статус','');
+    $table->head = array(get_string('fio', 'block_anketka'), get_string('institute', 'block_anketka'), 
+	get_string('telephone', 'block_anketka'), get_string('email', 'block_anketka'),
+	get_string('documents', 'block_anketka'),get_string('status', 'block_anketka'),'');
     foreach ($data as $item)
     {
         $f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
@@ -72,7 +68,8 @@ if (!empty($data))
         
         $table->data[] = array ($f, $k, $y, $m,$docs,$status,$link);
     }
-    echo $OUTPUT->heading('Ваши заявления', 2);
+    //echo $OUTPUT->heading('Ваши заявления', 2);
+	echo $OUTPUT->heading(get_string('yourapplication', 'block_anketka'), 2);
     echo html_writer::table($table);
 }
 else 

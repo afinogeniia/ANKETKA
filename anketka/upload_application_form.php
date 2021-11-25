@@ -16,7 +16,7 @@ require_once($CFG->dirroot.'/lib/formslib.php');
 class anketka_upload_application_form extends moodleform 
 {   
     /**
-     * Констуртор класс
+     * Конструктор класс
      * может получать идентификатор заявления
      * для предзаполнения формы для редактирования
      */
@@ -41,11 +41,11 @@ class anketka_upload_application_form extends moodleform
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
         $mform -> setDefault('id', $this->applicationid);
-        $mform -> addElement('header', 'moodle', 'Подписанный скан заявления');
+        $mform -> addElement('header', 'moodle', get_string('signedscan', 'block_anketka'));
         # вынести в настройки
         $maxbytes = 1000000;
 
-        $mform->addElement('filemanager', 'attachments', 'Подтверждающий документ', null,
+        $mform->addElement('filemanager', 'attachments', get_string('confirmation', 'block_anketka'), null,
         array('subdirs' => 0, 'maxbytes' => $maxbytes, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
               'accepted_types' => array('document')));
         $this->add_action_buttons(true, 'Сохранить');

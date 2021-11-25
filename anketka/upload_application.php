@@ -1,25 +1,25 @@
 <?php 
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-require_once ($CFG->dirroot . '/lib/formslib.php'); 
-require_once($CFG->libdir.'/ddl/database_manager.php');
-require_once ($CFG -> libdir.'/adminlib.php');
-require_once($CFG->libdir . '/classes/filetypes.php');
-require_once($CFG->dirroot . '/lib/classes/filetypes.php');
-require_once($CFG->dirroot.'/repository/lib.php');
+//require_once ($CFG->dirroot . '/lib/formslib.php'); 
+//require_once($CFG->libdir.'/ddl/database_manager.php');
+//require_once ($CFG -> libdir.'/adminlib.php');
+//require_once($CFG->libdir . '/classes/filetypes.php');
+//require_once($CFG->dirroot . '/lib/classes/filetypes.php');
+//require_once($CFG->dirroot.'/repository/lib.php');
 require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
-require_once($CFG->dirroot.'/blocks/edit_form.php');
+//require_once($CFG->dirroot.'/blocks/edit_form.php');
 require_once($CFG->dirroot.'/blocks/anketka/upload_application_form.php');
-require_once($CFG->dirroot.'/user/profile/lib.php');
-require_once($CFG->dirroot.'/user/lib.php');
-require_once($CFG->libdir . '/filelib.php');
-require_once($CFG->libdir . '/badgeslib.php');
-require_once($CFG->libdir.'/gdlib.php');
-require_once($CFG->dirroot.'/user/edit_form.php');
-require_once($CFG->dirroot.'/user/editlib.php');
-require_once($CFG->dirroot.'/user/profile/lib.php');
-require_once($CFG->dirroot.'/user/lib.php');
-require_once($CFG->dirroot . '/my/lib.php');
-require_once($CFG->dirroot."/repository/lib.php");
+//require_once($CFG->dirroot.'/user/profile/lib.php');
+//require_once($CFG->dirroot.'/user/lib.php');
+//require_once($CFG->libdir . '/filelib.php');
+//require_once($CFG->libdir . '/badgeslib.php');
+//require_once($CFG->libdir.'/gdlib.php');
+//require_once($CFG->dirroot.'/user/edit_form.php');
+//require_once($CFG->dirroot.'/user/editlib.php');
+//require_once($CFG->dirroot.'/user/profile/lib.php');
+//require_once($CFG->dirroot.'/user/lib.php');
+//require_once($CFG->dirroot . '/my/lib.php');
+//require_once($CFG->dirroot."/repository/lib.php");
 global $CFG;
 global $DB;
 global $PAGE;
@@ -28,40 +28,23 @@ global $frm;
 global $_FILES;	
 	
 require_login();
-
-
 if (isguestuser()) {
     die();
 }
-
 $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 $applicationid = optional_param('id', 0, PARAM_INT);
-
 if (empty($returnurl)) {
     $returnurl = new moodle_url('/blocks/anketka/add_application.php');
 }
-
-
-
 $context = context_user::instance($USER->id);
-//$context = context_user::instance ($pustbudet);
-
-
-
 $struser = get_string('user');
-
 $PAGE->set_url('/blocks/anketka/add_application.php');
 $PAGE->set_context($context);
 //$PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
 $PAGE->set_pagelayout('standard');
-
-
 $PAGE->set_pagetype('my-index');
-
 echo $OUTPUT->header();	
-
-//$DB -> set_debug (true);
 	
 $mform = new anketka_upload_application_form($applicationid);
 if ($mform->is_cancelled()) {
@@ -90,12 +73,6 @@ if ($mform->is_cancelled()) {
     // or on the first display of the form.
     $mform->display();
 
-}
-
-
-
-                
-                
-
-    
+}            
+   
 echo $OUTPUT->footer();
