@@ -27,6 +27,7 @@ $string['anketka:myadinstance'] = 'Add a new Anketka block to Dashboard';
 $string['pluginname'] = 'ANKETKA';
 $string['label'] = 'AnketInfA';
 
+//application_form.php
 $string['informationapplicant'] = 'Information about the applicant';
 $string['firstname'] = 'First Name';
 $string['middlename'] = 'Middle Name';
@@ -39,6 +40,27 @@ $string['email'] = 'Email address';
 $string['type'] = 'The direction of educational activity';
 $string['flag'] = 'Вid you receive an increased scholarship in the previous semester?';
 $string['buttoncontinued'] = 'Continue';
+
+//applicantslib.php
+//function create_table_doclist
+$string['achievement'] = 'Achievement';
+$string['confirmation'] = 'Supporting document';
+$string['documentdate'] = 'Document date';
+$string['download'] = 'Download';
+$string['delete'] = 'Delete';
+//function render_application_document_page
+$string['yourachievements'] = 'Yourachievements';
+$string['addachievement'] = 'Add Achievement';
+$string['toreturn'] = 'To Return';
+$string['cancel'] = 'Cancel';
+//function render_checkandsend_page_bottom
+$string['sendapplication'] = 'Send an application to the selection committee';
+//function resolve_status
+$string['isbeingformed'] = 'Is being formed';
+$string['hasbeensent'] = 'Нas been sent';
+//function render_docs_list
+$string['scholarshipapplication'] = 'Scholarship Application';
+
 /*$string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';
 $string['lastname'] = 'Last Name';

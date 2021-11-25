@@ -55,15 +55,15 @@ function conversion_parametr_y ($yesno)
 	return ($yesno);
 }
 
-function imyazajavki ($poryadkoviinomer)
+/*function imyazajavki ($poryadkoviinomer)
 {
 	$imyavremennogofaila = "$poryadkoviinomer";
 	$imyachko = ".rtf";
 	$imyachkofailika = $imyavremennogofaila.$imyachko;
 	return ($imyachkofailika);
-}
+}*/
 
-function file_get_file_area_info_svoja($contextid, $component, $filearea, $itemid = 0, $filepath = '/заявка/') {
+/*function file_get_file_area_info_svoja($contextid, $component, $filearea, $itemid = 0, $filepath = '/заявка/') {
 
     $fs = get_file_storage();
 
@@ -91,9 +91,9 @@ function file_get_file_area_info_svoja($contextid, $component, $filearea, $itemi
     }
 
     return $results;
-}
+}*/
 
-function file_prepare_standard_filemanager_svoja($data, $field, array $options, $context=null, $component=null, $filearea=null, $itemid=null) {
+/*function file_prepare_standard_filemanager_svoja($data, $field, array $options, $context=null, $component=null, $filearea=null, $itemid=null) {
     global $DB;
 	$DB -> set_debug (true);
 	$options = (array)$options;
@@ -112,7 +112,8 @@ function file_prepare_standard_filemanager_svoja($data, $field, array $options, 
     $data->{$field.'_filemanager'} = $draftid_editor;
 
     return $data;
-}
+}*/
+
 /*
 Функция проверяет наличие у текущего пользователя заявлений
 */
@@ -183,6 +184,16 @@ function create_application_print(int $id){
     return $text;
 }
 
+function checking_validity_phone ($phone)
+{
+	if (preg_match ('/^[0-9]$/', $phone))
+	{
+		$mess = '';
+	}
+		else $mess = '<div>неверно указан номер</div>';
+	return $mess;
+}
+
 function create_table_doclist(int $id){
     global $DB;
     $data = $DB -> get_records_sql('SELECT * FROM {block_anketka_documents} where applicationid = ? order by supportingdocument',[$id]);
@@ -191,7 +202,9 @@ function create_table_doclist(int $id){
     }
 
     $table = new html_table();
-    $table->head = array('Достижение', 'Подтвержающий документ', 'Дата документа','Скачать', '');
+    //$table->head = array('Достижение', 'Подтвержающий документ', 'Дата документа','Скачать', '');
+	$table->head = array(get_string('achievement', 'block_anketka'), get_string('confirmation', 'block_anketka'),
+						 get_string('documentdate', 'block_anketka'), get_string('download', 'block_anketka'), '');
     
     foreach ($data as $item)
     {
@@ -202,7 +215,7 @@ function create_table_doclist(int $id){
         $contextid = $item->contextid;
         $link = display_files($contextid,$itemid);
         $del = html_writer::start_tag( 'a', array( 'href' => "./upload_documents_del.php?id={$id}&docid={$item->id}" ) )
-            .format_string( 'Удалить' )
+            .format_string( get_string('delete', 'block_anketka') )
             .html_writer::end_tag( 'a' );
         $table->data[] = array ($f, $k, $y, $link,$del);
     }
@@ -233,16 +246,25 @@ function create_table_applicant_date(int $id){
 		$d = $item -> directionofactivity;
 		$iii = $item -> scholarshipholder;
     }
-	$table->data[] = array ('Фамилия', $f);
-	$table->data[] = array ('Имя', $i);
-	$table->data[] = array ('Отчество', $o);
-	$table->data[] = array ('Институт', $ii);
-	$table->data[] = array ('Курс', $k);
-	$table->data[] = array ('Группа', $g);
-	$table->data[] = array ('Номер телефона', $t);
-	$table->data[] = array ('Адрес электронной почты', $p);
-	$table->data[] = array ('Направление деятельности', $d);
-	$table->data[] = array ('Получали ли стипендию в прошлом семестре', $iii);
+	$table->data[] = array (get_string('lastname', block_anketka), $f);
+	//$table->data[] = array ('Имя', $i);
+	$table->data[] = array (get_string('firstname', block_anketka), $i);
+	//$table->data[] = array ('Отчество', $o);
+	$table->data[] = array (get_string('middlename', block_anketka), $o);
+	//$table->data[] = array ('Институт', $ii);
+	$table->data[] = array (get_string('institute', block_anketka), $ii);
+	//$table->data[] = array ('Курс', $k);
+	$table->data[] = array (get_string('course', block_anketka), $k);
+	//$table->data[] = array ('Группа', $g);
+	$table->data[] = array (get_string('group', block_anketka), $g);
+	//$table->data[] = array ('Номер телефона', $t);
+	$table->data[] = array (get_string('telephone', block_anketka), $t);
+	//$table->data[] = array ('Адрес электронной почты', $p);
+	$table->data[] = array (get_string('email', block_anketka), $p);
+	//$table->data[] = array ('Направление деятельности', $d);
+	$table->data[] = array (get_string('type', block_anketka), $d);
+	//$table->data[] = array ('Получали ли стипендию в прошлом семестре', $iii);
+	$table->data[] = array (get_string('flag', block_anketka), $iii);
     return $table;    
 }
 
@@ -299,29 +321,34 @@ function make_file_url(int $contextid,int $itemid){
 
 function render_application_document_page(html_table $table,int $applicationid){
     global $OUTPUT;
-    echo $OUTPUT->heading('Ваши достижения', 2);
+    //echo $OUTPUT->heading('Ваши достижения', 2);
+	echo $OUTPUT->heading(get_string('yourachievements', 'block_anketka'), 2);
     echo html_writer::start_tag( 'a', array( 'href' => "./upload_documents.php?id={$applicationid}&action=ADD" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-    .format_string( 'Добавить достижение' )
+    //.format_string( 'Добавить достижение' )
+	.format_string( get_string('addachievement', 'block_anketka') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
     echo html_writer::table($table);
     echo html_writer::start_tag( 'a', array( 'href' => "./add_application.php?id={$applicationid}" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-    .format_string( 'Назад' )
+    //.format_string( 'Назад' )
+	.format_string( get_string('toreturn', 'block_anketka') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
     echo html_writer::start_tag( 'a', array( 'href' => "./checkandsend.php?id={$applicationid}" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-    .format_string( 'Далее' )
+    //.format_string( 'Далее' )
+	.format_string( get_string('buttoncontinued', 'block_anketka') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
     echo html_writer::start_tag( 'a', array( 'href' => "./view_applications_list.php" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-    .format_string( 'Отмена' )
+    //.format_string( 'Отмена' )
+	.format_string( get_string('cancel', 'block_anketka') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
@@ -331,7 +358,8 @@ function render_checkandsend_page_bottom(int $applicationid){
     global $DB;
     echo html_writer::start_tag( 'a', array( 'href' => "./upload_documents.php?id={$applicationid}" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-    .format_string( 'Назад' )
+    //.format_string( 'Назад' )
+	.format_string( get_string('toreturn', 'block_anketka') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
     $data = $DB->get_record('block_anketka_applicants', array('id' => $applicationid), '*', MUST_EXIST);
@@ -341,13 +369,15 @@ function render_checkandsend_page_bottom(int $applicationid){
     if(!is_null($data->itemid)){
         echo html_writer::start_tag( 'a', array( 'href' => "./checkandsendconfirmd.php?id={$applicationid}" ) )
         .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:35%' ) )
-        .format_string( 'Отправить заявление в отборочную комиссию' )
+        //.format_string( 'Отправить заявление в отборочную комиссию' )
+		.format_string( get_string('sendapplication', 'block_anketka') )
         .html_writer::end_tag('button')
         .html_writer::end_tag( 'a' );
     }
     echo html_writer::start_tag( 'a', array( 'href' => "./view_applications_list.php" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-    .format_string( 'Отмена' )
+    //.format_string( 'Отмена' )
+	.format_string( get_string('cancel', 'block_anketka') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
@@ -355,8 +385,10 @@ function render_checkandsend_page_bottom(int $applicationid){
 
 function resolve_status($status){
     switch($status){
-        case 1: return 'Формируется';
-        case 2: return 'Отправлено';
+        //case 1: return 'Формируется';
+		case 1: return get_string('isbeingformed', 'block_anketka');
+        //case 2: return 'Отправлено';
+		case 2: return get_string('hasbeensent', 'block_anketka');
         default: return '';
     }
 }
@@ -366,7 +398,8 @@ function render_docs_list(int $id,int $itemid=null,int $contextid=null){
     global $DB;
     if(!empty($itemid)){
         $url = make_file_url($contextid,$itemid);
-        $out[] = html_writer::link($url, 'Заявление на стипенидию');
+        //$out[] = html_writer::link($url, 'Заявление на стипенидию');
+		$out[] = html_writer::link($url, get_string('scholarshipapplication', 'block_anketka'));
 
     }
     $data = $DB -> get_records_sql('SELECT * FROM {block_anketka_documents} where applicationid = ? order by supportingdocument',[$id]);

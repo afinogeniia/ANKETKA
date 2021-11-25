@@ -34,6 +34,7 @@ $string['anketka:myadinstance'] = 'Add a new Anketka block to Dashboard';
 $string['pluginname'] = 'ANKETKA';
 $string['label'] = 'AnketInfA';
 
+//application_form.php
 $string['informationapplicant'] = 'Информация о соискателе';
 $string['firstname'] = 'Имя';
 $string['middlename'] = 'Отчество';
@@ -46,7 +47,29 @@ $string['email'] = 'Адрес электронной почты';
 $string['type'] = 'Направление учебной деятельности';
 $string['flag'] = 'Получали ли стипендию повышенную в предыдущем семестре';
 $string['buttoncontinued'] = 'Далее';
+
+//applicantslib.php
+//function create_table_doclist
+$string['achievement'] = 'Достижение';
+$string['confirmation'] = 'Подтверждающий документ';
+$string['documentdate'] = 'Дата документа';
+$string['download'] = 'Скачать';
+$string['delete'] = 'Удалить';
+//function render_application_document_page
+$string['yourachievements'] = 'Ваши достижения';
+$string['addachievement'] = 'Добавить достижение';
+$string['toreturn'] = 'Вернуться';
+$string['cancel'] = 'Отмена';
+//function render_checkandsend_page_bottom
+$string['sendapplication'] = 'Отправить заявление в отборочную комиссию';
+//function resolve_status
+$string['isbeingformed'] = 'Формируется';
+$string['hasbeensent'] = 'Отправлено';
+//function render_docs_list
+$string['scholarshipapplication'] = 'Заявление на стипендию';
+
 /*$string['telephone'] = 'Телефон';
+$string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
 $string['telephone'] = 'Телефон';
