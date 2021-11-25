@@ -27,4 +27,4 @@ $string['anketka:myadinstance'] = 'Add a new Anketka block to Dashboard';
 $string['pluginname'] = 'ANKETKA';
 $string['label'] = 'AnketInfA';
 $string['attachment'] = 'Dobavlenie faila';
-$string['lastname'] = 'Lastname';
+$string['anketkalastname'] = 'Last Name';
