@@ -246,25 +246,26 @@ function create_table_applicant_date(int $id){
 		$d = $item -> directionofactivity;
 		$iii = $item -> scholarshipholder;
     }
-	$table->data[] = array (get_string('lastname', block_anketka), $f);
-	//$table->data[] = array ('Имя', $i);
-	$table->data[] = array (get_string('firstname', block_anketka), $i);
-	//$table->data[] = array ('Отчество', $o);
-	$table->data[] = array (get_string('middlename', block_anketka), $o);
-	//$table->data[] = array ('Институт', $ii);
-	$table->data[] = array (get_string('institute', block_anketka), $ii);
-	//$table->data[] = array ('Курс', $k);
-	$table->data[] = array (get_string('course', block_anketka), $k);
-	//$table->data[] = array ('Группа', $g);
-	$table->data[] = array (get_string('group', block_anketka), $g);
-	//$table->data[] = array ('Номер телефона', $t);
-	$table->data[] = array (get_string('telephone', block_anketka), $t);
-	//$table->data[] = array ('Адрес электронной почты', $p);
-	$table->data[] = array (get_string('email', block_anketka), $p);
-	//$table->data[] = array ('Направление деятельности', $d);
-	$table->data[] = array (get_string('type', block_anketka), $d);
-	//$table->data[] = array ('Получали ли стипендию в прошлом семестре', $iii);
-	$table->data[] = array (get_string('flag', block_anketka), $iii);
+	$table->data[] = array ('Фамилия', $i);
+	//$table->data[] = array (get_string('lastname', block_anketka), $f);
+	$table->data[] = array ('Имя', $i);
+	//$table->data[] = array (get_string('firstname', block_anketka), $i);
+	$table->data[] = array ('Отчество', $o);
+	//$table->data[] = array (get_string('middlename', block_anketka), $o);
+	$table->data[] = array ('Институт', $ii);
+	//$table->data[] = array (get_string('institute', block_anketka), $ii);
+	$table->data[] = array ('Курс', $k);
+	//$table->data[] = array (get_string('course', block_anketka), $k);
+	$table->data[] = array ('Группа', $g);
+	//$table->data[] = array (get_string('group', block_anketka), $g);
+	$table->data[] = array ('Номер телефона', $t);
+	//$table->data[] = array (get_string('telephone', block_anketka), $t);
+	$table->data[] = array ('Адрес электронной почты', $p);
+	//$table->data[] = array (get_string('email', block_anketka), $p);
+	$table->data[] = array ('Направление деятельности', $d);
+	//$table->data[] = array (get_string('type', block_anketka), $d);
+	$table->data[] = array ('Получали ли стипендию в прошлом семестре', $iii);
+	//$table->data[] = array (get_string('flag', block_anketka), $iii);
     return $table;    
 }
 
