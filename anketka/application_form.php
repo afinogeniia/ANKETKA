@@ -62,7 +62,7 @@ class anketka_application_form extends moodleform
 			
 			$mform -> addElement('textarea', 'middlename', get_string('middlename', 'block_anketka'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('middlename', get_string('required'), 'required', null, 'client');
-			$mform -> setDefault('middlename', $middlename[1]);
+			//$mform -> setDefault('middlename', $middlename[1]);
 			
 			$mform -> addElement('textarea', 'lastname', get_string('lastname', 'block_anketka'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('lastname', get_string('required'), 'required', null, 'client');

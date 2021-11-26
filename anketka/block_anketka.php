@@ -82,12 +82,11 @@ echo ($n);
 			$this -> content = new stdClass();
 			$this -> content->text = '';
 			$this -> content -> items = array();
-			//$this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/anketka/add_application.php'));
+			$this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/anketka/add_application.php'));
 			echo (is_application_exists());
 			if (is_application_exists()){
-				$this -> content -> items[] = html_writer::tag('a', 'Редактировать существующую заявку на получение повышенной стипендии', array('href' => '../blocks/anketka/view_applications_list.php'));
+				$this -> content -> items[] = html_writer::tag('a', 'Посмотреть существующие заявки на получение повышенной стипендии', array('href' => '../blocks/anketka/view_applications_list.php'));
 			}
-			else $this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/anketka/add_application.php'));
 			return $this -> content;
 		}		
 	}

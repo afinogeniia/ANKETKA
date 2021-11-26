@@ -47,21 +47,19 @@ if ($mform->is_cancelled()) {
 } else if ($data = $mform->get_data()) 
 {
     //In this case you process validated data. $mform->get_data() returns data posted in form
-    var_dump($data);
+    
     $obj = new stdClass();
     if(isset($data->id)){
         $applicationid = $data->id;
     }
-    //$obj->applicantid = $data->applicantid;
-	$obj->applicantid = $USER->id;
+    $obj->applicantid = $data->applicantid;
     $obj->applicantname = protection_unauthorized ($data -> firstname);
     $obj->applicantmiddlename = protection_unauthorized ($data -> middlename);
     $obj->applicantlastname = protection_unauthorized ($data -> lastname);
 	$obj->applicantinstitute = conversion_parametr_i ($data -> institut);
 	$obj->applicantcourse = conversion_parametr_k ($data -> kurs);
     $obj->applicantgroup = protection_unauthorized ($data -> group);
-	echo (checking_validity_phone($data -> phone));
-    $obj->applicantphone = protection_unauthorized ($data -> phone);
+	$obj->applicantphone = protection_unauthorized ($data -> phone);
 	$obj->applicantemail = protection_unauthorized ($data -> email);
     $obj->applicationstatus = 1;
     $activity = $data -> activity;
@@ -70,7 +68,6 @@ if ($mform->is_cancelled()) {
     $yesno = $data -> received;
     $yesno = conversion_parametr_y ($yesno);
     $obj->scholarshipholder = $yesno;
-	$applicationidcheck = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} WHERE (applicantid = ?)', [$USER->id]);
     if ($applicationid=='')
 	{		
 		$obj->applicationcreatedate = time();
@@ -83,7 +80,6 @@ if ($mform->is_cancelled()) {
 			$DB->update_record('block_anketka_applicants', $obj);
 		}
     redirect('/blocks/anketka/upload_documents.php?id='.$applicationid);
-	//redirect('/blocks/anketka/upload_documents.php?id='.$USER->id);
 
 } else {
     // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed

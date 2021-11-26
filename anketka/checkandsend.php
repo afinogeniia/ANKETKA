@@ -46,34 +46,15 @@ $PAGE->set_pagetype('my-index');
 echo $OUTPUT->header();	
 //echo $OUTPUT->heading('Ваше заявление', 2);
 echo ('<b>Сведения о кандидате на получение повышенной государственной академической стипендии</b>');
-$data = $DB->get_record('block_anketka_applicants', array('applicantid' => $USER -> id), '*', MUST_EXIST);
-//$data = $DB->get_record('block_anketka_applicants', array('id' => $applicationid), '*', MUST_EXIST);
+//$data = $DB->get_record('block_anketka_applicants', array('applicantid' => $USER -> id), '*', MUST_EXIST);
+$data = $DB->get_record('block_anketka_applicants', array('id' => $applicationid), '*', MUST_EXIST);
 $table1 = create_table_applicant_date($applicationid);
 echo html_writer::table($table1);
-echo ('«Ознакомлен»');
-echo ('<br>');
-echo ('Студент пересдачи экзаменов (зачётов) по неуважительной причине, оценок «удовлетворительно», академической задолженности по итогам промежуточной аттестации и дисциплинарных взысканий в течение года, предшествующего назначению повышенной государственной академической стипендии, не имеет.');
-echo ('<br>');
-echo ('Средний балл обучающегося: ________');
-echo ('<br>');
-echo ('Директор института ___________Подпись________/_____________Ф.И.О.______________/');
-echo ('<br>');
-echo ('«_____»_____________202___г.');
-echo ('<br>');                                   
-echo ('Председатель конкурсной комиссии __________Подпись__________/_____________Ф.И.О.____________/');
-echo ('<br>');
-echo ('«_____»_____________202___г.');
-echo ('<br>');
 # TODO сделать красивое отображение данных заявления
 //echo $OUTPUT->heading('Ваши достижения', 2);
-echo ('<b>Реестр достижений кандидата на получение повышенной государственной академической стипендии за достижения в _________ деятельности</b>');
+
 $table = create_table_doclist($applicationid);	
 echo html_writer::table($table);
-echo ('<br>');                                   
-echo ('Председатель конкурсной комиссии __________Подпись__________/_____________Ф.И.О.____________/');
-echo ('<br>');
-echo ('«_____»_____________202___г.');
-echo ('<br>');
 if(empty($data->itemid)){
     # TODO довести до ума скачивание файла. Что-то не то вообще с этим механизмом. 
     # файл при открытии выдаёт какие-то ошибки
