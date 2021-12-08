@@ -20,19 +20,18 @@ function creating_cohorts ()
 	$scholarship_request_cohorts[10] = 'scholarship_request_isop';
 	for ($i = 0; $i<= 10; $i++)
 	{
-		$dlyasinxkog = $DB ->get_records_sql('SELECT * FROM {cohort} WHERE name = ?', [$scholarship_request_cohorts[$i]]);
+		$for_creating_cohorts = $DB ->get_records_sql('SELECT * FROM {cohort} WHERE name = ?', [$scholarship_request_cohorts[$i]]);
 		//Создание новой глобальной группы, если её в Moodle нет
-		if ($dlyasinxkog === [])
+		if ($for_creating_cohorts === [])
 		{
-			$kogorta = new StdClass();
-			$kogorta->name = $kogorta->idnumber = $scholarship_request_cohorts[$i];
-			$kogorta->contextid = context_system::instance()->id;					
-			$kogortaid = cohort_add_cohort($kogorta);
+			$global_group = new StdClass();
+			$global_group->name = $global_group->idnumber = $scholarship_request_cohorts[$i];
+			$global_group->contextid = context_system::instance()->id;					
+			$global_group_id = cohort_add_cohort($global_group);
 		}
 	}
-	
-	
-	return($scholarship_request_cohorts);
+
+	return TRUE;
 }
 	
 function conversion_parametr_a ($activity)

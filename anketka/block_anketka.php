@@ -60,14 +60,12 @@ class block_anketka extends block_list
 		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', ['Заявление']);
 		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
 		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);
-		$pluginconfigs = get_config('block_anketka');
-$n = creating_cohorts();
-var_dump ($n);
-		//echo ('_________PLUGINCONFIG__________');
-//var_dump ($pluginconfigs);
-//echo ('___________________PLUGINCONFIG____________');
-$n = $pluginconfigs -> kafedra1;
-echo ($n);
+		
+		creating_cohorts();
+// Получение информации из настроек блока
+//$pluginconfigs = get_config('block_anketka');		
+//$n = $pluginconfigs -> kafedra1;
+
 	/*1*/ //Определяю права пользователя, - if - admin; else - все остальные.
 		$context = context_system::instance();		
 		//if (has_capability('mod/folder:managefiles', $context))
