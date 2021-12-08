@@ -25,7 +25,7 @@ function creating_cohorts ()
 		if ($dlyasinxkog === [])
 		{
 			$kogorta = new StdClass();
-			$kogorta->name = $kogorta->idnumber = $p3;
+			$kogorta->name = $kogorta->idnumber = $scholarship_request_cohorts[$i];
 			$kogorta->contextid = context_system::instance()->id;					
 			$kogortaid = cohort_add_cohort($kogorta);
 		}
