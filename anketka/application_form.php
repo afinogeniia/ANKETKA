@@ -34,7 +34,7 @@ class anketka_application_form extends moodleform
         $mform = $this->_form;
         $editoroptions = null;
         $filemanageroptions = null;
-
+//
 		
         # Если при инициализации объекта  указан 
         # id = 0 , считаем что создаётся новое заявление 
