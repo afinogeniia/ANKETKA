@@ -61,8 +61,10 @@ class block_anketka extends block_list
 		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
 		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);
 		$pluginconfigs = get_config('block_anketka');
-//echo ('_________PLUGINCONFIG__________');
-var_dump ($pluginconfigs);
+$n = creating_cohorts();
+var_dump ($n);
+		//echo ('_________PLUGINCONFIG__________');
+//var_dump ($pluginconfigs);
 //echo ('___________________PLUGINCONFIG____________');
 $n = $pluginconfigs -> kafedra1;
 echo ($n);

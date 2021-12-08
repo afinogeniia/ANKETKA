@@ -1,6 +1,39 @@
 <?php
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-	require_once ($CFG->dirroot . '/lib/formslib.php');
+require_once ($CFG->dirroot . '/lib/formslib.php');
+require_once ($CFG->dirroot . '/cohort/lib.php');
+
+function creating_cohorts ()
+{
+	global $DB;
+	$scholarship_request_cohorts = array();
+	$scholarship_request_cohorts[0] = 'scholarship_request_educational_activities';
+	$scholarship_request_cohorts[1] = 'scholarship_request_research_activities';
+	$scholarship_request_cohorts[2] = 'scholarship_request_public_activities';
+	$scholarship_request_cohorts[3] = 'scholarship_request_culturalcreative_activities';
+	$scholarship_request_cohorts[4] = 'scholarship_request_sports activities';
+	$scholarship_request_cohorts[5] = 'scholarship_request_students';
+	$scholarship_request_cohorts[6] = 'scholarship_request_ip';
+	$scholarship_request_cohorts[7] = 'scholarship_request_iu';
+	$scholarship_request_cohorts[8] = 'scholarship_request_igimp';
+	$scholarship_request_cohorts[9] = 'scholarship_request_ipip';
+	$scholarship_request_cohorts[10] = 'scholarship_request_isop';
+	for ($i = 0; $i<= 10; $i++)
+	{
+		$dlyasinxkog = $DB ->get_records_sql('SELECT * FROM {cohort} WHERE name = ?', [$scholarship_request_cohorts[$i]]);
+		//Создание новой глобальной группы, если её в Moodle нет
+		if ($dlyasinxkog === [])
+		{
+			$kogorta = new StdClass();
+			$kogorta->name = $kogorta->idnumber = $p3;
+			$kogorta->contextid = context_system::instance()->id;					
+			$kogortaid = cohort_add_cohort($kogorta);
+		}
+	}
+	
+	
+	return($scholarship_request_cohorts);
+}
 	
 function conversion_parametr_a ($activity)
 {
