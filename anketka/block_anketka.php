@@ -60,9 +60,9 @@ class block_anketka extends block_list
 		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', ['Заявление']);
 		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
 		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);
-$pluginconfigs = get_config('block_anketka');
+		$pluginconfigs = get_config('block_anketka');
 //echo ('_________PLUGINCONFIG__________');
-//var_dump ($pluginconfigs);
+var_dump ($pluginconfigs);
 //echo ('___________________PLUGINCONFIG____________');
 $n = $pluginconfigs -> kafedra1;
 echo ($n);
@@ -82,8 +82,9 @@ echo ($n);
 			$this -> content = new stdClass();
 			$this -> content->text = '';
 			$this -> content -> items = array();
+			$this -> content -> items[] = html_writer::tag('a', 'Сводная таблица данных о студентах', array('href' => '../blocks/anketka/viewing_table_applicants.php'));
 			$this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/anketka/add_application.php'));
-			echo (is_application_exists());
+			
 			if (is_application_exists()){
 				$this -> content -> items[] = html_writer::tag('a', 'Посмотреть существующие заявки на получение повышенной стипендии', array('href' => '../blocks/anketka/view_applications_list.php'));
 			}

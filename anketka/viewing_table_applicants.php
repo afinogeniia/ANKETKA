@@ -42,7 +42,7 @@ if (!empty($data))
     $table = new html_table();
     //$table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта','Дата', 'Документы');
 	$table->head = array(get_string('fio', 'block_anketka'), get_string('institute', 'block_anketka'), 
-	get_string('telephone', 'block_anketka'), get_string('email', 'block_anketka'),
+	get_string('telephone', 'block_anketka'), get_string('email', 'block_anketka'),'Направление',
 	get_string('date', 'block_anketka'), get_string('documents', 'block_anketka'));
     
     foreach ($data as $item)
@@ -51,11 +51,12 @@ if (!empty($data))
         $k = $item -> applicantinstitute;
         $y = $item -> applicantphone;
         $m = $item -> applicantemail;
+        $direct = $item -> directionofactivity;
 		$d = date('d.m.y', $item->applicationsenddate);
 		$docs = render_docs_list($item->id,$item->itemid,$item->contextid);
 		
 		# TODO Сделать нормальный формат дат
-        $table->data[] = array ($f, $k, $y, $m,$d, $docs);
+        $table->data[] = array ($f, $k, $y, $m,$direct,$d, $docs);
 		
     }
     //echo $OUTPUT->heading('Ваши заявления', 2);
