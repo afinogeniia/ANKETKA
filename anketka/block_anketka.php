@@ -57,11 +57,13 @@ class block_anketka extends block_list
 	{	
 		global $DB;
 		global $USER;
-		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', ['Заявление']);
-		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
-		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);
+		//$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', ['Заявление']);
+		//foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
+		//$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);
 		
 		creating_cohorts();
+		$n1 = verification_group_membership ($USER -> id);
+		//var_dump ($n1);
 // Получение информации из настроек блока
 //$pluginconfigs = get_config('block_anketka');		
 //$n = $pluginconfigs -> kafedra1;
@@ -95,9 +97,9 @@ class block_anketka extends block_list
 	 public function get_config_for_external() 
 	 {
         // Return all settings for all users since it is safe (no private keys, etc..).
-        $configs = get_config('block_anketka');
-		echo ('________________CONFIGS__________________');
-		var_dump ($configs);
+        //$configs = get_config('block_anketka');
+		//echo ('________________CONFIGS__________________');
+		//var_dump ($configs);
 	 }
 	
 }
