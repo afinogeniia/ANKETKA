@@ -3,21 +3,53 @@ require_once (dirname(dirname(__DIR__)).'/config.php');
 require_once ($CFG->dirroot . '/lib/formslib.php');
 require_once ($CFG->dirroot . '/cohort/lib.php');
 
-function creating_cohorts ()
+function creating_cohorts_begin ()
 {
-	global $DB;
 	$scholarship_request_cohorts = array();
 	$scholarship_request_cohorts[0] = 'scholarship_request_educational_activities';
 	$scholarship_request_cohorts[1] = 'scholarship_request_research_activities';
 	$scholarship_request_cohorts[2] = 'scholarship_request_public_activities';
 	$scholarship_request_cohorts[3] = 'scholarship_request_culturalcreative_activities';
-	$scholarship_request_cohorts[4] = 'scholarship_request_sports activities';
-	$scholarship_request_cohorts[5] = 'scholarship_request_students';
+	$scholarship_request_cohorts[4] = 'scholarship_request_sports_activities';
+	$scholarship_request_cohorts[5] = 'scholarship_request_isop';
 	$scholarship_request_cohorts[6] = 'scholarship_request_ip';
 	$scholarship_request_cohorts[7] = 'scholarship_request_iu';
 	$scholarship_request_cohorts[8] = 'scholarship_request_igimp';
 	$scholarship_request_cohorts[9] = 'scholarship_request_ipip';
-	$scholarship_request_cohorts[10] = 'scholarship_request_isop';
+	$scholarship_request_cohorts[10] = 'scholarship_request_students';
+	return ($scholarship_request_cohorts);
+}
+
+function verification_group_membership ($userid)
+{
+	global $DB;
+	$scholarship_request_cohorts = creating_cohorts_begin ();
+	$array_global_groups = array();
+	for ($i = 0; $i <= 9; $i++)
+	{
+		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', [$scholarship_request_cohorts[$i]]);
+		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
+		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $userid]);
+		if ($chekingthegroup !== []) $array_global_groups[$scholarship_request_cohorts[$i]] = 1;
+			else $array_global_groups[$scholarship_request_cohorts[$i]] = 0;
+	}
+	if ($array_global_groups['scholarship_request_educational_activities'] == 1) $array_global_groups['scholarship_request_educational_activities'] = 'учебная деятельность';
+	if ($array_global_groups['scholarship_request_research_activities'] == 1) $array_global_groups['scholarship_request_research_activities'] = 'научно-исследовательская деятельность';
+	if ($array_global_groups['scholarship_request_public_activities'] == 1) $array_global_groups['scholarship_request_public_activities'] = 'общественная деятельность';
+	if ($array_global_groups['scholarship_request_culturalcreative_activities'] == 1) $array_global_groups['scholarship_request_culturalcreative_activities'] = 'культурно-творческая деятельность';
+	if ($array_global_groups['scholarship_request_sports_activities'] == 1) $array_global_groups['scholarship_request_sports_activities'] = 'спортивная деятельность';
+	if ($array_global_groups['scholarship_request_isop'] == 1) $array_global_groups['scholarship_request_isop'] = 'ИСОП';
+	if ($array_global_groups['scholarship_request_ip'] == 1) $array_global_groups['scholarship_request_ip'] = 'ИП';
+	if ($array_global_groups['scholarship_request_iu'] == 1) $array_global_groups['scholarship_request_iu'] = 'ИЮ';
+	if ($array_global_groups['scholarship_request_ipip'] == 1) $array_global_groups['scholarship_request_ipip'] = 'ИПИП';
+	if ($array_global_groups['scholarship_request_igimp'] == 1) $array_global_groups['scholarship_request_igimp'] = 'ИГИМП';
+	return ($array_global_groups);
+}
+
+function creating_cohorts ()
+{
+	global $DB;
+	$scholarship_request_cohorts = creating_cohorts_begin ();
 	for ($i = 0; $i<= 10; $i++)
 	{
 		$for_creating_cohorts = $DB ->get_records_sql('SELECT * FROM {cohort} WHERE name = ?', [$scholarship_request_cohorts[$i]]);
