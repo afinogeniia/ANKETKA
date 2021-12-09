@@ -93,8 +93,20 @@ function conversion_parametr_k ($kurs)
 	return ($kurs);
 }
 
-
 function conversion_parametr_i ($institut)
+{
+	switch($institut)
+	{
+		case 0: $institut = "ИГИМП"; break;
+		case 1: $institut = "ИПИП"; break;
+		case 2: $institut = "ИП"; break;
+		case 3: $institut = "ИСОП"; break;
+		case 4: $institut = "ИЮ"; break;
+	}
+	return ($institut);
+}
+
+/*function conversion_parametr_i ($institut)
 {
 	switch($institut)
 	{
@@ -107,7 +119,7 @@ function conversion_parametr_i ($institut)
 		case 6: $institut = "Институт довузовской подготовки"; break;
 	}
 	return ($institut);
-}
+}*/
 
 function conversion_parametr_y ($yesno)
 {
