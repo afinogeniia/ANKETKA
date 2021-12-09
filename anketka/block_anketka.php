@@ -71,7 +71,8 @@ class block_anketka extends block_list
 	/*1*/ //Определяю права пользователя, - if - admin; else - все остальные.
 		$context = context_system::instance();		
 		//if (has_capability('mod/folder:managefiles', $context))
-		if ($chekingthegroup !== [])
+		//if ($chekingthegroup !== [])
+		if (verification_group_membership_check ($USER -> id))
 		{
 			$this -> content = new stdClass();
 			$this -> content->text = '';
@@ -84,7 +85,7 @@ class block_anketka extends block_list
 			$this -> content = new stdClass();
 			$this -> content->text = '';
 			$this -> content -> items = array();
-			$this -> content -> items[] = html_writer::tag('a', 'Сводная таблица данных о студентах', array('href' => '../blocks/anketka/viewing_table_applicants.php'));
+			//$this -> content -> items[] = html_writer::tag('a', 'Сводная таблица данных о студентах', array('href' => '../blocks/anketka/viewing_table_applicants.php'));
 			$this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/anketka/add_application.php'));
 			
 			if (is_application_exists()){
