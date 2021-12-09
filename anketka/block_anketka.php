@@ -62,7 +62,7 @@ class block_anketka extends block_list
 		//$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $USER -> id]);
 		
 		creating_cohorts();
-		$n1 = verification_group_membership ($USER -> id);
+		//$n1 = verification_group_membership ($USER -> id);
 		//var_dump ($n1);
 // Получение информации из настроек блока
 //$pluginconfigs = get_config('block_anketka');		
@@ -72,6 +72,8 @@ class block_anketka extends block_list
 		$context = context_system::instance();		
 		//if (has_capability('mod/folder:managefiles', $context))
 		//if ($chekingthegroup !== [])
+			$k = verification_group_membership_check ($USER -> id);
+		echo ($k);
 		if (verification_group_membership_check ($USER -> id))
 		{
 			$this -> content = new stdClass();

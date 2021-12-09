@@ -20,6 +20,28 @@ function creating_cohorts_begin ()
 	return ($scholarship_request_cohorts);
 }
 
+function verification_group_membership_check ($userid)
+{
+	global $DB;
+	$scholarship_request_cohorts = creating_cohorts_begin ();
+	$array_global_groups = array();
+	$flag = 0;
+	for ($i = 0; $i <= 9; $i++)
+	{
+		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', [$scholarship_request_cohorts[$i]]);
+		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
+		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $userid]);
+		if ($chekingthegroup !== [])
+		{
+			$array_global_groups[$scholarship_request_cohorts[$i]] = 1;
+			$flag = 1;
+		}
+			else $array_global_groups[$scholarship_request_cohorts[$i]] = 0;
+	}
+	if ($flag == 1) return TRUE;
+		else return FALSE;
+}
+
 function verification_group_membership ($userid)
 {
 	global $DB;
