@@ -229,7 +229,6 @@ function is_application_exists(){
 /*
 Функция готовит текст завляения заполняя шаблон данными из базы.
 */
-/*не заполняет приложение к заявке информацией о документах*/
 function create_application_print(int $id){
     global $DB;
     $data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} WHERE (id = ?)', [$id]);
@@ -279,10 +278,19 @@ function create_application_print(int $id){
 			$i++;
 		}
 	}
+	for ($c = $i; $c <= 13; $c++)
+		{
+			$jk = dechex($c);
+			$text = str_replace ('N'."$jk", "", $text);
+			$text = str_replace ('Dost'."$jk", "", $text);
+			$text = str_replace ('Data'."$jk", "", $text);
+			$text = str_replace ('Doc'."$jk", "", $text);
+			$text = str_replace ('Prim'."$jk", "", $text);	
+		}
     return $text;
 }
 
-function checking_validity_phone ($phone)
+/*function checking_validity_phone ($phone)
 {
 	if (preg_match ('/^[0-9]$/', $phone))
 	{
@@ -290,7 +298,7 @@ function checking_validity_phone ($phone)
 	}
 		else $mess = '<div>неверно указан номер</div>';
 	return $mess;
-}
+}*/
 
 function create_table_doclist(int $id){
     global $DB;
