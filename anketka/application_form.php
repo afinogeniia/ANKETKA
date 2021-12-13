@@ -69,11 +69,13 @@ class anketka_application_form extends moodleform
 			$mform -> setDefault('lastname', $lastname);
 			
 			//$mform -> addElement('textarea', 'institut', 'Институт', 'wrap="virtual" rows = "1" cols = "30"');
-			$mform -> addElement('select', 'institut', get_string('institute', 'block_anketka'), array(
+			/*$mform -> addElement('select', 'institut', get_string('institute', 'block_anketka'), array(
 			'Институт государственного и международного права', 'Институт дополнительного образования',
 			'Институт права и предпринимательства', 'Институт прокуратуры', 
 			'Институт специальных образовательных программ', 'Институт юстиции', 
-			'Институт довузовской подготовки'));
+			'Институт довузовской подготовки'));*/
+			$mform -> addElement('select', 'institut', get_string('institute', 'block_anketka'), array(
+			'ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));
 			$mform->addRule('institut', get_string('required'), 'required', null, 'client');
 			
 			//$mform -> addElement('textarea', 'kurs', get_string("course"), 'wrap="virtual" rows = "1" cols = "30"');

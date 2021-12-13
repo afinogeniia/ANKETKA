@@ -1,6 +1,92 @@
 <?php
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-	require_once ($CFG->dirroot . '/lib/formslib.php');
+require_once ($CFG->dirroot . '/lib/formslib.php');
+require_once ($CFG->dirroot . '/cohort/lib.php');
+
+function creating_cohorts_begin ()
+{
+	$scholarship_request_cohorts = array();
+	$scholarship_request_cohorts[0] = 'scholarship_request_educational_activities';
+	$scholarship_request_cohorts[1] = 'scholarship_request_research_activities';
+	$scholarship_request_cohorts[2] = 'scholarship_request_public_activities';
+	$scholarship_request_cohorts[3] = 'scholarship_request_culturalcreative_activities';
+	$scholarship_request_cohorts[4] = 'scholarship_request_sports_activities';
+	$scholarship_request_cohorts[5] = 'scholarship_request_isop';
+	$scholarship_request_cohorts[6] = 'scholarship_request_ip';
+	$scholarship_request_cohorts[7] = 'scholarship_request_iu';
+	$scholarship_request_cohorts[8] = 'scholarship_request_igimp';
+	$scholarship_request_cohorts[9] = 'scholarship_request_ipip';
+	$scholarship_request_cohorts[10] = 'scholarship_request_students';
+	return ($scholarship_request_cohorts);
+}
+
+function verification_group_membership_check ($userid)
+{
+	global $DB;
+	$scholarship_request_cohorts = creating_cohorts_begin ();
+	$array_global_groups = array();
+	$flag = 0;
+	for ($i = 0; $i <= 9; $i++)
+	{
+		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', [$scholarship_request_cohorts[$i]]);
+		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
+		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $userid]);
+		if ($chekingthegroup !== [])
+		{
+			$array_global_groups[$scholarship_request_cohorts[$i]] = 1;
+			$flag = 1;
+		}
+			else $array_global_groups[$scholarship_request_cohorts[$i]] = 0;
+	}
+	if ($flag == 1) return TRUE;
+		else return FALSE;
+}
+
+function verification_group_membership ($userid)
+{
+	global $DB;
+	$scholarship_request_cohorts = creating_cohorts_begin ();
+	$array_global_groups = array();
+	for ($i = 0; $i <= 9; $i++)
+	{
+		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', [$scholarship_request_cohorts[$i]]);
+		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
+		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $userid]);
+		if ($chekingthegroup !== []) $array_global_groups[$scholarship_request_cohorts[$i]] = 1;
+			else $array_global_groups[$scholarship_request_cohorts[$i]] = 0;
+	}
+	if ($array_global_groups['scholarship_request_educational_activities'] == 1) $array_global_groups['scholarship_request_educational_activities'] = 'учебная деятельность';
+	if ($array_global_groups['scholarship_request_research_activities'] == 1) $array_global_groups['scholarship_request_research_activities'] = 'научно-исследовательская деятельность';
+	if ($array_global_groups['scholarship_request_public_activities'] == 1) $array_global_groups['scholarship_request_public_activities'] = 'общественная деятельность';
+	if ($array_global_groups['scholarship_request_culturalcreative_activities'] == 1) $array_global_groups['scholarship_request_culturalcreative_activities'] = 'культурно-творческая деятельность';
+	if ($array_global_groups['scholarship_request_sports_activities'] == 1) $array_global_groups['scholarship_request_sports_activities'] = 'спортивная деятельность';
+	if ($array_global_groups['scholarship_request_isop'] == 1) $array_global_groups['scholarship_request_isop'] = 'ИСОП';
+	if ($array_global_groups['scholarship_request_ip'] == 1) $array_global_groups['scholarship_request_ip'] = 'ИП';
+	if ($array_global_groups['scholarship_request_iu'] == 1) $array_global_groups['scholarship_request_iu'] = 'ИЮ';
+	if ($array_global_groups['scholarship_request_ipip'] == 1) $array_global_groups['scholarship_request_ipip'] = 'ИПИП';
+	if ($array_global_groups['scholarship_request_igimp'] == 1) $array_global_groups['scholarship_request_igimp'] = 'ИГИМП';
+	return ($array_global_groups);
+}
+
+function creating_cohorts ()
+{
+	global $DB;
+	$scholarship_request_cohorts = creating_cohorts_begin ();
+	for ($i = 0; $i<= 10; $i++)
+	{
+		$for_creating_cohorts = $DB ->get_records_sql('SELECT * FROM {cohort} WHERE name = ?', [$scholarship_request_cohorts[$i]]);
+		//Создание новой глобальной группы, если её в Moodle нет
+		if ($for_creating_cohorts === [])
+		{
+			$global_group = new StdClass();
+			$global_group->name = $global_group->idnumber = $scholarship_request_cohorts[$i];
+			$global_group->contextid = context_system::instance()->id;					
+			$global_group_id = cohort_add_cohort($global_group);
+		}
+	}
+
+	return TRUE;
+}
 	
 function conversion_parametr_a ($activity)
 {
@@ -29,8 +115,20 @@ function conversion_parametr_k ($kurs)
 	return ($kurs);
 }
 
-
 function conversion_parametr_i ($institut)
+{
+	switch($institut)
+	{
+		case 0: $institut = "ИГИМП"; break;
+		case 1: $institut = "ИПИП"; break;
+		case 2: $institut = "ИП"; break;
+		case 3: $institut = "ИСОП"; break;
+		case 4: $institut = "ИЮ"; break;
+	}
+	return ($institut);
+}
+
+/*function conversion_parametr_i ($institut)
 {
 	switch($institut)
 	{
@@ -43,7 +141,7 @@ function conversion_parametr_i ($institut)
 		case 6: $institut = "Институт довузовской подготовки"; break;
 	}
 	return ($institut);
-}
+}*/
 
 function conversion_parametr_y ($yesno)
 {
@@ -131,7 +229,6 @@ function is_application_exists(){
 /*
 Функция готовит текст завляения заполняя шаблон данными из базы.
 */
-/*не заполняет приложение к заявке информацией о документах*/
 function create_application_print(int $id){
     global $DB;
     $data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} WHERE (id = ?)', [$id]);
@@ -181,10 +278,19 @@ function create_application_print(int $id){
 			$i++;
 		}
 	}
+	for ($c = $i; $c <= 13; $c++)
+		{
+			$jk = dechex($c);
+			$text = str_replace ('N'."$jk", "", $text);
+			$text = str_replace ('Dost'."$jk", "", $text);
+			$text = str_replace ('Data'."$jk", "", $text);
+			$text = str_replace ('Doc'."$jk", "", $text);
+			$text = str_replace ('Prim'."$jk", "", $text);	
+		}
     return $text;
 }
 
-function checking_validity_phone ($phone)
+/*function checking_validity_phone ($phone)
 {
 	if (preg_match ('/^[0-9]$/', $phone))
 	{
@@ -192,7 +298,7 @@ function checking_validity_phone ($phone)
 	}
 		else $mess = '<div>неверно указан номер</div>';
 	return $mess;
-}
+}*/
 
 function create_table_doclist(int $id){
     global $DB;

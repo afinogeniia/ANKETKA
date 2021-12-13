@@ -34,8 +34,12 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_pagetype('my-index');
 
 echo $OUTPUT->header();	
-
-$data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} where applicationstatus=2');
+$k = verification_group_membership ($USER->id);
+$data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} where ((applicationstatus=2)
+									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
+									OR directionofactivity = ? OR directionofactivity = ?) OR 
+									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
+									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k);
 
 if (!empty($data))
 {
