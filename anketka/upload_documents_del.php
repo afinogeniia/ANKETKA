@@ -1,8 +1,8 @@
 <?php 
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
 //require_once ($CFG->dirroot . '/lib/formslib.php'); 
-require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
-require_once($CFG->dirroot.'/blocks/anketka/document_form.php');
+require_once ($CFG->dirroot . '/blocks/application_request/applicantslib.php');
+require_once($CFG->dirroot.'/blocks/application_request/document_form.php');
 global $DB;
 global $PAGE;
 # TODO нужно почистить require_once их явно больше чем надо	
@@ -20,7 +20,7 @@ $action = optional_param('action', '', PARAM_RAW);
 
 
 if (empty($returnurl)) {
-    $returnurl = new moodle_url('/blocks/anketka/upload_documents.php');
+    $returnurl = new moodle_url('/blocks/application_request/upload_documents.php');
 }
 
 
@@ -32,7 +32,7 @@ $context = context_user::instance($USER->id);
 
 $struser = get_string('user');
 
-$PAGE->set_url('/blocks/anketka/upload_documents.php');
+$PAGE->set_url('/blocks/application_request/upload_documents.php');
 $PAGE->set_context($context);
 //$PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
@@ -46,16 +46,16 @@ echo $OUTPUT->header();
 //$DB -> set_debug (true);
 	
 if ($action == 'DELETE' ) {
-    $data = $DB->get_record('block_anketka_documents', array('id' => $docid), '*', MUST_EXIST);
+    $data = $DB->get_record('block_app_request_documents', array('id' => $docid), '*', MUST_EXIST);
     $itemid = $data->itemid;
     $contextid = $data->contextid;
     
-    $DB->delete_records( 'block_anketka_documents', array( "id" => $docid ) );
+    $DB->delete_records( 'block_app_request_documents', array( "id" => $docid ) );
     
 
     $fs = get_file_storage();
-# Удаляем файлы из блока anketka
-    $files = $fs->get_area_files($contextid, 'block_anketka', 'attachment', $itemid);
+# Удаляем файлы из блока application_request
+    $files = $fs->get_area_files($contextid, 'block_app_request', 'attachment', $itemid);
                 
     foreach ($files as $file) {
         // Delete it if it exists

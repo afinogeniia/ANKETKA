@@ -6,14 +6,14 @@ if (!defined('MOODLE_INTERNAL')) {
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 /**
- * Class anketka_application_form.
+ * Class application_request_application_form.
  * Форма ввода персональных данных соискателя стипендии
  * Первый шаг заполнения анкеты
  *
  * @copyright 2021 Sergey Nidchenko  
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class anketka_upload_application_form extends moodleform 
+class application_request_upload_application_form extends moodleform 
 {   
     /**
      * Конструктор класс
@@ -41,11 +41,11 @@ class anketka_upload_application_form extends moodleform
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
         $mform -> setDefault('id', $this->applicationid);
-        $mform -> addElement('header', 'moodle', get_string('signedscan', 'block_anketka'));
+        $mform -> addElement('header', 'moodle', get_string('signedscan', 'block_application_request'));
         # вынести в настройки
         $maxbytes = 1000000;
 
-        $mform->addElement('filemanager', 'attachments', get_string('confirmation', 'block_anketka'), null,
+        $mform->addElement('filemanager', 'attachments', get_string('confirmation', 'block_application_request'), null,
         array('subdirs' => 0, 'maxbytes' => $maxbytes, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
               'accepted_types' => array('document')));
         $this->add_action_buttons(true, 'Сохранить');

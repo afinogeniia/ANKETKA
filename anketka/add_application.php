@@ -1,7 +1,7 @@
 <?php 
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
-require_once($CFG->dirroot.'/blocks/anketka/application_form.php');
+require_once ($CFG->dirroot . '/blocks/application_request/applicantslib.php');
+require_once($CFG->dirroot.'/blocks/application_request/application_form.php');
 global $PAGE;	
 	
 require_login();
@@ -15,7 +15,7 @@ $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 $applicationid = optional_param('id', 0, PARAM_INT);
 
 if (empty($returnurl)) {
-    $returnurl = new moodle_url('/blocks/anketka/add_application.php');
+    $returnurl = new moodle_url('/blocks/application_request/add_application.php');
 }
 
 
@@ -27,9 +27,8 @@ $context = context_user::instance($USER->id);
 
 $struser = get_string('user');
 
-$PAGE->set_url('/blocks/anketka/add_application.php');
+$PAGE->set_url('/blocks/application_request/add_application.php');
 $PAGE->set_context($context);
-//$PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
 $PAGE->set_pagelayout('standard');
 
@@ -40,7 +39,7 @@ echo $OUTPUT->header();
 
 //$DB -> set_debug (true);
 	
-$mform = new anketka_application_form($applicationid);
+$mform = new application_request_application_form($applicationid);
 if ($mform->is_cancelled()) {
     //Handle form cancel operation, if cancel button is present on form
     redirect('./view_applications_list.php');
@@ -71,15 +70,15 @@ if ($mform->is_cancelled()) {
     if ($applicationid=='')
 	{		
 		$obj->applicationcreatedate = time();
-        $applicationid = $DB->insert_record('block_anketka_applicants', $obj, $returnid = true, $bulk = false);
+        $applicationid = $DB->insert_record('block_app_request_applicants', $obj, $returnid = true, $bulk = false);
     }
 		else
 		{ 
 			$obj->id = $applicationid;
 			$obj->applicationmodifieddate = time();
-			$DB->update_record('block_anketka_applicants', $obj);
+			$DB->update_record('block_app_request_applicants', $obj);
 		}
-    redirect('/blocks/anketka/upload_documents.php?id='.$applicationid);
+    redirect('/blocks/application_request/upload_documents.php?id='.$applicationid);
 
 } else {
     // this branch is executed if the form is submitted but the data doesn't validate and the form should be redisplayed

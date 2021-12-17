@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-	'block/anketka:myaddinstance' => array(
+	'block/application_request:myaddinstance' => array(
 		'captype' => 'write',
 		'contextlevel' => CONTEXT_SYSTEM,
 		'archetypes' => array(
@@ -36,7 +36,7 @@ $capabilities = array(
 		'clonepermissionsfrom' => 'moodle/my:manageblocks'
 	),
 	
-	'block/anketka:addinstance' => array(
+	'block/application_request:addinstance' => array(
 		'riskbitmask' => RISK_SPAM | RISK_XSS,
 		
 		'captype' => 'write',

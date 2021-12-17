@@ -3,7 +3,7 @@ require_once (dirname(dirname(__DIR__)).'/config.php');
 require_once ($CFG->dirroot . '/lib/formslib.php');
 require_once ($CFG->dirroot . '/cohort/lib.php');
 
-function creating_cohorts_begin ()
+function creating_cohorts_begin()
 {
 	$scholarship_request_cohorts = array();
 	$scholarship_request_cohorts[0] = 'scholarship_request_educational_activities';
@@ -17,8 +17,24 @@ function creating_cohorts_begin ()
 	$scholarship_request_cohorts[8] = 'scholarship_request_igimp';
 	$scholarship_request_cohorts[9] = 'scholarship_request_ipip';
 	$scholarship_request_cohorts[10] = 'scholarship_request_students';
-	return ($scholarship_request_cohorts);
+	return $scholarship_request_cohorts;
 }
+
+function make_cohorts_array(){
+	$scholarship_request_cohorts = array();
+	$scholarship_request_cohorts[0] = 'scholarship_request_educational_activities';
+	$scholarship_request_cohorts[1] = 'scholarship_request_research_activities';
+	$scholarship_request_cohorts[2] = 'scholarship_request_public_activities';
+	$scholarship_request_cohorts[3] = 'scholarship_request_culturalcreative_activities';
+	$scholarship_request_cohorts[4] = 'scholarship_request_sports_activities';
+	$scholarship_request_cohorts[5] = 'scholarship_request_isop';
+	$scholarship_request_cohorts[6] = 'scholarship_request_ip';
+	$scholarship_request_cohorts[7] = 'scholarship_request_iu';
+	$scholarship_request_cohorts[8] = 'scholarship_request_igimp';
+	$scholarship_request_cohorts[9] = 'scholarship_request_ipip';
+	return $scholarship_request_cohorts;
+}
+
 
 function verification_group_membership_check ($userid)
 {
@@ -47,25 +63,58 @@ function verification_group_membership ($userid)
 	global $DB;
 	$scholarship_request_cohorts = creating_cohorts_begin ();
 	$array_global_groups = array();
-	for ($i = 0; $i <= 9; $i++)
-	{
-		$idcohort1 = $DB -> get_records_sql ('SELECT * FROM {cohort} WHERE (name = ?)', [$scholarship_request_cohorts[$i]]);
-		foreach ($idcohort1 as $idcohort2) $idcohort = $idcohort2 -> id;
-		$chekingthegroup = $DB -> get_records_sql ('SELECT * FROM {cohort_members} WHERE (cohortid = ? AND userid = ?)', [$idcohort, $userid]);
-		if ($chekingthegroup !== []) $array_global_groups[$scholarship_request_cohorts[$i]] = 1;
-			else $array_global_groups[$scholarship_request_cohorts[$i]] = 0;
+
+	if (cohort_membership_check($userid,'scholarship_request_educational_activities')) {
+		$array_global_groups['scholarship_request_educational_activities'] = 'учебная деятельность';
+	}else{
+		$array_global_groups['scholarship_request_educational_activities'] = 'нет';
 	}
-	if ($array_global_groups['scholarship_request_educational_activities'] == 1) $array_global_groups['scholarship_request_educational_activities'] = 'учебная деятельность';
-	if ($array_global_groups['scholarship_request_research_activities'] == 1) $array_global_groups['scholarship_request_research_activities'] = 'научно-исследовательская деятельность';
-	if ($array_global_groups['scholarship_request_public_activities'] == 1) $array_global_groups['scholarship_request_public_activities'] = 'общественная деятельность';
-	if ($array_global_groups['scholarship_request_culturalcreative_activities'] == 1) $array_global_groups['scholarship_request_culturalcreative_activities'] = 'культурно-творческая деятельность';
-	if ($array_global_groups['scholarship_request_sports_activities'] == 1) $array_global_groups['scholarship_request_sports_activities'] = 'спортивная деятельность';
-	if ($array_global_groups['scholarship_request_isop'] == 1) $array_global_groups['scholarship_request_isop'] = 'ИСОП';
-	if ($array_global_groups['scholarship_request_ip'] == 1) $array_global_groups['scholarship_request_ip'] = 'ИП';
-	if ($array_global_groups['scholarship_request_iu'] == 1) $array_global_groups['scholarship_request_iu'] = 'ИЮ';
-	if ($array_global_groups['scholarship_request_ipip'] == 1) $array_global_groups['scholarship_request_ipip'] = 'ИПИП';
-	if ($array_global_groups['scholarship_request_igimp'] == 1) $array_global_groups['scholarship_request_igimp'] = 'ИГИМП';
-	return ($array_global_groups);
+	if (cohort_membership_check($userid,'scholarship_request_research_activities')){
+		$array_global_groups['scholarship_request_research_activities'] = 'научно-исследовательская деятельность';
+	}else{
+		$array_global_groups['scholarship_request_research_activities'] = 'yj';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_public_activities')) {
+		$array_global_groups['scholarship_request_public_activities'] = 'общественная деятельность';
+	}else{
+		$array_global_groups['scholarship_request_public_activities'] = '5454';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_culturalcreative_activities')) {
+		$array_global_groups['scholarship_request_culturalcreative_activities'] = 'культурно-творческая деятельность';
+	}else{
+		$array_global_groups['scholarship_request_culturalcreative_activities'] = 'rdsf';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_sports_activities')) {
+		$array_global_groups['scholarship_request_sports_activities'] = 'спортивная деятельность';
+	}else{
+		$array_global_groups['scholarship_request_sports_activities'] = 'ne to';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_isop')) {
+		$array_global_groups['scholarship_request_isop'] = 'ИСОП';
+	}else{
+		$array_global_groups['scholarship_request_isop'] = 'fdfds';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_ip')) {
+		$array_global_groups['scholarship_request_ip'] = 'ИП';
+	}else{
+		$array_global_groups['scholarship_request_ip'] = '546gdfsg';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_iu')) {
+		$array_global_groups['scholarship_request_iu'] = 'ИЮ';
+	}else{
+		$array_global_groups['scholarship_request_iu'] = 'dfsdfa';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_ipip')) {
+		$array_global_groups['scholarship_request_ipip'] = 'ИПИП';
+	}else{
+		$array_global_groups['scholarship_request_ipip'] = '4545';
+	}
+	if (cohort_membership_check($userid,'scholarship_request_igimp')) {
+		$array_global_groups['scholarship_request_igimp'] = 'ИГИМП';
+	}else{
+		$array_global_groups['scholarship_request_igimp'] = 'safasdfa';
+	}
+	return $array_global_groups;
 }
 
 function creating_cohorts ()
@@ -88,6 +137,43 @@ function creating_cohorts ()
 	return TRUE;
 }
 	
+function student_membership_check($userid){
+	global $DB;
+	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
+	$rows = $DB->get_records_sql($sql,[$userid]);
+	foreach($rows as $row){
+		if($row->name=='scholarship_request_students'){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+function cohort_membership_check($userid,$cohort){
+	global $DB;
+	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
+	$rows = $DB->get_records_sql($sql,[$userid]);
+	foreach($rows as $row){
+		if($row->name==$cohort){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+function committee_membership_check($userid){
+	global $DB;
+	$committee = make_cohorts_array();
+	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
+	$rows = $DB->get_records_sql($sql,[$userid]);
+	foreach($rows as $row){
+		if(!(array_search($row->name,$committee)===FALSE)){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 function conversion_parametr_a ($activity)
 {
 	switch($activity)
@@ -218,7 +304,7 @@ function conversion_parametr_y ($yesno)
 function is_application_exists(){
     global $DB;
     global $USER;
-    $data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} where applicantid = ? order by id',[$USER->id]);
+    $data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where applicantid = ? order by id',[$USER->id]);
     if(!$data){
         return FALSE;
     }
@@ -231,12 +317,12 @@ function is_application_exists(){
 */
 function create_application_print(int $id){
     global $DB;
-    $data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} WHERE (id = ?)', [$id]);
+    $data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} WHERE (id = ?)', [$id]);
 	foreach ($data as $oops)
 	{
 		$applicationid = $oops -> id;
 	}
-	$data1 = $DB -> get_records_sql ('SELECT * FROM {block_anketka_documents} WHERE (applicationid = ?)', [$applicationid]);
+	$data1 = $DB -> get_records_sql ('SELECT * FROM {block_app_request_documents} WHERE (applicationid = ?)', [$applicationid]);
     $file = fopen ('anketka.rtf','r');
     $text = fread ($file, filesize('anketka.rtf'));
     fclose ($file);
@@ -302,15 +388,15 @@ function create_application_print(int $id){
 
 function create_table_doclist(int $id){
     global $DB;
-    $data = $DB -> get_records_sql('SELECT * FROM {block_anketka_documents} where applicationid = ? order by supportingdocument',[$id]);
+    $data = $DB -> get_records_sql('SELECT * FROM {block_app_request_documents} where applicationid = ? order by supportingdocument',[$id]);
     if(empty($data)){
         return NULL;
     }
 
     $table = new html_table();
     //$table->head = array('Достижение', 'Подтвержающий документ', 'Дата документа','Скачать', '');
-	$table->head = array(get_string('achievement', 'block_anketka'), get_string('confirmation', 'block_anketka'),
-						 get_string('documentdate', 'block_anketka'), get_string('download', 'block_anketka'), '');
+	$table->head = array(get_string('achievement', 'block_application_request'), get_string('confirmation', 'block_application_request'),
+						 get_string('documentdate', 'block_application_request'), get_string('download', 'block_application_request'), '');
     
     foreach ($data as $item)
     {
@@ -321,7 +407,7 @@ function create_table_doclist(int $id){
         $contextid = $item->contextid;
         $link = display_files($contextid,$itemid);
         $del = html_writer::start_tag( 'a', array( 'href' => "./upload_documents_del.php?id={$id}&docid={$item->id}" ) )
-            .format_string( get_string('delete', 'block_anketka') )
+            .format_string( get_string('delete', 'block_application_request') )
             .html_writer::end_tag( 'a' );
         $table->data[] = array ($f, $k, $y, $link,$del);
     }
@@ -331,7 +417,7 @@ function create_table_doclist(int $id){
 function create_table_applicant_date(int $id){
     global $DB;
 	global $USER;
-	$data = $DB -> get_records_sql('SELECT * FROM {block_anketka_applicants} where applicantid = ?',[$USER -> id]);
+	$data = $DB -> get_records_sql('SELECT * FROM {block_app_request_applicants} where applicantid = ?',[$USER -> id]);
     if(empty($data)){
         return NULL;
     }
@@ -380,13 +466,12 @@ function display_files(int $contextid,int $itemid){
     $out = array();
         
 $fs = get_file_storage();
-$files = $fs->get_area_files($contextid, 'block_anketka', 'attachment', $itemid);
+$files = $fs->get_area_files($contextid, 'block_application_request', 'attachment', $itemid);
             
 foreach ($files as $file) {
-    #var_dump($file);
     $filename = $file->get_filename();
     if ($filename!='.'){
-        $url = moodle_url::make_pluginfile_url( $file->get_contextid(), 'block_anketka', 'attachment',
+        $url = moodle_url::make_pluginfile_url( $file->get_contextid(), 'block_application_request', 'attachment',
                 $file->get_itemid(), $file->get_filepath(), $filename);
         $out[] = html_writer::link($url, $filename);
     }
@@ -398,12 +483,11 @@ return implode($br, $out);
 
 function display_file(int $contextid,int $itemid){
     $fs = get_file_storage();
-    $files = $fs->get_area_files($contextid, 'block_anketka', 'attachment', $itemid);
+    $files = $fs->get_area_files($contextid, 'block_application_request', 'attachment', $itemid);
     foreach ($files as $file) {
-        #var_dump($file);
         $filename = $file->get_filename();
         if ($filename!='.'){
-            $url = moodle_url::make_pluginfile_url( $file->get_contextid(), 'block_anketka', 'attachment',
+            $url = moodle_url::make_pluginfile_url( $file->get_contextid(), 'block_application_request', 'attachment',
                     $file->get_itemid(), $file->get_filepath(), $filename);
             return html_writer::link($url, $filename);
         }
@@ -413,12 +497,11 @@ function display_file(int $contextid,int $itemid){
 
 function make_file_url(int $contextid,int $itemid){
     $fs = get_file_storage();
-    $files = $fs->get_area_files($contextid, 'block_anketka', 'attachment', $itemid);
+    $files = $fs->get_area_files($contextid, 'block_application_request', 'attachment', $itemid);
     foreach ($files as $file) {
-        #var_dump($file);
         $filename = $file->get_filename();
         if ($filename!='.'){
-            return moodle_url::make_pluginfile_url( $file->get_contextid(), 'block_anketka', 'attachment',
+            return moodle_url::make_pluginfile_url( $file->get_contextid(), 'block_application_request', 'attachment',
                     $file->get_itemid(), $file->get_filepath(), $filename);
             
         }
@@ -429,11 +512,11 @@ function make_file_url(int $contextid,int $itemid){
 function render_application_document_page(html_table $table,int $applicationid){
     global $OUTPUT;
     //echo $OUTPUT->heading('Ваши достижения', 2);
-	echo $OUTPUT->heading(get_string('yourachievements', 'block_anketka'), 2);
+	echo $OUTPUT->heading(get_string('yourachievements', 'block_application_request'), 2);
     echo html_writer::start_tag( 'a', array( 'href' => "./upload_documents.php?id={$applicationid}&action=ADD" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Добавить достижение' )
-	.format_string( get_string('addachievement', 'block_anketka') )
+	.format_string( get_string('addachievement', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
@@ -441,21 +524,21 @@ function render_application_document_page(html_table $table,int $applicationid){
     echo html_writer::start_tag( 'a', array( 'href' => "./add_application.php?id={$applicationid}" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Назад' )
-	.format_string( get_string('toreturn', 'block_anketka') )
+	.format_string( get_string('toreturn', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
     echo html_writer::start_tag( 'a', array( 'href' => "./checkandsend.php?id={$applicationid}" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Далее' )
-	.format_string( get_string('buttoncontinued', 'block_anketka') )
+	.format_string( get_string('buttoncontinued', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
     echo html_writer::start_tag( 'a', array( 'href' => "./view_applications_list.php" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Отмена' )
-	.format_string( get_string('cancel', 'block_anketka') )
+	.format_string( get_string('cancel', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
@@ -463,28 +546,25 @@ function render_application_document_page(html_table $table,int $applicationid){
 
 function render_checkandsend_page_bottom(int $applicationid){
     global $DB;
-    echo html_writer::start_tag( 'a', array( 'href' => "./upload_documents.php?id={$applicationid}" ) )
-    .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
-    //.format_string( 'Назад' )
-	.format_string( get_string('toreturn', 'block_anketka') )
+    echo html_writer::start_tag( 'a', array( 'href' => "./upload_documents.php?id={$applicationid}" ))
+    .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ))
+	.format_string( get_string('toreturn', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
-    $data = $DB->get_record('block_anketka_applicants', array('id' => $applicationid), '*', MUST_EXIST);
-	//$data = $DB->get_record('block_anketka_applicants', array('applicantid' => $applicationid), '*', MUST_EXIST);
-#    $data = $DB -> get_records_sql ('SELECT itemid FROM {block_anketka_applicants} where id = ?',[$applicationid]);
+    $data = $DB->get_record('block_app_request_applicants', array('id' => $applicationid), '*', MUST_EXIST);
 
     if(!is_null($data->itemid)){
         echo html_writer::start_tag( 'a', array( 'href' => "./checkandsendconfirmd.php?id={$applicationid}" ) )
         .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:35%' ) )
         //.format_string( 'Отправить заявление в отборочную комиссию' )
-		.format_string( get_string('sendapplication', 'block_anketka') )
+		.format_string( get_string('sendapplication', 'block_application_request') )
         .html_writer::end_tag('button')
         .html_writer::end_tag( 'a' );
     }
     echo html_writer::start_tag( 'a', array( 'href' => "./view_applications_list.php" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Отмена' )
-	.format_string( get_string('cancel', 'block_anketka') )
+	.format_string( get_string('cancel', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
 
@@ -493,9 +573,9 @@ function render_checkandsend_page_bottom(int $applicationid){
 function resolve_status($status){
     switch($status){
         //case 1: return 'Формируется';
-		case 1: return get_string('isbeingformed', 'block_anketka');
+		case 1: return get_string('isbeingformed', 'block_application_request');
         //case 2: return 'Отправлено';
-		case 2: return get_string('hasbeensent', 'block_anketka');
+		case 2: return get_string('hasbeensent', 'block_application_request');
         default: return '';
     }
 }
@@ -506,10 +586,10 @@ function render_docs_list(int $id,int $itemid=null,int $contextid=null){
     if(!empty($itemid)){
         $url = make_file_url($contextid,$itemid);
         //$out[] = html_writer::link($url, 'Заявление на стипенидию');
-		$out[] = html_writer::link($url, get_string('scholarshipapplication', 'block_anketka'));
+		$out[] = html_writer::link($url, get_string('scholarshipapplication', 'block_application_request'));
 
     }
-    $data = $DB -> get_records_sql('SELECT * FROM {block_anketka_documents} where applicationid = ? order by supportingdocument',[$id]);
+    $data = $DB -> get_records_sql('SELECT * FROM {block_app_request_documents} where applicationid = ? order by supportingdocument',[$id]);
     foreach($data as $item){
         $url = make_file_url($item->contextid,$item->itemid);
         $out[] = html_writer::link($url, $item->supportingdocument);

@@ -1,7 +1,7 @@
 <?php 
 	require_once (dirname(dirname(__DIR__)).'/config.php'); 
 	require_once($CFG->libdir . '/outputcomponents.php');
-	require_once($CFG->dirroot .'/blocks/anketka/applicantslib.php');
+	require_once($CFG->dirroot .'/blocks/application_request/applicantslib.php');
 	global $PAGE;
 require_login();
 
@@ -12,7 +12,7 @@ if (isguestuser()) {
 $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 
 if (empty($returnurl)) {
-    $returnurl = new moodle_url('/blocks/anketka/preparation_of_the_applicants_questionnaire.php');
+    $returnurl = new moodle_url('/blocks/application_request/preparation_of_the_applicants_questionnaire.php');
 }
 
 
@@ -24,7 +24,7 @@ require_capability('moodle/user:manageownfiles', $context);
 $title = get_string('privatefiles');
 $struser = get_string('user');
 
-$PAGE->set_url('/blocks/anketka/viewing_table_applicants.php');
+$PAGE->set_url('/blocks/application_request/viewing_table_applicants.php');
 $PAGE->set_context($context);
 $PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
@@ -35,7 +35,8 @@ $PAGE->set_pagetype('my-index');
 
 echo $OUTPUT->header();	
 $k = verification_group_membership ($USER->id);
-$data = $DB -> get_records_sql ('SELECT * FROM {block_anketka_applicants} where ((applicationstatus=2)
+var_dump($k);
+$data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where ((applicationstatus=2)
 									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
 									OR directionofactivity = ? OR directionofactivity = ?) OR 
 									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
@@ -45,9 +46,9 @@ if (!empty($data))
 {
     $table = new html_table();
     //$table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта','Дата', 'Документы');
-	$table->head = array(get_string('fio', 'block_anketka'), get_string('institute', 'block_anketka'), 
-	get_string('telephone', 'block_anketka'), get_string('email', 'block_anketka'),'Направление',
-	get_string('date', 'block_anketka'), get_string('documents', 'block_anketka'));
+	$table->head = array(get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
+	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),'Направление',
+	get_string('date', 'block_application_request'), get_string('documents', 'block_application_request'));
     
     foreach ($data as $item)
     {
@@ -64,7 +65,7 @@ if (!empty($data))
 		
     }
     //echo $OUTPUT->heading('Ваши заявления', 2);
-	echo $OUTPUT->heading(get_string('yourapplication', 'block_anketka'), 2);
+	echo $OUTPUT->heading(get_string('yourapplication', 'block_application_request'), 2);
     echo html_writer::table($table);
 }
 
