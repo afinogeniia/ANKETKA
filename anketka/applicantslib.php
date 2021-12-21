@@ -386,7 +386,7 @@ function create_application_print(int $id){
 	return $mess;
 }*/
 
-function create_table_doclist(int $id){
+function create_table_doclist(int $id,bool $dellnk=TRUE){
     global $DB;
     $data = $DB -> get_records_sql('SELECT * FROM {block_app_request_documents} where applicationid = ? order by supportingdocument',[$id]);
     if(empty($data)){
@@ -406,9 +406,13 @@ function create_table_doclist(int $id){
         $itemid = $item->itemid;
         $contextid = $item->contextid;
         $link = display_files($contextid,$itemid);
-        $del = html_writer::start_tag( 'a', array( 'href' => "./upload_documents_del.php?id={$id}&docid={$item->id}" ) )
+		if($dellnk){
+			$del = html_writer::start_tag( 'a', array( 'href' => "./upload_documents_del.php?id={$id}&docid={$item->id}" ) )
             .format_string( get_string('delete', 'block_application_request') )
             .html_writer::end_tag( 'a' );
+		}else{
+			$del = "";
+		}
         $table->data[] = array ($f, $k, $y, $link,$del);
     }
     return $table;    
@@ -417,7 +421,7 @@ function create_table_doclist(int $id){
 function create_table_applicant_date(int $id){
     global $DB;
 	global $USER;
-	$data = $DB -> get_records_sql('SELECT * FROM {block_app_request_applicants} where applicantid = ?',[$USER -> id]);
+	$data = $DB -> get_records_sql('SELECT * FROM {block_app_request_applicants} where id = ?',[$id]);
     if(empty($data)){
         return NULL;
     }
@@ -576,6 +580,8 @@ function resolve_status($status){
 		case 1: return get_string('isbeingformed', 'block_application_request');
         //case 2: return 'Отправлено';
 		case 2: return get_string('hasbeensent', 'block_application_request');
+		case 3: return "Назначена";
+		case 4: return "Отказано";
         default: return '';
     }
 }

@@ -59,7 +59,7 @@ if (!empty($data))
         $m = $item -> applicantemail;
         $docs = render_docs_list($item->id,$item->itemid,$item->contextid);
         $status = resolve_status($item->applicationstatus);
-        if($item->applicationstatus!=2){
+        if($item->applicationstatus==1){
             $link = html_writer::tag('a', 'Edit', array('href' => '/blocks/application_request/add_application.php?id='.$item->id));
         }
         else{

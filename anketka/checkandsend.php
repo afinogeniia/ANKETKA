@@ -4,8 +4,8 @@
 # а так же ссылка на страницу загрузки отсканированого текста заявления
 #После загрузки заявления появляется кнопка отправить заявления
 # это вызов следующго шага
-require_once (dirname(dirname(__DIR__)).'/config.php'); 
-require_once ($CFG->dirroot . '/blocks/application_request/applicantslib.php');
+require_once(dirname(dirname(__DIR__)).'/config.php'); 
+require_once($CFG->dirroot . '/blocks/application_request/applicantslib.php');
 require_once($CFG->dirroot.'/blocks/application_request/application_form.php');
 
 global $PAGE;
@@ -18,39 +18,20 @@ if (isguestuser()) {
     die();
 }
 
-$returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 $applicationid = optional_param('id', 0, PARAM_INT);
-
-if (empty($returnurl)) {
-    $returnurl = new moodle_url('/blocks/application_request/add_application.php');
-}
-
-
-
 $context = context_user::instance($USER->id);
-//$context = context_user::instance ($pustbudet);
-
-
-
 $struser = get_string('user');
-
 $PAGE->set_url('/blocks/application_request/checkandsend.php');
 $PAGE->set_context($context);
-//$PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
 $PAGE->set_pagelayout('standard');
-
-
 $PAGE->set_pagetype('my-index');
-
 echo $OUTPUT->header();	
 echo ('<b>Сведения о кандидате на получение повышенной государственной академической стипендии</b>');
 $data = $DB->get_record('block_app_request_applicants', array('id' => $applicationid), '*', MUST_EXIST);
 $table1 = create_table_applicant_date($applicationid);
 echo html_writer::table($table1);
 # TODO сделать красивое отображение данных заявления
-
-
 $table = create_table_doclist($applicationid);	
 echo html_writer::table($table);
 if(empty($data->itemid)){
