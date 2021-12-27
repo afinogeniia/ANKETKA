@@ -1,7 +1,7 @@
 <?php 
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
-require_once($CFG->dirroot.'/blocks/anketka/document_form.php');
+require_once ($CFG->dirroot . '/blocks/application_request/applicantslib.php');
+require_once($CFG->dirroot.'/blocks/application_request/document_form.php');
 global $DB;
 global $USER;
 
@@ -19,7 +19,7 @@ $delete = optional_param('delete', '', PARAM_RAW);
 
 
 if (empty($returnurl)) {
-    $returnurl = new moodle_url('/blocks/anketka/upload_documents.php');
+    $returnurl = new moodle_url('/blocks/application_request/upload_documents.php');
 }
 
 
@@ -31,7 +31,7 @@ $context = context_user::instance($USER->id);
 
 $struser = get_string('user');
 
-$PAGE->set_url('/blocks/anketka/upload_documents.php');
+$PAGE->set_url('/blocks/application_request/upload_documents.php');
 $PAGE->set_context($context);
 //$PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
@@ -63,10 +63,10 @@ if ($mform->is_cancelled()) {
     $obj->documentpath = '';
     $obj->contextid = $context->id;
     $obj->itemid = $draftitemid;
-    $doc_id = $DB->insert_record('block_anketka_documents', $obj, $returnid = false, $bulk = false);
+    $doc_id = $DB->insert_record('block_app_request_documents', $obj, $returnid = false, $bulk = false);
     # TODO вынести $maxbytes = 1000000; в настройки
     $maxbytes = 1000000;
-    file_save_draft_area_files($data->attachments, $context->id, 'block_anketka', 'attachment',
+    file_save_draft_area_files($data->attachments, $context->id, 'block_application_request', 'attachment',
         $draftitemid, array('subdirs' => 0, 'maxbytes' => $maxbytes, 'maxfiles' => 1));
     $table = create_table_doclist($applicationid);
     render_application_document_page($table,$applicationid);

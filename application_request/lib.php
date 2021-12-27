@@ -9,7 +9,7 @@
 // This is the most confusing part. For each plugin using a file manager will automatically
 // look for this function. It always ends with _pluginfile. Depending on where you build
 // your plugin, the name will change. In case, it is a local plugin called file manager.
-function block_anketka_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function block_application_request_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
     global $DB;
 #    if ($context->contextlevel != CONTEXT_SYSTEM) {
 #        return false;
@@ -29,7 +29,7 @@ function block_anketka_pluginfile($course, $cm, $context, $filearea, $args, $for
     } else {
         $filepath = '/' . implode('/', $args) . '/';
     }
-    $file = $fs->get_file($context->id, 'block_anketka', $filearea, $itemid, $filepath, $filename);
+    $file = $fs->get_file($context->id, 'block_application_request', $filearea, $itemid, $filepath, $filename);
     if (!$file) {
         return false;
     }

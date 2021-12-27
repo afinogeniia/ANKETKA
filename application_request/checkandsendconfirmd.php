@@ -1,6 +1,6 @@
 <?php 
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-require_once($CFG->dirroot.'/blocks/anketka/document_form.php');
+require_once($CFG->dirroot.'/blocks/application_request/document_form.php');
 
 require_login();
 
@@ -16,7 +16,7 @@ $delete = optional_param('delete', '', PARAM_RAW);
 
 
 if (empty($returnurl)) {
-    $returnurl = new moodle_url('/blocks/anketka/upload_documents.php');
+    $returnurl = new moodle_url('/blocks/application_request/upload_documents.php');
 }
 
 
@@ -28,7 +28,7 @@ $context = context_user::instance($USER->id);
 
 $struser = get_string('user');
 
-$PAGE->set_url('/blocks/anketka/upload_documents.php');
+$PAGE->set_url('/blocks/application_request/upload_documents.php');
 $PAGE->set_context($context);
 //$PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
@@ -42,12 +42,12 @@ echo $OUTPUT->header();
 //$DB -> set_debug (true);
 	
 if ($action == 'SEND' ) {
-    $data = $DB->get_record('block_anketka_applicants', array('id' => $applicationid), '*', MUST_EXIST);
+    $data = $DB->get_record('block_app_request_applicants', array('id' => $applicationid), '*', MUST_EXIST);
     $data->applicationstatus = 2;
     $data->applicationsenddate = time();
     $data->applicationmodifieddate = time();
-    $DB->update_record('block_anketka_applicants', $data);
-    redirect($CFG->wwwroot . '/blocks/anketka/view_applications_list.php');    
+    $DB->update_record('block_app_request_applicants', $data);
+    redirect($CFG->wwwroot . '/blocks/application_request/view_applications_list.php');    
     }
     
     echo $OUTPUT->confirm( format_string( "Вы уверены, что хотите отправить заявку" ),

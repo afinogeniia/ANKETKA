@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-<XMLDB PATH="blocks/anketka/db" VERSION="20211021" COMMENT="XMLDB file for Moodle blocks/anketka"
+<XMLDB PATH="blocks/application_request/db" VERSION="20211021" COMMENT="XMLDB file for Moodle blocks/anketka"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
 >
   <TABLES>
-    <TABLE NAME="block_anketka_applicants" COMMENT="Default comment for block_anketka, please edit me">
+    <TABLE NAME="block_app_request_applicants" COMMENT="Default comment for block_application_request, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="applicantid" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
@@ -29,7 +29,7 @@
         <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
       </KEYS>
     </TABLE>
-    <TABLE NAME="block_anketka_documents" COMMENT="Default comment for the table, please edit me">
+    <TABLE NAME="block_app_request_documents" COMMENT="Default comment for the table, please edit me">
       <FIELDS>
         <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
         <FIELD NAME="applicationid" TYPE="int" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>

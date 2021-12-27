@@ -1,6 +1,6 @@
 <?php 
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
-require_once ($CFG->dirroot . '/blocks/anketka/applicantslib.php');
+require_once ($CFG->dirroot . '/blocks/application_request/applicantslib.php');
 # TODO нужно почистить require_once их явно больше чем надо	
 require_login();
 

@@ -6,22 +6,23 @@ if (!defined('MOODLE_INTERNAL')) {
 require_once($CFG->dirroot.'/lib/formslib.php');
 
 /**
- * Class application_request_application_form.
+ * Class status_form.
  * Форма ввода персональных данных соискателя стипендии
  * Первый шаг заполнения анкеты
  *
  * @copyright 2021 Sergey Nidchenko  
  * @license http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class application_request_upload_application_form extends moodleform 
+class status_form extends moodleform 
 {   
     /**
-     * Конструктор класс
+     * Констуртор класс
      * может получать идентификатор заявления
      * для предзаполнения формы для редактирования
      */
-    public function __construct(int $appid){
+    public function __construct(int $appid,int $status){
         $this->applicationid = $appid;
+        $this->applicationstatus = $status;
         parent::__construct();
     }
 
@@ -30,25 +31,21 @@ class application_request_upload_application_form extends moodleform
      */
     public function definition () 
 	{
-        global $CFG, $COURSE, $USER, $DB;
+
         $mform = $this->_form;
         $editoroptions = null;
         $filemanageroptions = null;
 
 		
-# TODO: применть addRUle валидацию на стороне клиента        
-        
         $mform->addElement('hidden', 'id');
         $mform->setType('id', PARAM_INT);
         $mform -> setDefault('id', $this->applicationid);
-        $mform -> addElement('header', 'moodle', get_string('signedscan', 'block_application_request'));
-        # вынести в настройки
-        $maxbytes = 1000000;
-
-        $mform->addElement('filemanager', 'attachments', get_string('confirmation', 'block_application_request'), null,
-        array('subdirs' => 0, 'maxbytes' => $maxbytes, 'areamaxbytes' => 10485760, 'maxfiles' => 1,
-              'accepted_types' => array('document')));
-        $this->add_action_buttons(true, 'Сохранить');
+		$mform -> addElement('select', 'applicationstatus', 'Статус', array(2 => "Отправлено",
+        3=>"Назначена",4=>"Отказано"));
+      
+			$mform -> setDefault('applicationstatus', $this->applicationstatus);
+            $this->add_action_buttons(true, "Сохранить");
+		
 	}
     # TODO: валидацию данных
 	function validation ($data, $files)
