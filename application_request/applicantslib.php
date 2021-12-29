@@ -614,6 +614,7 @@ function protection_unauthorized($data)
 }
 
 //Получает название группы из файла csv
+//Не получает, потому что с кодировкой СЛОЖНОСТИ
 function group_name ($codegroup)
 {
 			$fh = fopen('groups.csv', 'r');
