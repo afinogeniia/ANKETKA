@@ -39,14 +39,14 @@ if(empty($data->itemid)){
     # файл при открытии выдаёт какие-то ошибки
     echo html_writer::tag('a', 'скачать проект заявки для получения стипендии', array('href' => "./download_application_project.php?id={$applicationid}"));
 
-    echo html_writer::start_tag( 'a', array( 'href' => "./upload_application.php?id={$applicationid}" ) )
+    /*echo html_writer::start_tag( 'a', array( 'href' => "./upload_application.php?id={$applicationid}" ) )
         .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:26%' ) )
         .format_string( 'Загрузить отсканированное заявление' )
         .html_writer::end_tag('button')
-        .html_writer::end_tag( 'a' );
+        .html_writer::end_tag( 'a' );*/
 }
 else{
-    echo html_writer::start_tag('p')
+    /*echo html_writer::start_tag('p')
     .'Скан заявления:'
     .display_file($data->contextid,$data->itemid)
     .html_writer::start_tag( 'a', array( 'href' => "./checkandsenddel.php?id={$applicationid}" ) )
@@ -54,7 +54,7 @@ else{
         .format_string( 'Удалить загруженный скан' )
         .html_writer::end_tag('button')
         .html_writer::end_tag( 'a' )
-    .html_writer::end_tag('p');
+    .html_writer::end_tag('p');*/
 #TODO удаление заявления
 }
 echo "<br>";
