@@ -612,4 +612,57 @@ function protection_unauthorized($data)
 	$data = htmlspecialchars($data);
 	return $data;
 }
+
+//Получает название группы из файла csv
+function group_name ($codegroup)
+{
+			$fh = fopen('groups.csv', 'r');
+			fgetcsv($fh, 0, ';');
+			$data_groups = [];
+			while (($row = fgetcsv($fh, 0, ';')) !== false)
+			{
+				list ($code_group, $name_group) = $row;
+				
+				$data_groups[] =
+				[
+					'codegroup' => $code_group,
+					'namegroup' => $name_group
+				];
+			}
+			/*foreach ($rows as $indes => $row)
+			{
+				$data_group = array_map('trim', explode(';', $row));
+				echo '<pre>';	
+				$code_group = $data_group[0];
+				echo ($code_group);
+				echo ('_______________');
+				$name_group = $data_group[1];
+				echo ($name_group);
+				echo '</pre>';
+			}*/
+			foreach ($data_groups as $row)
+			{
+				if ( $row['codegroup'] === $codegroup) $namegroup = $row['namegroup'];
+					else $namegroup = "*";
+				//echo '<pre>';				
+				//$k3 = iconv("UTF-8", "WINDOWS-1251//TRANSLIT", (string)$row['codegroup']);
+				//echo ($k3);
+				//echo ('*****************');
+				//$k1 = (string)$row['codegroup'];
+				//echo ($row['namegroup']);				
+				//echo ('iconv("UTF-8","cp1251//TRANSLIT",$k1)');
+				//echo ('_____');
+				//$k2 = (string)$row['namegroup'];
+				//echo ($row['namegroup']);
+				//echo iconv("UTF-8","cp1251//TRANSLIT",$k2);
+				//echo '</pre>';
+			}
+	return ($namegroup);
+			//$fh = 'groups.csv';
+			//$rows = array_map('trim', iconv('UTF-8', 'Windows-1251', file($fh)));
+			//array_shift($rows);
+			
+			//fgetcsv($fh, explode('$', iconv('UTF-8', 'Windows-1251//TRANSLIT', $line)), ';');
+			//
+}			
 ?>

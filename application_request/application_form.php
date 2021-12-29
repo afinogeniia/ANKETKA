@@ -43,13 +43,11 @@ class application_request_application_form extends moodleform
             $firstname = $USER -> firstname;
             $lastname = $USER -> lastname;
             $group = $USER -> department;
+			
 			$array_group = explode('.', $group);
-			//echo '<pre>';
-			//var_dump ($array_group);
-			//echo '</pre>';
-			//echo '<pre>';
+
 			//echo ($array_group[4]);
-			//echo '</pre>';
+
             $phone = $USER -> phone1;
             $email = $USER -> email;
 			//$a = 'верификация';
@@ -82,63 +80,16 @@ class application_request_application_form extends moodleform
 			/*$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array(
 			$a, 'ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));*/
 			$select = $mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), $opt);
-			$select -> setSelected($k);
+			$select -> setSelected($array_group[4]);
 			
-			//$fh = fopen(__DIR__ . '/blocks/application_request/groups.csv', "r");
-			$fh = fopen('groups.csv', 'r');
-			//$fh = 'groups.csv';
-			/*$rows = array_map('trim', iconv('UTF-8', 'Windows-1251', file($fh)));
-			array_shift($rows);
-			foreach ($rows as $indes => $row)
-			{
-				$data_group = array_map('trim', explode(';', $row));
-				echo '<pre>';	
-				$code_group = $data_group[0];
-				echo ($code_group);
-				echo ('_______________');
-				$name_group = $data_group[1];
-				echo ($name_group);
-				echo '</pre>';
-			}*/
-			fgetcsv($fh, 0, ';');
-			//fgetcsv($fh, explode('$', iconv('UTF-8', 'Windows-1251//TRANSLIT', $line)), ';');
-			$data_groups = [];
-			while (($row = fgetcsv($fh, 0, ';')) !== false)
-			{
-				list ($code_group, $name_group) = $row;
-				
-				echo '<pre>';
-				echo ($code_group);
-				echo ('__________________');
-				echo ($name_group);
-				echo '</pre>';
-				$data_groups[] =
-				[
-					'codegroup' => $code_group,
-					'namegroup' => $name_group
-				];
-			}
-			//foreach ($data_groups as $row)
-			//{
-				//echo '<pre>';				
-				//$k3 = iconv("UTF-8", "WINDOWS-1251//TRANSLIT", (string)$row['codegroup']);
-				//echo ($k3);
-				//echo ('*****************');
-				//$k1 = (string)$row['codegroup'];
-				//echo ($row['namegroup']);				
-				//echo ('iconv("UTF-8","cp1251//TRANSLIT",$k1)');
-				//echo ('_____');
-				//$k2 = (string)$row['namegroup'];
-				//echo ($row['namegroup']);
-				//echo iconv("UTF-8","cp1251//TRANSLIT",$k2);
-				//echo '</pre>';
-			//}			
+			
 
 			$mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), array('1', '2', '3', '4', '5', '6'));
 
-			
+			$groupname1 = group_name ($group);
 			$mform -> addElement('textarea', 'group', get_string('group', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('group', get_string('required'), 'required', null, 'client');
+			$mform -> setDefault('group', $groupname1);
 			
 			$mform -> addElement('textarea', 'phone', get_string('telephone', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('phone', get_string('required'), 'required', null, 'client');
