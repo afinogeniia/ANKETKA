@@ -557,14 +557,14 @@ function render_checkandsend_page_bottom(int $applicationid){
     .html_writer::end_tag( 'a' );
     $data = $DB->get_record('block_app_request_applicants', array('id' => $applicationid), '*', MUST_EXIST);
 
-    if(!is_null($data->itemid)){
+    //if(!is_null($data->itemid)){
         echo html_writer::start_tag( 'a', array( 'href' => "./checkandsendconfirmd.php?id={$applicationid}" ) )
         .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:35%' ) )
         //.format_string( 'Отправить заявление в отборочную комиссию' )
 		.format_string( get_string('sendapplication', 'block_application_request') )
         .html_writer::end_tag('button')
         .html_writer::end_tag( 'a' );
-    }
+    //}
     echo html_writer::start_tag( 'a', array( 'href' => "./view_applications_list.php" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Отмена' )
@@ -614,7 +614,6 @@ function protection_unauthorized($data)
 }
 
 //Получает название группы из файла csv
-//Не получает, потому что с кодировкой СЛОЖНОСТИ
 function group_name ($codegroup)
 {
 			$fh = fopen('groups.csv', 'r');
@@ -623,47 +622,17 @@ function group_name ($codegroup)
 			while (($row = fgetcsv($fh, 0, ';')) !== false)
 			{
 				list ($code_group, $name_group) = $row;
-				
 				$data_groups[] =
 				[
 					'codegroup' => $code_group,
 					'namegroup' => $name_group
 				];
 			}
-			/*foreach ($rows as $indes => $row)
-			{
-				$data_group = array_map('trim', explode(';', $row));
-				echo '<pre>';	
-				$code_group = $data_group[0];
-				echo ($code_group);
-				echo ('_______________');
-				$name_group = $data_group[1];
-				echo ($name_group);
-				echo '</pre>';
-			}*/
 			foreach ($data_groups as $row)
 			{
 				if ( $row['codegroup'] === $codegroup) $namegroup = $row['namegroup'];
-					else $namegroup = "*";
-				//echo '<pre>';				
-				//$k3 = iconv("UTF-8", "WINDOWS-1251//TRANSLIT", (string)$row['codegroup']);
-				//echo ($k3);
-				//echo ('*****************');
-				//$k1 = (string)$row['codegroup'];
-				//echo ($row['namegroup']);				
-				//echo ('iconv("UTF-8","cp1251//TRANSLIT",$k1)');
-				//echo ('_____');
-				//$k2 = (string)$row['namegroup'];
-				//echo ($row['namegroup']);
-				//echo iconv("UTF-8","cp1251//TRANSLIT",$k2);
-				//echo '</pre>';
+					//else $namegroup = "*";
 			}
 	return ($namegroup);
-			//$fh = 'groups.csv';
-			//$rows = array_map('trim', iconv('UTF-8', 'Windows-1251', file($fh)));
-			//array_shift($rows);
-			
-			//fgetcsv($fh, explode('$', iconv('UTF-8', 'Windows-1251//TRANSLIT', $line)), ';');
-			//
 }			
 ?>
