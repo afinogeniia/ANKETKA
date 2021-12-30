@@ -196,7 +196,6 @@ function conversion_parametr_k ($kurs)
 		case 2: $kurs = 3; break;
 		case 3: $kurs = 4; break;
 		case 4: $kurs = 5; break;
-		case 5: $kurs = 6; break;
 	}
 	return ($kurs);
 }
@@ -582,6 +581,7 @@ function resolve_status($status){
 		case 2: return get_string('hasbeensent', 'block_application_request');
 		case 3: return "Назначена";
 		case 4: return "Отказано";
+		case 5: return "На рассмотрении";
         default: return '';
     }
 }
