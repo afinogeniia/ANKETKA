@@ -619,9 +619,11 @@ function group_name ($codegroup)
 			$fh = fopen('groups.csv', 'r');
 			fgetcsv($fh, 0, ';');
 			$data_groups = [];
+			$k = 0;
 			while (($row = fgetcsv($fh, 0, ';')) !== false)
 			{
 				list ($code_group, $name_group) = $row;
+				//$code_group = iconv ("UTF-8", "cp1251", $code_group1);
 				$data_groups[] =
 				[
 					'codegroup' => $code_group,
@@ -630,9 +632,13 @@ function group_name ($codegroup)
 			}
 			foreach ($data_groups as $row)
 			{
-				if ( $row['codegroup'] === $codegroup) $namegroup = $row['namegroup'];
-					//else $namegroup = "*";
+				if ( $row['codegroup'] == $codegroup)
+				{
+					$namegroup = $row['namegroup'];
+					$k = 1;
+				}
 			}
+	if ($k == 0) $namegroup = "*";
 	return ($namegroup);
 }			
 ?>

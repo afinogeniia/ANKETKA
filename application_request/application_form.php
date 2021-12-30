@@ -43,14 +43,8 @@ class application_request_application_form extends moodleform
             $firstname = $USER -> firstname;
             $lastname = $USER -> lastname;
             $group = $USER -> department;
-			
-			$array_group = explode('.', $group);
-
-			//echo ($array_group[4]);
-
             $phone = $USER -> phone1;
             $email = $USER -> email;
-			//$a = 'верификация';
             $middlename1 = $USER -> alternatename;
 			$middlename = explode (" ", $USER -> alternatename);
 # TODO: применть addRUle валидацию на стороне клиента        
@@ -70,20 +64,17 @@ class application_request_application_form extends moodleform
 			$mform->addRule('lastname', get_string('required'), 'required', null, 'client');
 			$mform -> setDefault('lastname', $lastname);
 			
-			$k = 'ИСОП';
+			$array_group = explode('.', $group);
 			$opt = array(
 				'ИГИМП' => 'ИГИМП',
 				'ИПИП' => 'ИПИП',
 				'ИП' => 'ИП',
 				'ИСОП' => 'ИСОП',
 				'ИЮ' => 'ИЮ');
-			/*$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array(
-			$a, 'ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));*/
+			//$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array('ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));
 			$select = $mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), $opt);
 			$select -> setSelected($array_group[4]);
 			
-			
-
 			$mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), array('1', '2', '3', '4', '5', '6'));
 
 			$groupname1 = group_name ($group);
@@ -159,8 +150,8 @@ class application_request_application_form extends moodleform
 				'ИП' => 'ИП',
 				'ИСОП' => 'ИСОП',
 				'ИЮ' => 'ИЮ');
-			/*$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array(
-			$a, 'ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));*/
+			//$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array(
+			//'ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));
 			$select = $mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), $opt);
 			$select -> setSelected($institut);
             
