@@ -54,7 +54,7 @@ else{
         .format_string( 'Удалить загруженный скан' )
         .html_writer::end_tag('button')
         .html_writer::end_tag( 'a' )
-    .html_writer::end_tag('p');*/
+    .html_writer::end_tag('p');
 #TODO удаление заявления
 }
 echo "<br>";
