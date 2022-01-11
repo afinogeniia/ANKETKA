@@ -34,29 +34,9 @@ echo html_writer::table($table1);
 # TODO сделать красивое отображение данных заявления
 $table = create_table_doclist($applicationid);	
 echo html_writer::table($table);
-if(empty($data->itemid)){
-    # TODO довести до ума скачивание файла. Что-то не то вообще с этим механизмом. 
-    # файл при открытии выдаёт какие-то ошибки
-    echo html_writer::tag('a', 'скачать проект заявки для получения стипендии', array('href' => "./download_application_project.php?id={$applicationid}"));
-
-    echo html_writer::start_tag( 'a', array( 'href' => "./upload_application.php?id={$applicationid}" ) )
-        .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:26%' ) )
-        .format_string( 'Загрузить отсканированное заявление' )
-        .html_writer::end_tag('button')
-        .html_writer::end_tag( 'a' );
-}
-else{
-    echo html_writer::start_tag('p')
-    .'Скан заявления:'
-    .display_file($data->contextid,$data->itemid)
-    .html_writer::start_tag( 'a', array( 'href' => "./checkandsenddel.php?id={$applicationid}" ) )
-        .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:26%' ) )
-        .format_string( 'Удалить загруженный скан' )
-        .html_writer::end_tag('button')
-        .html_writer::end_tag( 'a' )
-    .html_writer::end_tag('p');
+# echo html_writer::tag('a', 'скачать проект заявки для получения стипендии', array('href' => "./download_application_project.php?id={$applicationid}"));
 #TODO удаление заявления
-}
+
 echo "<br>";
 # Здесь редерятся кнопки внизу страницы
 # Кнопка отправки повится если будет загружено отсканированная версия заявления

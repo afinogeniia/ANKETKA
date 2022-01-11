@@ -41,7 +41,7 @@ class status_form extends moodleform
         $mform->setType('id', PARAM_INT);
         $mform -> setDefault('id', $this->applicationid);
 		$mform -> addElement('select', 'applicationstatus', 'Статус', array(2 => "Отправлено",
-        3=>"Назначена",4=>"Отказано"));
+        3=>"Назначена",4=>"Отказано", 5=>"На рассмотрении"));
       
 			$mform -> setDefault('applicationstatus', $this->applicationstatus);
             $this->add_action_buttons(true, "Сохранить");

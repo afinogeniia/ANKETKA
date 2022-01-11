@@ -187,48 +187,6 @@ function conversion_parametr_a ($activity)
 	return ($activity);
 }
 
-function conversion_parametr_k ($kurs)
-{
-	switch($kurs)
-	{
-		case 0: $kurs = 1; break;
-		case 1: $kurs = 2; break;
-		case 2: $kurs = 3; break;
-		case 3: $kurs = 4; break;
-		case 4: $kurs = 5; break;
-		case 5: $kurs = 6; break;
-	}
-	return ($kurs);
-}
-
-function conversion_parametr_i ($institut)
-{
-	switch($institut)
-	{
-		case 0: $institut = "ИГИМП"; break;
-		case 1: $institut = "ИПИП"; break;
-		case 2: $institut = "ИП"; break;
-		case 3: $institut = "ИСОП"; break;
-		case 4: $institut = "ИЮ"; break;
-	}
-	return ($institut);
-}
-
-/*function conversion_parametr_i ($institut)
-{
-	switch($institut)
-	{
-		case 0: $institut = "Институт государственного и международного права"; break;
-		case 1: $institut = "Институт дополнительного образования"; break;
-		case 2: $institut = "Институт права и предпринимательства"; break;
-		case 3: $institut = "Институт прокуратуры"; break;
-		case 4: $institut = "Институт специальных образовательных программ"; break;
-		case 5: $institut = "Институт юстиции"; break;
-		case 6: $institut = "Институт довузовской подготовки"; break;
-	}
-	return ($institut);
-}*/
-
 function conversion_parametr_y ($yesno)
 {
 	switch ($yesno)
@@ -555,16 +513,14 @@ function render_checkandsend_page_bottom(int $applicationid){
 	.format_string( get_string('toreturn', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
-    $data = $DB->get_record('block_app_request_applicants', array('id' => $applicationid), '*', MUST_EXIST);
 
-    if(!is_null($data->itemid)){
-        echo html_writer::start_tag( 'a', array( 'href' => "./checkandsendconfirmd.php?id={$applicationid}" ) )
-        .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:35%' ) )
-        //.format_string( 'Отправить заявление в отборочную комиссию' )
-		.format_string( get_string('sendapplication', 'block_application_request') )
-        .html_writer::end_tag('button')
-        .html_writer::end_tag( 'a' );
-    }
+	echo html_writer::start_tag( 'a', array( 'href' => "./checkandsendconfirmd.php?id={$applicationid}" ) )
+	.html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:35%' ) )
+	//.format_string( 'Отправить заявление в отборочную комиссию' )
+	.format_string( get_string('sendapplication', 'block_application_request') )
+	.html_writer::end_tag('button')
+	.html_writer::end_tag( 'a' );
+
     echo html_writer::start_tag( 'a', array( 'href' => "./view_applications_list.php" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Отмена' )
@@ -582,6 +538,7 @@ function resolve_status($status){
 		case 2: return get_string('hasbeensent', 'block_application_request');
 		case 3: return "Назначена";
 		case 4: return "Отказано";
+		case 5: return "На рассмотрении";
         default: return '';
     }
 }
@@ -611,5 +568,34 @@ function protection_unauthorized($data)
 	$data = stripslashes($data);
 	$data = htmlspecialchars($data);
 	return $data;
+}
+
+//Получает название группы из файла csv
+function group_name ($codegroup)
+{
+			$fh = fopen('groups.csv', 'r');
+			fgetcsv($fh, 0, ';');
+			$data_groups = [];
+			$k = 0;
+			while (($row = fgetcsv($fh, 0, ';')) !== false)
+			{
+				list ($code_group, $name_group) = $row;
+				//$code_group = iconv ("UTF-8", "cp1251", $code_group1);
+				$data_groups[] =
+				[
+					'codegroup' => $code_group,
+					'namegroup' => $name_group
+				];
+			}
+			foreach ($data_groups as $row)
+			{
+				if ( $row['codegroup'] == $codegroup)
+				{
+					$namegroup = $row['namegroup'];
+					$k = 1;
+				}
+			}
+	if ($k == 0) $namegroup = "*";
+	return ($namegroup);
 }
 ?>
