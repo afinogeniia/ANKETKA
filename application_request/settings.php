@@ -70,6 +70,20 @@ echo getcwd()."\n";
 				$data3 = $DB -> get_records_sql ('SELECT id FROM {user} WHERE username = ?', [$row['enrollmentlogin']]);
 				//if empty($data3);
 					//else $DB -> get_records_sql ('INSERT cohortid, userid FROM {cohort_members} VALUES ($data1, $data3);')
+			/*$papka_dlya_documentov = new stdClass();
+			$papka_dlya_documentov->contenthash = 'da39a3ee5e6b4b0d3255bfef95601890afd80709';
+			$stroka_dlya_patha = $contekst.'+private+0+/СТИПЕНДИЯ/+.';
+			$papka_dlya_documentov->pathnamehash = sha1($stroka_dlya_patha);
+			$papka_dlya_documentov->contextid = $contekst;
+			$papka_dlya_documentov->component = 'user';
+			$papka_dlya_documentov->filearea = 'private';
+			$papka_dlya_documentov->itemid = 0;
+			$papka_dlya_documentov->filepath = '/СТИПЕНДИЯ/';
+			$papka_dlya_documentov->filename = '.';
+			$papka_dlya_documentov->filesize = 0;
+			$papka_dlya_documentov->timecreated = time();
+			$papka_dlya_documentov->timemodified = time() + 5;
+			$DB->insert_record('files', $papka_dlya_documentov, $returnid = true, $bulk = false);*/
 			}
 	
 /*if ($ADMIN->fulltree) {
