@@ -8,6 +8,8 @@ require_once(dirname(dirname(__DIR__)).'/config.php');
 require_once($CFG->dirroot . '/blocks/application_request/applicantslib.php');
 require_once($CFG->dirroot.'/blocks/application_request/application_form.php');
 require_once($CFG->dirroot.'/blocks/application_request/status_form.php');
+require_once($CFG->dirroot.'/blocks/application_request/status_grade_form.php');
+require_once($CFG->dirroot.'/blocks/application_request/grade_form.php');
 
 global $PAGE;
 global $USER;	
@@ -36,16 +38,50 @@ echo html_writer::table($table1);
 
 $table = create_table_doclist($applicationid,FALSE);	
 echo html_writer::table($table);
-$mform = new status_form($applicationid,$data->applicationstatus);
-if ($mform->is_cancelled()) {
-    //Handle form cancel operation, if cancel button is present on form
-    redirect('./viewing_table_applicants.php');
-} else if ($mdata = $mform->get_data()) {
-$mform = new status_form($applicationid,$data->applicationstatus);
-    $data->applicationstatus = $mdata->applicationstatus;
-    $DB->update_record('block_app_request_applicants', $data);
-    $mform->display();
+echo html_writer::tag('a', 'скачать проект заявки для получения стипендии', array('href' => "./download_application_project.php?id={$applicationid}"));
+$flg_c = committee_membership_check_c($USER -> id);
+$flg_d = committee_membership_check_d($USER -> id);
+if($flg_c&&$flg_d){
+    $mform = new status_grade_form($applicationid,$data->applicationstatus,$data->grade);
+    if ($mform->is_cancelled()) {
+        //Handle form cancel operation, if cancel button is present on form
+        redirect('./viewing_table_applicants.php');
+    } else if ($mdata = $mform->get_data()) {
+        $mform = new status_grade_form($applicationid,$data->applicationstatus,$data->grade);
+        $data->applicationstatus = $mdata->applicationstatus;
+        $data->grade = $mdata->grade;
+        $DB->update_record('block_app_request_applicants', $data);
+        $mform->display();
+    }else{
+        $mform->display();
+    }
+
+}elseif($flg_c){
+    $mform = new status_form($applicationid,$data->applicationstatus);
+    if ($mform->is_cancelled()) {
+        //Handle form cancel operation, if cancel button is present on form
+        redirect('./viewing_table_applicants.php');
+    } else if ($mdata = $mform->get_data()) {
+    $mform = new status_form($applicationid,$data->applicationstatus);
+        $data->applicationstatus = $mdata->applicationstatus;
+        $DB->update_record('block_app_request_applicants', $data);
+        $mform->display();
+    }else{
+        $mform->display();
+    }
 }else{
-    $mform->display();
+    $mform = new grade_form($applicationid,$data->grade);
+    if ($mform->is_cancelled()) {
+        //Handle form cancel operation, if cancel button is present on form
+        redirect('./viewing_table_applicants.php');
+    } else if ($mdata = $mform->get_data()) {
+        $mform = new grade_form($applicationid,$data->grade);
+        $data->grade = $mdata->grade;
+        $DB->update_record('block_app_request_applicants', $data);
+        $mform->display();
+    }else{
+        $mform->display();
+    }
+
 }
 echo $OUTPUT->footer();

@@ -46,7 +46,7 @@ if (!empty($data))
     $table = new html_table();
     $table->head = array(get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
 	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),'Направление',
-	get_string('date', 'block_application_request'), get_string('documents', 'block_application_request'),'Статус');
+	get_string('date', 'block_application_request'), get_string('documents', 'block_application_request'),'Средний балл',"Кол. заявлений",'Статус');
     
     foreach ($data as $item)
     {
@@ -55,11 +55,13 @@ if (!empty($data))
         $k = $item -> applicantinstitute;
         $y = $item -> applicantphone;
         $m = $item -> applicantemail;
+		$grade = $item -> grade;
+		$app_count = application_count($item->applicantid);
         $direct = $item -> directionofactivity;
 		$d = date('d.m.y', $item->applicationsenddate);
 		$docs = render_docs_list($item->id,$item->itemid,$item->contextid);
 		$status = resolve_status($item -> applicationstatus);
-        $table->data[] = array ($f, $k, $y, $m,$direct,$d, $docs,$status);
+        $table->data[] = array ($f, $k, $y, $m,$direct,$d, $docs,$grade,$app_count,$status);
 		
     }
 
