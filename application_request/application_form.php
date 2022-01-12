@@ -75,8 +75,17 @@ class application_request_application_form extends moodleform
 			$select -> setSelected($array_group[4]);
 			
 
-			$mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), array('1', '2', '3', '4', '5', '6'));
+			//$mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), array('1', '2', '3', '4', '5', '6'));
 
+			$opt1 = array(
+				'1' => '1',
+				'2' => '2',
+				'3' => '3',
+				'4' => '4',
+				'5' => '5');
+			$select1 = $mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), $opt1);
+			//$select1 -> setSelected($kurs);
+			
 			$groupname1 = group_name ($group);			
 			$mform -> addElement('textarea', 'group', get_string('group', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform -> setDefault('group', $groupname1);
@@ -90,9 +99,20 @@ class application_request_application_form extends moodleform
 			$mform->addRule('email', get_string('required'), 'required', null, 'client');
 			$mform -> setDefault('email', $email);
 			
-			$mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), array('учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность'));
+			$opt2 = array(
+			'учебная деятельность' => 'учебная деятельность',
+			'научно-исследовательская деятельность' => 'научно-исследовательская деятельность',
+			'общественная деятельность' => 'общественная деятельность',
+			'культурно-творческая деятельность' => 'культурно-творческая деятельность',
+			'спортивная деятельность' => 'спортивная деятельность');
+			$select2 = $mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), $opt2);
+			$select2 -> setSelected('учебная деятельность');
 
-			$mform -> addElement('selectyesno', 'received', get_string('flag', 'block_application_request'));
+			$opt3 = array(
+				'да' => 'да',
+				'нет' => 'нет');
+			$select3 = $mform -> addElement('select', 'selectyesno', get_string('flag', 'block_application_request'), $opt3);
+	
 		
 			$this->add_action_buttons(true, get_string('buttoncontinued', 'block_application_request'));
 		}
@@ -165,21 +185,21 @@ class application_request_application_form extends moodleform
 			$mform->addRule('email', get_string('required'), 'required', null, 'client');
 			$mform -> setDefault('email', $email);
             
-			/*switch($activity)
-			{
-				case "учебная деятельность": $mform -> addElement('select', 'activity', 'Тип', array('учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность')); break;
-				case "научно-исследовательская деятельность": $mform -> addElement('select', 'activity', 'Тип', array('научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность', 'учебная деятельность')); break;
-				case "общественная деятельность": $mform -> addElement('select', 'activity', 'Тип', array('общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность','учебная деятельность', 'научно-исследовательская деятельность')); break;
-				case "культурно-творческая деятельность": $mform -> addElement('select', 'activity', 'Тип', array('культурно-творческая деятельность', 'спортивная деятельность','учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность')); break;
-				case "спортивная деятельность": $mform -> addElement('select', 'activity', 'Тип', array('спортивная деятельность','учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность')); break;
-			}*/
-			$mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), array('учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность'));
-			$mform->addRule('activity', get_string('required'), 'required', null, 'client');
+			$opt2 = array(
+			'учебная деятельность' => 'учебная деятельность',
+			'научно-исследовательская деятельность' => 'научно-исследовательская деятельность',
+			'общественная деятельность' => 'общественная деятельность',
+			'культурно-творческая деятельность' => 'культурно-творческая деятельность',
+			'спортивная деятельность' => 'спортивная деятельность');
+			$select2 = $mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), $opt2);
+			$select2 -> setSelected($activity);
 			
-			$mform -> addElement('selectyesno', 'received', get_string('flag', 'block_application_request'));
-			$mform->addRule('received', get_string('required'), 'required', null, 'client');            
-			# TODO: сделать правильный дефалт для поля received
-            $mform -> setDefault('received', 'yes');
+			$opt3 = array(
+			'да' => 'да',
+			'нет' => 'нет');
+			$select3 = $mform -> addElement('select', 'selectyesno', get_string('flag', 'block_application_request'), $opt3);
+			$select3 -> setSelected($scholarshipholder);
+			
             
             $this->add_action_buttons(true, get_string('buttoncontinued', 'block_application_request'));
 		}

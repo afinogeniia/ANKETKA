@@ -61,9 +61,7 @@ if ($mform->is_cancelled()) {
 	$obj->applicantphone = protection_unauthorized ($data -> phone);
 	$obj->applicantemail = protection_unauthorized ($data -> email);
     $obj->applicationstatus = 1;
-    $activity = $data -> activity;
-    $activity = conversion_parametr_a ($activity);
-    $obj->directionofactivity = $activity;
+    $obj->directionofactivity = $data -> activity;
     $yesno = $data -> received;
     $yesno = conversion_parametr_y ($yesno);
     $obj->scholarshipholder = $yesno;
