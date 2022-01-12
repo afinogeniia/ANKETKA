@@ -63,7 +63,7 @@ class application_request_application_form extends moodleform
 			$mform -> addElement('textarea', 'lastname', get_string('lastname', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('lastname', get_string('required'), 'required', null, 'client');
 			$mform -> setDefault('lastname', $lastname);
-			
+
 			$array_group = explode('.', $group);
 			$opt = array(
 				'ИГИМП' => 'ИГИМП',
@@ -71,16 +71,25 @@ class application_request_application_form extends moodleform
 				'ИП' => 'ИП',
 				'ИСОП' => 'ИСОП',
 				'ИЮ' => 'ИЮ');
-			//$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array('ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));
 			$select = $mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), $opt);
 			$select -> setSelected($array_group[4]);
 			
-			$mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), array('1', '2', '3', '4', '5', '6'));
 
-			$groupname1 = group_name ($group);
+			//$mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), array('1', '2', '3', '4', '5', '6'));
+
+			$opt1 = array(
+				'1' => '1',
+				'2' => '2',
+				'3' => '3',
+				'4' => '4',
+				'5' => '5');
+			$select1 = $mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), $opt1);
+			//$select1 -> setSelected($kurs);
+			
+			$groupname1 = group_name ($group);			
 			$mform -> addElement('textarea', 'group', get_string('group', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
-			$mform->addRule('group', get_string('required'), 'required', null, 'client');
 			$mform -> setDefault('group', $groupname1);
+			$mform->addRule('group', get_string('required'), 'required', null, 'client');
 			
 			$mform -> addElement('textarea', 'phone', get_string('telephone', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('phone', get_string('required'), 'required', null, 'client');
@@ -90,7 +99,15 @@ class application_request_application_form extends moodleform
 			$mform->addRule('email', get_string('required'), 'required', null, 'client');
 			$mform -> setDefault('email', $email);
 			
-			$mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), array('учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность'));
+			$opt2 = array(
+			'учебная деятельность' => 'учебная деятельность',
+			'научно-исследовательская деятельность' => 'научно-исследовательская деятельность',
+			'общественная деятельность' => 'общественная деятельность',
+			'культурно-творческая деятельность' => 'культурно-творческая деятельность',
+			'спортивная деятельность' => 'спортивная деятельность');
+			$select2 = $mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), $opt2);
+			$select2 -> setSelected('учебная деятельность');
+			//$mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), array('учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность'));
 
 			$mform -> addElement('selectyesno', 'received', get_string('flag', 'block_application_request'));
 		
@@ -128,46 +145,31 @@ class application_request_application_form extends moodleform
 			$mform -> setDefault('firstname', $firstname);
             
 			$mform -> addElement('textarea', 'middlename', get_string('middlename', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
-			$mform->addRule('middlename', get_string('required'), 'required', null, 'client');            
 			$mform -> setDefault('middlename', $middlename);
             
 			$mform -> addElement('textarea', 'lastname', get_string('lastname', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('lastname', get_string('required'), 'required', null, 'client');            
 			$mform -> setDefault('lastname', $lastname);
             
-			//$mform -> addElement('textarea', 'institut', 'Институт', 'wrap="virtual" rows = "1" cols = "30"');
-			/*$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array(
-			'Институт государственного и международного права', 'Институт дополнительного образования',
-			'Институт права и предпринимательства', 'Институт прокуратуры', 
-			'Институт специальных образовательных программ', 'Институт юстиции', 
-			'Институт довузовской подготовки'));
-			$mform->addRule('institut', get_string('required'), 'required', null, 'client');      
-			$mform -> setDefault('institut', $institut);*/
-			
 			$opt = array(
 				'ИГИМП' => 'ИГИМП',
 				'ИПИП' => 'ИПИП',
 				'ИП' => 'ИП',
 				'ИСОП' => 'ИСОП',
 				'ИЮ' => 'ИЮ');
-			//$mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), array(
-			//'ИГИМП', 'ИПИП', 'ИП', 'ИСОП', 'ИЮ'));
 			$select = $mform -> addElement('select', 'institut', get_string('institute', 'block_application_request'), $opt);
 			$select -> setSelected($institut);
-            
-			//$mform -> addElement('textarea', 'kurs', get_string("course"), 'wrap="virtual" rows = "1" cols = "30"');
-			/*$mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), array('1', '2', '3', '4', '5', '6'));
-			$mform->addRule('kurs', get_string('required'), 'required', null, 'client');            
-			$mform -> setDefault('kurs', $kurs);*/
+
+			
 			$opt1 = array(
-					'1' => '1',
-					'2' => '2',
-					'3' => '3',
-					'4' => '4',
-					'5' => '5');
+				'1' => '1',
+				'2' => '2',
+				'3' => '3',
+				'4' => '4',
+				'5' => '5');
 			$select1 = $mform -> addElement('select', 'kurs', get_string('course', 'block_application_request'), $opt1);
 			$select1 -> setSelected($kurs);
-            
+		
 			$mform -> addElement('textarea', 'group', get_string('group', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
 			$mform->addRule('group', get_string('required'), 'required', null, 'client');            
 			$mform -> setDefault('group', $group);
@@ -188,13 +190,25 @@ class application_request_application_form extends moodleform
 				case "культурно-творческая деятельность": $mform -> addElement('select', 'activity', 'Тип', array('культурно-творческая деятельность', 'спортивная деятельность','учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность')); break;
 				case "спортивная деятельность": $mform -> addElement('select', 'activity', 'Тип', array('спортивная деятельность','учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность')); break;
 			}*/
-			$mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), array('учебная деятельность', 'научно-исследовательская деятельность', 'общественная деятельность', 'культурно-творческая деятельность', 'спортивная деятельность'));
-			$mform->addRule('activity', get_string('required'), 'required', null, 'client');
+			$opt2 = array(
+			'учебная деятельность' => 'учебная деятельность',
+			'научно-исследовательская деятельность' => 'научно-исследовательская деятельность',
+			'общественная деятельность' => 'общественная деятельность',
+			'культурно-творческая деятельность' => 'культурно-творческая деятельность',
+			'спортивная деятельность' => 'спортивная деятельность');
+			$select2 = $mform -> addElement('select', 'activity', get_string('type', 'block_application_request'), $opt2);
+			$select2 -> setSelected($activity);
 			
-			$mform -> addElement('selectyesno', 'received', get_string('flag', 'block_application_request'));
-			$mform->addRule('received', get_string('required'), 'required', null, 'client');            
+			$opt3 = array(
+			'да' => 'да',
+			'нет' => 'нет');
+			$select3 = $mform -> addElement('select', 'activity', get_string('flag', 'block_application_request'), $opt3);
+			$select3 -> setSelected($scholarshipholder);
+			
+			//$mform -> addElement('selectyesno', 'received', get_string('flag', 'block_application_request'));
+			//$mform->addRule('received', get_string('required'), 'required', null, 'client');            
 			# TODO: сделать правильный дефалт для поля received
-            $mform -> setDefault('received', 'yes');
+            //$mform -> setDefault('received', 'yes');
             
             $this->add_action_buttons(true, get_string('buttoncontinued', 'block_application_request'));
 		}
