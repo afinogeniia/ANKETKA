@@ -35,6 +35,27 @@ function make_cohorts_array(){
 	return $scholarship_request_cohorts;
 }
 
+function make_cohorts_array_c(){
+	$scholarship_request_cohorts = array();
+	$scholarship_request_cohorts[0] = 'scholarship_request_educational_activities';
+	$scholarship_request_cohorts[1] = 'scholarship_request_research_activities';
+	$scholarship_request_cohorts[2] = 'scholarship_request_public_activities';
+	$scholarship_request_cohorts[3] = 'scholarship_request_culturalcreative_activities';
+	$scholarship_request_cohorts[4] = 'scholarship_request_sports_activities';
+	return $scholarship_request_cohorts;
+}
+
+function make_cohorts_array_d(){
+	$scholarship_request_cohorts = array();
+	$scholarship_request_cohorts[5] = 'scholarship_request_isop';
+	$scholarship_request_cohorts[6] = 'scholarship_request_ip';
+	$scholarship_request_cohorts[7] = 'scholarship_request_iu';
+	$scholarship_request_cohorts[8] = 'scholarship_request_igimp';
+	$scholarship_request_cohorts[9] = 'scholarship_request_ipip';
+	return $scholarship_request_cohorts;
+}
+
+
 
 function verification_group_membership_check ($userid)
 {
@@ -174,6 +195,32 @@ function committee_membership_check($userid){
 	return FALSE;
 }
 
+function committee_membership_check_c($userid){
+	global $DB;
+	$committee = make_cohorts_array_c();
+	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
+	$rows = $DB->get_records_sql($sql,[$userid]);
+	foreach($rows as $row){
+		if(!(array_search($row->name,$committee)===FALSE)){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+function committee_membership_check_d($userid){
+	global $DB;
+	$committee = make_cohorts_array_d();
+	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
+	$rows = $DB->get_records_sql($sql,[$userid]);
+	foreach($rows as $row){
+		if(!(array_search($row->name,$committee)===FALSE)){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
 function conversion_parametr_a ($activity)
 {
 	switch($activity)
@@ -186,47 +233,6 @@ function conversion_parametr_a ($activity)
 	}
 	return ($activity);
 }
-
-function conversion_parametr_k ($kurs)
-{
-	switch($kurs)
-	{
-		case 0: $kurs = 1; break;
-		case 1: $kurs = 2; break;
-		case 2: $kurs = 3; break;
-		case 3: $kurs = 4; break;
-		case 4: $kurs = 5; break;
-	}
-	return ($kurs);
-}
-
-function conversion_parametr_i ($institut)
-{
-	switch($institut)
-	{
-		case 0: $institut = "ИГИМП"; break;
-		case 1: $institut = "ИПИП"; break;
-		case 2: $institut = "ИП"; break;
-		case 3: $institut = "ИСОП"; break;
-		case 4: $institut = "ИЮ"; break;
-	}
-	return ($institut);
-}
-
-/*function conversion_parametr_i ($institut)
-{
-	switch($institut)
-	{
-		case 0: $institut = "Институт государственного и международного права"; break;
-		case 1: $institut = "Институт дополнительного образования"; break;
-		case 2: $institut = "Институт права и предпринимательства"; break;
-		case 3: $institut = "Институт прокуратуры"; break;
-		case 4: $institut = "Институт специальных образовательных программ"; break;
-		case 5: $institut = "Институт юстиции"; break;
-		case 6: $institut = "Институт довузовской подготовки"; break;
-	}
-	return ($institut);
-}*/
 
 function conversion_parametr_y ($yesno)
 {
@@ -440,6 +446,8 @@ function create_table_applicant_date(int $id){
 		$p = $item -> applicantemail;
 		$d = $item -> directionofactivity;
 		$iii = $item -> scholarshipholder;
+		$grade = $item->grade;
+		$status = $item->applicationstatus;
     }
 	$table->data[] = array ('Фамилия', $i);
 	//$table->data[] = array (get_string('lastname', block_anketka), $f);
@@ -460,6 +468,8 @@ function create_table_applicant_date(int $id){
 	$table->data[] = array ('Направление деятельности', $d);
 	//$table->data[] = array (get_string('type', block_anketka), $d);
 	$table->data[] = array ('Получали ли стипендию в прошлом семестре', $iii);
+	$table->data[] = array ('Средний балл', $grade);
+	$table->data[] = array ('Статус', resolve_status($status));
 	//$table->data[] = array (get_string('flag', block_anketka), $iii);
     return $table;    
 }
@@ -554,16 +564,14 @@ function render_checkandsend_page_bottom(int $applicationid){
 	.format_string( get_string('toreturn', 'block_application_request') )
     .html_writer::end_tag('button')
     .html_writer::end_tag( 'a' );
-    $data = $DB->get_record('block_app_request_applicants', array('id' => $applicationid), '*', MUST_EXIST);
 
-    //if(!is_null($data->itemid)){
-        echo html_writer::start_tag( 'a', array( 'href' => "./checkandsendconfirmd.php?id={$applicationid}" ) )
-        .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:35%' ) )
-        //.format_string( 'Отправить заявление в отборочную комиссию' )
-		.format_string( get_string('sendapplication', 'block_application_request') )
-        .html_writer::end_tag('button')
-        .html_writer::end_tag( 'a' );
-    //}
+	echo html_writer::start_tag( 'a', array( 'href' => "./checkandsendconfirmd.php?id={$applicationid}" ) )
+	.html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:35%' ) )
+	//.format_string( 'Отправить заявление в отборочную комиссию' )
+	.format_string( get_string('sendapplication', 'block_application_request') )
+	.html_writer::end_tag('button')
+	.html_writer::end_tag( 'a' );
+
     echo html_writer::start_tag( 'a', array( 'href' => "./view_applications_list.php" ) )
     .html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
     //.format_string( 'Отмена' )
@@ -613,6 +621,8 @@ function protection_unauthorized($data)
 	return $data;
 }
 
+
+
 //Получает название группы из файла csv
 function group_name ($codegroup)
 {
@@ -640,5 +650,11 @@ function group_name ($codegroup)
 			}
 	if ($k == 0) $namegroup = "*";
 	return ($namegroup);
-}			
+}
+
+function application_count($userid){
+	global $DB;
+	$data = $DB -> get_records_sql ('SELECT count(*) as c FROM {block_app_request_applicants} where applicantid=?', [$userid]);
+	return $data[2]->c;
+}
 ?>
