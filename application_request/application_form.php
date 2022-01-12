@@ -128,7 +128,6 @@ class application_request_application_form extends moodleform
 			$mform -> setDefault('firstname', $firstname);
             
 			$mform -> addElement('textarea', 'middlename', get_string('middlename', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');
-			$mform->addRule('middlename', get_string('required'), 'required', null, 'client');            
 			$mform -> setDefault('middlename', $middlename);
             
 			$mform -> addElement('textarea', 'lastname', get_string('lastname', 'block_application_request'), 'wrap="virtual" rows = "1" cols = "30"');

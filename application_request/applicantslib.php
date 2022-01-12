@@ -35,6 +35,27 @@ function make_cohorts_array(){
 	return $scholarship_request_cohorts;
 }
 
+function make_cohorts_array_c(){
+	$scholarship_request_cohorts = array();
+	$scholarship_request_cohorts[0] = 'scholarship_request_educational_activities';
+	$scholarship_request_cohorts[1] = 'scholarship_request_research_activities';
+	$scholarship_request_cohorts[2] = 'scholarship_request_public_activities';
+	$scholarship_request_cohorts[3] = 'scholarship_request_culturalcreative_activities';
+	$scholarship_request_cohorts[4] = 'scholarship_request_sports_activities';
+	return $scholarship_request_cohorts;
+}
+
+function make_cohorts_array_d(){
+	$scholarship_request_cohorts = array();
+	$scholarship_request_cohorts[5] = 'scholarship_request_isop';
+	$scholarship_request_cohorts[6] = 'scholarship_request_ip';
+	$scholarship_request_cohorts[7] = 'scholarship_request_iu';
+	$scholarship_request_cohorts[8] = 'scholarship_request_igimp';
+	$scholarship_request_cohorts[9] = 'scholarship_request_ipip';
+	return $scholarship_request_cohorts;
+}
+
+
 
 function verification_group_membership_check ($userid)
 {
@@ -164,6 +185,32 @@ function cohort_membership_check($userid,$cohort){
 function committee_membership_check($userid){
 	global $DB;
 	$committee = make_cohorts_array();
+	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
+	$rows = $DB->get_records_sql($sql,[$userid]);
+	foreach($rows as $row){
+		if(!(array_search($row->name,$committee)===FALSE)){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+function committee_membership_check_c($userid){
+	global $DB;
+	$committee = make_cohorts_array_c();
+	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
+	$rows = $DB->get_records_sql($sql,[$userid]);
+	foreach($rows as $row){
+		if(!(array_search($row->name,$committee)===FALSE)){
+			return TRUE;
+		}
+	}
+	return FALSE;
+}
+
+function committee_membership_check_d($userid){
+	global $DB;
+	$committee = make_cohorts_array_d();
 	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
 	$rows = $DB->get_records_sql($sql,[$userid]);
 	foreach($rows as $row){
@@ -399,6 +446,8 @@ function create_table_applicant_date(int $id){
 		$p = $item -> applicantemail;
 		$d = $item -> directionofactivity;
 		$iii = $item -> scholarshipholder;
+		$grade = $item->grade;
+		$status = $item->applicationstatus;
     }
 	$table->data[] = array ('Фамилия', $i);
 	//$table->data[] = array (get_string('lastname', block_anketka), $f);
@@ -419,6 +468,8 @@ function create_table_applicant_date(int $id){
 	$table->data[] = array ('Направление деятельности', $d);
 	//$table->data[] = array (get_string('type', block_anketka), $d);
 	$table->data[] = array ('Получали ли стипендию в прошлом семестре', $iii);
+	$table->data[] = array ('Средний балл', $grade);
+	$table->data[] = array ('Статус', resolve_status($status));
 	//$table->data[] = array (get_string('flag', block_anketka), $iii);
     return $table;    
 }
@@ -570,6 +621,8 @@ function protection_unauthorized($data)
 	return $data;
 }
 
+
+
 //Получает название группы из файла csv
 function group_name ($codegroup)
 {
@@ -597,5 +650,11 @@ function group_name ($codegroup)
 			}
 	if ($k == 0) $namegroup = "*";
 	return ($namegroup);
+}
+
+function application_count($userid){
+	global $DB;
+	$data = $DB -> get_records_sql ('SELECT count(*) as c FROM {block_app_request_applicants} where applicantid=?', [$userid]);
+	return $data[2]->c;
 }
 ?>
