@@ -427,14 +427,10 @@ function create_table_applicant_date(int $id){
     global $DB;
 	global $USER;
 	$data = $DB -> get_records_sql('SELECT * FROM {block_app_request_applicants} where id = ?',[$id]);
-	echo ('************************');
-	var_dump ($data);
     if(empty($data)){
         return NULL;
     }
-//$download = optional_param('download', '', PARAM_ALPHA);
     $table = new html_table();
-	//$table->is_downloading($download, 'test', 'testing123');
     $table->head = array('', '');
     
     foreach ($data as $item)
@@ -448,8 +444,6 @@ function create_table_applicant_date(int $id){
 		$t = $item -> applicantphone;
 		$p = $item -> applicantemail;
 		$d = $item -> directionofactivity;
-		echo ('_________________________');
-		echo ($d);
 		$iii = $item -> scholarshipholder;
 		$grade = $item->grade;
 		$status = $item->applicationstatus;
