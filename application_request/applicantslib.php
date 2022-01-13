@@ -2,6 +2,7 @@
 require_once (dirname(dirname(__DIR__)).'/config.php'); 
 require_once ($CFG->dirroot . '/lib/formslib.php');
 require_once ($CFG->dirroot . '/cohort/lib.php');
+require_once ($CFG->dirroot . '/lib/tablelib.php');
 
 function creating_cohorts_begin()
 {
@@ -430,7 +431,9 @@ function create_table_applicant_date(int $id){
     if(empty($data)){
         return NULL;
     }
+	$download = optional_param('download', '', PARAM_ALPHA);
     $table = new html_table();
+	$table->is_downloading($download, 'test', 'testing123');
     $table->head = array('', '');
     
     foreach ($data as $item)
@@ -655,5 +658,92 @@ function application_count($userid){
 	global $DB;
 	$data = $DB -> get_records_sql ('SELECT count(*) as c FROM {block_app_request_applicants} where applicantid=?', [$userid]);
 	return $data[2]->c;
+}
+
+class require_table implements renderable 
+{
+    
+    public function __construct() 
+	{
+
+        global $PAGE;
+
+    }
+
+    public function get_user_list() {
+        global $CFG, $SITE;
+
+        $courseid = $SITE->id;
+        if (!empty($this->course)) {
+            $courseid = $this->course->id;
+        }
+        $context = context_course::instance($courseid);
+        $limitfrom = empty($this->showusers) ? 0 : '';
+        $limitnum  = empty($this->showusers) ? COURSE_MAX_USERS_PER_DROPDOWN + 1 : '';
+        $courseusers = get_enrolled_users($context, '', $this->groupid, 'u.id, ' . get_all_user_name_fields(true, 'u'),
+                null, $limitfrom, $limitnum);
+
+        if (count($courseusers) < COURSE_MAX_USERS_PER_DROPDOWN && !$this->showusers) {
+            $this->showusers = 1;
+        }
+
+        $users = array();
+        if ($this->showusers) {
+            if ($courseusers) {
+                foreach ($courseusers as $courseuser) {
+                     $users[$courseuser->id] = fullname($courseuser, has_capability('moodle/site:viewfullnames', $context));
+                }
+            }
+            $users[$CFG->siteguest] = get_string('guestuser');
+        }
+        return $users;
+    }
+
+
+    public function setup_table() {
+        $readers = $this->get_readers();
+
+        $filter = new \stdClass();
+        if (!empty($this->course)) {
+            $filter->courseid = $this->course->id;
+        } else {
+            $filter->courseid = 0;
+        }
+
+        $filter->userid = $this->userid;
+        $filter->modid = $this->modid;
+        $filter->groupid = $this->get_selected_group();
+        $filter->logreader = $readers[$this->selectedlogreader];
+        $filter->edulevel = $this->edulevel;
+        $filter->action = $this->action;
+        $filter->date = $this->date;
+        $filter->orderby = $this->order;
+        $filter->origin = $this->origin;
+        // If showing site_errors.
+        if ('site_errors' === $this->modid) {
+            $filter->siteerrors = true;
+            $filter->modid = 0;
+        }
+
+        $this->tablelog = new report_log_table_log('report_log', $filter);
+        $this->tablelog->define_baseurl($this->url);
+        $this->tablelog->is_downloadable(true);
+        $this->tablelog->show_download_buttons_at(array(TABLE_P_BOTTOM));
+    }
+
+    /**
+     * Download logs in specified format.
+     */
+    public function download() {
+        $filename = 'logs_' . userdate(time(), get_string('backupnameformat', 'langconfig'), 99, false);
+        if ($this->course->id !== SITEID) {
+            $courseshortname = format_string($this->course->shortname, true,
+                    array('context' => context_course::instance($this->course->id)));
+            $filename = clean_filename('logs_' . $courseshortname . '_' . userdate(time(),
+                    get_string('backupnameformat', 'langconfig'), 99, false));
+        }
+        $this->tablelog->is_downloading($this->logformat, $filename);
+        $this->tablelog->out($this->perpage, false);
+    }
 }
 ?>

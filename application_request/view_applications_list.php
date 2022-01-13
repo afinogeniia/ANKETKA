@@ -2,8 +2,10 @@
 	require_once (dirname(dirname(__DIR__)).'/config.php'); 
 	
     require_once($CFG->dirroot.'/blocks/application_request/applicantslib.php');
-	
-require_once($CFG->libdir . '/outputcomponents.php');
+	//require_once ($CFG->dirroot . '/lib/tablelib.php');
+	require_once ($CFG->dirroot . '/lib/dataformatlib.php');
+	require_once($CFG->libdir . '/outputcomponents.php');
+	require_once($CFG->dirroot . '/report/log/classes/renderable.php');
 	global $PAGE;
 	global $USER;
 	
@@ -43,11 +45,10 @@ $PAGE->set_pagetype('my-index');
 echo $OUTPUT->header();	
 
 $data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where applicantid = ? order by id',[$USER->id]);
-
 if (!empty($data))
 {
-    $table = new html_table();
-    //$table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта', 'Документы','Статус','');
+    $download = optional_param('download', '', PARAM_ALPHA);
+	$table = new html_table();
     $table->head = array(get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
 	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),
 	get_string('documents', 'block_application_request'),get_string('status', 'block_application_request'),'');
@@ -70,10 +71,34 @@ if (!empty($data))
     }
     //echo $OUTPUT->heading('Ваши заявления', 2);
 	echo $OUTPUT->heading(get_string('yourapplication', 'block_application_request'), 2);
-    echo html_writer::table($table);
+    
+	
+	echo html_writer::table($table);
+	echo $OUTPUT -> download_dataformat_selector('Скачать данные из таблицы', 'download.php');
 }
 else 
 {
     echo '<li> Заявлений нет</li>';	
 }
-echo $OUTPUT->footer();		
+echo $OUTPUT->footer();
+
+
+
+
+/*$download = optional_param('download', '', PARAM_ALPHA);
+$table = new table_sql('uniquied');
+$table->is_downloading($download, 'test', 'testing123');
+
+if (!$table->is_downloading())
+{
+	
+	
+	echo $OUTPUT -> header();
+}
+$table->set_sql('*', "{user}", '1=1');
+$table->define_baseurl("$CFG->dirroot.'/blocks/application_request/view_applications_list.php'");
+$table->out(40, true);
+if (!$table->is_downloading())
+{
+	echo $OUTPUT->footer();
+}*/		
