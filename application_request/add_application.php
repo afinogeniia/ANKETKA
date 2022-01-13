@@ -62,9 +62,8 @@ if ($mform->is_cancelled()) {
 	$obj->applicantemail = protection_unauthorized ($data -> email);
     $obj->applicationstatus = 1;
     $obj->directionofactivity = $data -> activity;
-    $yesno = $data -> received;
-    $yesno = conversion_parametr_y ($yesno);
-    $obj->scholarshipholder = $yesno;
+       
+    $obj->scholarshipholder = $data -> selectyesno;
     if ($applicationid=='')
 	{		
 		$obj->applicationcreatedate = time();

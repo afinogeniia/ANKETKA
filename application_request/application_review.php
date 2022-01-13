@@ -22,25 +22,22 @@ if (isguestuser()) {
 $applicationid = optional_param('id', 0, PARAM_INT);
 $context = context_user::instance($USER->id);
 
-$PAGE->set_url('/blocks/application_request/application_review.php');
+$PAGE->set_url('/blocks/application_request/application_review.php?id={$applicationid}');
 $PAGE->set_context($context);
 $PAGE->set_heading(fullname($USER));
 $PAGE->set_pagelayout('standard');
 $PAGE->set_pagetype('my-index');
 
 echo $OUTPUT->header();	
-echo ('<b>Сведения о кандидате на получение повышенной государственной академической стипендии</b>');
 $data = $DB->get_record('block_app_request_applicants', array('id' => $applicationid), '*', MUST_EXIST);
-$table1 = create_table_applicant_date($applicationid);
-echo html_writer::table($table1);
+echo ('<b>Сведения о кандидате на получение повышенной государственной академической стипендии</b>');
+
+
 # TODO сделать красивое отображение данных заявления
 
 
-$table = create_table_doclist($applicationid,FALSE);	
-echo html_writer::table($table);
-echo html_writer::tag('a', 'скачать проект заявки для получения стипендии', array('href' => "./download_application_project.php?id={$applicationid}"));
 $flg_c = committee_membership_check_c($USER -> id);
-$flg_d = committee_membership_check_d($USER -> id);
+$flg_d = committee_membership_check_d($USER -> id,$data->applicantinstitute);
 if($flg_c&&$flg_d){
     $mform = new status_grade_form($applicationid,$data->applicationstatus,$data->grade);
     if ($mform->is_cancelled()) {
@@ -51,8 +48,12 @@ if($flg_c&&$flg_d){
         $data->applicationstatus = $mdata->applicationstatus;
         $data->grade = $mdata->grade;
         $DB->update_record('block_app_request_applicants', $data);
+        display_study_card_tables($applicationid);
+        display_study_card_bottom($applicationid);
         $mform->display();
     }else{
+        display_study_card_tables($applicationid);
+        display_study_card_bottom($applicationid);
         $mform->display();
     }
 
@@ -62,14 +63,16 @@ if($flg_c&&$flg_d){
         //Handle form cancel operation, if cancel button is present on form
         redirect('./viewing_table_applicants.php');
     } else if ($mdata = $mform->get_data()) {
-    $mform = new status_form($applicationid,$data->applicationstatus);
+        $mform = new status_form($applicationid,$data->applicationstatus);
         $data->applicationstatus = $mdata->applicationstatus;
         $DB->update_record('block_app_request_applicants', $data);
+        display_study_card_tables($applicationid);
         $mform->display();
     }else{
+        display_study_card_tables($applicationid);
         $mform->display();
     }
-}else{
+}elseif($flg_d){
     $mform = new grade_form($applicationid,$data->grade);
     if ($mform->is_cancelled()) {
         //Handle form cancel operation, if cancel button is present on form
@@ -78,10 +81,16 @@ if($flg_c&&$flg_d){
         $mform = new grade_form($applicationid,$data->grade);
         $data->grade = $mdata->grade;
         $DB->update_record('block_app_request_applicants', $data);
-        $mform->display();
+        display_study_card_tables($applicationid);
+        display_study_card_bottom($applicationid);
+        
     }else{
+        display_study_card_tables($applicationid);
+        display_study_card_bottom($applicationid);
         $mform->display();
     }
 
+}else{
+    redirect('./viewing_table_applicants.php');
 }
 echo $OUTPUT->footer();

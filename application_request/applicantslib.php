@@ -208,13 +208,20 @@ function committee_membership_check_c($userid){
 	return FALSE;
 }
 
-function committee_membership_check_d($userid){
+function committee_membership_check_d($userid,$dekanat){
 	global $DB;
 	$committee = make_cohorts_array_d();
+	$opt = array(
+		'ИГИМП' => 'scholarship_request_igimp',
+		'ИПИП' => 'scholarship_request_ipip',
+		'ИП' => 'scholarship_request_ipip',
+		'ИСОП' => 'scholarship_request_isop',
+		'ИЮ' => 'scholarship_request_iu');
+	
 	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
 	$rows = $DB->get_records_sql($sql,[$userid]);
 	foreach($rows as $row){
-		if(!(array_search($row->name,$committee)===FALSE)){
+		if($row->name==$opt[$dekanat]){
 			return TRUE;
 		}
 	}
@@ -449,7 +456,7 @@ function create_table_applicant_date(int $id){
 		$grade = $item->grade;
 		$status = $item->applicationstatus;
     }
-	$table->data[] = array ('Фамилия', $i);
+	$table->data[] = array ('Фамилия', $f);
 	//$table->data[] = array (get_string('lastname', block_anketka), $f);
 	$table->data[] = array ('Имя', $i);
 	//$table->data[] = array (get_string('firstname', block_anketka), $i);
@@ -654,7 +661,51 @@ function group_name ($codegroup)
 
 function application_count($userid){
 	global $DB;
-	$data = $DB -> get_records_sql ('SELECT count(*) as c FROM {block_app_request_applicants} where applicantid=?', [$userid]);
-	return $data[2]->c;
+	$data = $DB -> get_records_sql ('SELECT count(*) as c FROM {block_app_request_applicants} where applicantid=? and applicationstatus<>1', [$userid]);
+	foreach ($data as $item){
+		return $item->c;
+	}
+	return null;
 }
+
+function get_study_card($applicationid){
+	global $DB;
+	try{
+		$data = $DB->get_record('block_app_request_documents', array('applicationid' => $applicationid,'achievement'=>'Учебная карточка'), '*', MUST_EXIST);
+	}catch(Exception $e){
+		return -1;
+	}
+	
+	if(!empty($data)){
+		return $data->id;
+	}
+	return -1;
+}
+
+function display_study_card_bottom($applicationid){
+	$study_card_id = get_study_card($applicationid);
+	if($study_card_id==-1){
+		echo html_writer::start_tag( 'a', array( 'href' => "./upload_study_card.php?id={$applicationid}&action=ADD" ) )
+		.html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
+		.format_string( 'Добавить учебную карточку' )
+		.html_writer::end_tag('button')
+		.html_writer::end_tag( 'a' );
+	}else{
+		echo html_writer::start_tag( 'a', array( 'href' => "./upload_study_card_del.php?id={$applicationid}&docid={$study_card_id}" ) )
+		.html_writer::start_tag( 'button', array( 'type' => 'button', 'class' => 'btn btn-primary', 'style' =>'margin:3%; width:20%' ) )
+		.format_string( 'Удалить учебную карточку' )
+		.html_writer::end_tag('button')
+		.html_writer::end_tag( 'a' );
+	}
+
+}
+function display_study_card_tables($applicationid){
+	$table1 = create_table_applicant_date($applicationid);
+	echo html_writer::table($table1);
+	$table = create_table_doclist($applicationid,FALSE);	
+	echo html_writer::table($table);
+	echo html_writer::tag('a', 'скачать проект заявки для получения стипендии', array('href' => "./download_application_project.php?id={$applicationid}"));
+}
+
+
 ?>
