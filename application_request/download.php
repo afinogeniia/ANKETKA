@@ -3,7 +3,7 @@
 require_once ("../../config.php");
 require_once ("../../lib/dataformatlib.php");
 
-function require_table_download()
+/*function require_table_download()
 {
 	global $DB;
 	
@@ -40,10 +40,10 @@ function require_table_download()
 		}
 	}
 		return $rs;
-}
+}*/
 	
 	
-	$dataformat = optional_parm('dataformat', '', PARAM_ALPHA);
+	$dataformat = optional_param('dataformat', '', PARAM_ALPHA);
 	$columns = array(
 	get_string('fio', 'block_application_request'),
 	get_string('institute', 'block_application_request'), 
@@ -52,8 +52,17 @@ function require_table_download()
 	get_string('documents', 'block_application_request'),
 	get_string('status', 'block_application_request')
 	);
-		$rs = require_table_download();
-		download_as_dataformat('myfilename', $dataformat, $columns, $rs);
+		$rs = array(
+		['1', '2', '3', '4', '5', '6'],
+		['21', '22', '23', '24', '25', '26'],
+		['31', '32', '33', '34', '35', '36'],
+		['41', '42', '43', '44', '45', '46'],
+		['51', '52', '53', '54', '55', '56'],
+		['71', '72', '73', '74', '75', '76']);
+		
+		
+		\core\dataformat::download_data('myfilename', $dataformat, $columns, $rs); 
+		//download_as_dataformat('myfilename', $dataformat, $columns, $rs);
 
 
 
