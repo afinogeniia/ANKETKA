@@ -431,9 +431,9 @@ function create_table_applicant_date(int $id){
     if(empty($data)){
         return NULL;
     }
-	$download = optional_param('download', '', PARAM_ALPHA);
+	//$download = optional_param('download', '', PARAM_ALPHA);
     $table = new html_table();
-	$table->is_downloading($download, 'test', 'testing123');
+	//$table->is_downloading($download, 'test', 'testing123');
     $table->head = array('', '');
     
     foreach ($data as $item)
@@ -615,6 +615,27 @@ function render_docs_list(int $id,int $itemid=null,int $contextid=null){
 
 }
 
+function render_docs_list1(int $id,int $itemid=null,int $contextid=null){
+    $out = array();
+    global $DB;
+    /*if(!empty($itemid)){
+        $url = make_file_url($contextid,$itemid);
+        //$out[] = html_writer::link($url, 'Заявление на стипенидию');
+		$out[] = html_writer::link($url, get_string('scholarshipapplication', 'block_application_request'));
+
+    }*/
+    $data = $DB -> get_records_sql('SELECT * FROM {block_app_request_documents} where applicationid = ? order by supportingdocument',[$id]);
+    foreach($data as $item){
+        $url = make_file_url($item->contextid,$item->itemid);
+        //$out[] = html_writer::link($url, $item->supportingdocument);
+		$out[] = $item->supportingdocument;
+    }
+    //$br = html_writer::empty_tag(';  ');
+	$br = ';  ';
+    return implode($br,$out);
+
+}
+
 function protection_unauthorized($data)
 {
 	$data = trim($data);
@@ -654,10 +675,19 @@ function group_name ($codegroup)
 	return ($namegroup);
 }
 
-function application_count($userid){
+/*function application_count($userid){
 	global $DB;
 	$data = $DB -> get_records_sql ('SELECT count(*) as c FROM {block_app_request_applicants} where applicantid=?', [$userid]);
 	return $data[2]->c;
+}*/
+
+function application_count($userid){
+	global $DB;
+	$data = $DB -> get_records_sql ('SELECT count(*) as c FROM {block_app_request_applicants} where applicantid=? and applicationstatus<>1', [$userid]);
+	foreach ($data as $item){
+		return $item->c;
+	}
+	return null;
 }
 
 class require_table implements renderable 
@@ -745,5 +775,38 @@ class require_table implements renderable
         $this->tablelog->is_downloading($this->logformat, $filename);
         $this->tablelog->out($this->perpage, false);
     }
+}
+
+function require_table_download ($u)
+{
+	global $DB;
+	global $USER;
+	
+	$k1 = verification_group_membership ($u);
+	$data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where ((applicationstatus<>1)
+									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
+									OR directionofactivity = ? OR directionofactivity = ?) OR 
+									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
+									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k1);
+
+	$sv = array();
+	if (!empty($data))
+	{
+		foreach ($data as $item)
+		{
+			$f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
+			$k = $item -> applicantinstitute;
+			$y = $item -> applicantphone;
+			$m = $item -> applicantemail;
+			$grade = $item -> grade;
+			$app_count = application_count($item->applicantid);
+			$direct = $item -> directionofactivity;
+			$d = date('d.m.y', $item->applicationsenddate);
+			$docs = render_docs_list1($item->id,$item->itemid,$item->contextid);
+			$status = resolve_status($item -> applicationstatus);
+			$sv[] = array ($f, $k, $y, $m, $direct, $d, $docs, $grade, $app_count, $status);
+		}
+	}
+	return $sv;
 }
 ?>
