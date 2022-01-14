@@ -36,7 +36,7 @@ echo ('<b>Сведения о кандидате на получение пов�
 # TODO сделать красивое отображение данных заявления
 
 
-$flg_c = committee_membership_check_c($USER -> id);
+$flg_c = committee_membership_check_c($USER -> id,$data->directionofactivity);
 $flg_d = committee_membership_check_d($USER -> id,$data->applicantinstitute);
 if($flg_c&&$flg_d){
     $mform = new status_grade_form($applicationid,$data->applicationstatus,$data->grade);

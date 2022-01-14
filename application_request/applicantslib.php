@@ -195,13 +195,18 @@ function committee_membership_check($userid){
 	return FALSE;
 }
 
-function committee_membership_check_c($userid){
+function committee_membership_check_c($userid,$directionofactivity){
 	global $DB;
-	$committee = make_cohorts_array_c();
+	$opt = array(
+		'учебная деятельность' => 'scholarship_request_educational_activities',
+		'научно-исследовательская деятельность' => 'scholarship_request_research_activities',
+		'общественная деятельность' => 'scholarship_request_public_activities',
+		'культурно-творческая деятельность' => 'scholarship_request_culturalcreative_activities',
+		'спортивная деятельность' => 'scholarship_request_sports_activities');
 	$sql = 'SELECT c.name FROM {cohort} as c INNER JOIN {cohort_members} AS cm ON c.id=cm.cohortid WHERE cm.userid = ?';
 	$rows = $DB->get_records_sql($sql,[$userid]);
 	foreach($rows as $row){
-		if(!(array_search($row->name,$committee)===FALSE)){
+		if($row->name==$opt[$directionofactivity]){
 			return TRUE;
 		}
 	}
@@ -210,7 +215,6 @@ function committee_membership_check_c($userid){
 
 function committee_membership_check_d($userid,$dekanat){
 	global $DB;
-	$committee = make_cohorts_array_d();
 	$opt = array(
 		'ИГИМП' => 'scholarship_request_igimp',
 		'ИПИП' => 'scholarship_request_ipip',
@@ -400,15 +404,23 @@ function create_application_print(int $id){
 
 function create_table_doclist(int $id,bool $dellnk=TRUE){
     global $DB;
+	global $USER;
     $data = $DB -> get_records_sql('SELECT * FROM {block_app_request_documents} where applicationid = ? order by supportingdocument',[$id]);
     if(empty($data)){
         return NULL;
     }
-
+	$data1 = $DB->get_record('block_app_request_applicants', array('id' => $id), '*', MUST_EXIST);
     $table = new html_table();
     //$table->head = array('Достижение', 'Подтвержающий документ', 'Дата документа','Скачать', '');
-	$table->head = array(get_string('achievement', 'block_application_request'), get_string('confirmation', 'block_application_request'),
-						 get_string('documentdate', 'block_application_request'), get_string('download', 'block_application_request'), '');
+	if($dellnk){
+		$table->head = array(get_string('achievement', 'block_application_request'), get_string('confirmation', 'block_application_request'),
+			get_string('documentdate', 'block_application_request'), get_string('download', 'block_application_request'), '');
+	}else{
+		$table->head = array(get_string('achievement', 'block_application_request'), get_string('confirmation', 'block_application_request'),
+			get_string('documentdate', 'block_application_request'), get_string('download', 'block_application_request'),'Балл', '');
+
+	}
+	$grade_sum = 0.0;
     
     foreach ($data as $item)
     {
@@ -417,16 +429,30 @@ function create_table_doclist(int $id,bool $dellnk=TRUE){
         $y = $item -> documentdate;
         $itemid = $item->itemid;
         $contextid = $item->contextid;
+		$grade = $item->grade===null? 0 : $item->grade;
+		$grade_sum = $grade_sum+$grade;
+
         $link = display_files($contextid,$itemid);
 		if($dellnk){
 			$del = html_writer::start_tag( 'a', array( 'href' => "./upload_documents_del.php?id={$id}&docid={$item->id}" ) )
             .format_string( get_string('delete', 'block_application_request') )
             .html_writer::end_tag( 'a' );
+			$table->data[] = array ($f, $k, $y, $link,$del);
+		}elseif(committee_membership_check_c($USER->id,$data1->directionofactivity)){
+			$del = html_writer::start_tag( 'a', array( 'href' => "./upload_documents_grade.php?id={$id}&docid={$item->id}" ) )
+            .format_string('Оценить')
+            .html_writer::end_tag( 'a' );
+			$table->data[] = array ($f, $k, $y, $link,$grade,$del);
 		}else{
 			$del = "";
+			$table->data[] = array ($f, $k, $y, $link,$grade,$del);
 		}
-        $table->data[] = array ($f, $k, $y, $link,$del);
+        
     }
+	if(!$dellnk){
+		$table->data[] = array ("", "", "", "<b>Итого</b>",$grade_sum,"");
+	}
+
     return $table;    
 }
 
@@ -707,5 +733,13 @@ function display_study_card_tables($applicationid){
 	echo html_writer::tag('a', 'скачать проект заявки для получения стипендии', array('href' => "./download_application_project.php?id={$applicationid}"));
 }
 
-
+function nsn001_check($userid){
+	global $DB;
+	try{
+        $user_obj = $DB -> get_record('user', array('username' => "admin",'id'=>$userid), '*', MUST_EXIST);
+    }catch(Exception $e){
+        return FALSE;
+    }
+	return TRUE;
+}
 ?>
