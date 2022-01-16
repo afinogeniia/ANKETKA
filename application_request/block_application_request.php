@@ -65,9 +65,9 @@ class block_application_request extends block_list
 		if(committee_membership_check($USER -> id)){
 			$this -> content -> items[] = html_writer::tag('a', 'Сводная таблица данных о студентах', array('href' => '../blocks/application_request/viewing_table_applicants.php'));			
 		}	
-		if(nsn001_check($USER -> id)){
-			$this -> content -> items[] = html_writer::tag('a', 'Добавить студентов в группу доступа', array('href' => '../blocks/application_request/add_students.php'));			
-		}	
+#		if(nsn001_check($USER -> id)){
+#	$this -> content -> items[] = html_writer::tag('a', 'Добавить студентов в группу доступа', array('href' => '../blocks/application_request/add_students.php'));			
+#		}	
 		return $this -> content;	
 	}
 
