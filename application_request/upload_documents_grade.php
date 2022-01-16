@@ -49,10 +49,10 @@ if ($mform->is_cancelled()) {
     //Handle form cancel operation, if cancel button is present on form
     redirect("./application_review.php?id={$applicationid}");
 } else if ($mdata = $mform->get_data()) {
-    var_dump($mdata);
-    $obj->grade = $mdata->grade;
-    $DB->update_record('block_app_request_documents', $obj);
-    #redirect("./application_review.php?id={$applicationid}");
+    # TODO: Вставить проверки
+    $sql = "update {block_app_request_documents} set grade={$mdata->grade} where id={$docid}";
+    $DB->execute($sql);
+    redirect("./application_review.php?id={$applicationid}");
 }else{
     $mform->display();
 }    

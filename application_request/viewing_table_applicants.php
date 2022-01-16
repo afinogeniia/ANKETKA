@@ -67,6 +67,7 @@ if (!empty($data))
 
 	echo $OUTPUT->heading(get_string('yourapplication', 'block_application_request'), 2);
     echo html_writer::table($table);
+	echo $OUTPUT -> download_dataformat_selector('Скачать данные из таблицы', 'download.php');
 }
 
 	else echo '<li> соискателей пока нет </li>';	

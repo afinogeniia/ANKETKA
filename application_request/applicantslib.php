@@ -3,6 +3,7 @@ require_once (dirname(dirname(__DIR__)).'/config.php');
 require_once ($CFG->dirroot . '/lib/formslib.php');
 require_once ($CFG->dirroot . '/cohort/lib.php');
 
+
 function creating_cohorts_begin()
 {
 	$scholarship_request_cohorts = array();
@@ -429,7 +430,7 @@ function create_table_doclist(int $id,bool $dellnk=TRUE){
         $y = $item -> documentdate;
         $itemid = $item->itemid;
         $contextid = $item->contextid;
-		$grade = $item->grade===null? 0 : $item->grade;
+		$grade = $item->grade===null? 0 : $item->grade+0;
 		$grade_sum = $grade_sum+$grade;
 
         $link = display_files($contextid,$itemid);
@@ -742,4 +743,59 @@ function nsn001_check($userid){
     }
 	return TRUE;
 }
+
+function require_table_download ($u)
+{
+	global $DB;
+	global $USER;
+	
+	$k1 = verification_group_membership ($u);
+	$data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where ((applicationstatus<>1)
+									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
+									OR directionofactivity = ? OR directionofactivity = ?) OR 
+									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
+									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k1);
+
+	$sv = array();
+	if (!empty($data))
+	{
+		foreach ($data as $item)
+		{
+			$f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
+			$k = $item -> applicantinstitute;
+			$y = $item -> applicantphone;
+			$m = $item -> applicantemail;
+			$grade = $item -> grade;
+			$app_count = application_count($item->applicantid);
+			$direct = $item -> directionofactivity;
+			$d = date('d.m.y', $item->applicationsenddate);
+			$docs = render_docs_list1($item->id,$item->itemid,$item->contextid);
+			$status = resolve_status($item -> applicationstatus);
+			$sv[] = array ($f, $k, $y, $m, $direct, $d, $docs, $grade, $app_count, $status);
+		}
+	}
+	return $sv;
+}
+
+function render_docs_list1(int $id,int $itemid=null,int $contextid=null){
+    $out = array();
+    global $DB;
+    /*if(!empty($itemid)){
+        $url = make_file_url($contextid,$itemid);
+        //$out[] = html_writer::link($url, 'Заявление на стипенидию');
+		$out[] = html_writer::link($url, get_string('scholarshipapplication', 'block_application_request'));
+
+    }*/
+    $data = $DB -> get_records_sql('SELECT * FROM {block_app_request_documents} where applicationid = ? order by supportingdocument',[$id]);
+    foreach($data as $item){
+        $url = make_file_url($item->contextid,$item->itemid);
+        //$out[] = html_writer::link($url, $item->supportingdocument);
+		$out[] = $item->supportingdocument;
+    }
+    //$br = html_writer::empty_tag(';  ');
+	$br = ';  ';
+    return implode($br,$out);
+
+}
+
 ?>
