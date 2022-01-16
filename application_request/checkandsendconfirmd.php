@@ -50,7 +50,7 @@ if ($action == 'SEND' ) {
     redirect($CFG->wwwroot . '/blocks/application_request/view_applications_list.php');    
     }
     
-    echo $OUTPUT->confirm( format_string( "Вы уверены, что хотите отправить заявку" ),
+    echo $OUTPUT->confirm( format_string( "Вы уверены, что хотите отправить заявку?" ),
             "checkandsendconfirmd.php?id={$applicationid}&action=SEND", "./checkandsend.php?id={$applicationid}" );
 
     echo $OUTPUT->footer();

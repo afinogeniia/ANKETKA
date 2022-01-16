@@ -61,6 +61,7 @@ if (!empty($data))
         $status = resolve_status($item->applicationstatus);
         if($item->applicationstatus<3){
             $link = html_writer::tag('a', 'Edit', array('href' => '/blocks/application_request/add_application.php?id='.$item->id));
+            $link .="|". html_writer::tag('a', 'Delete', array('href' => '/blocks/application_request/application_del.php?id='.$item->id));
         }
         else{
             $link = '';

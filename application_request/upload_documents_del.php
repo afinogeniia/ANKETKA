@@ -78,7 +78,7 @@ if ($action == 'DELETE' ) {
     redirect("./upload_documents.php?id={$applicationid}");    
     }
     
-echo $OUTPUT->confirm( format_string( "Вы уверены, что хотите удалить заявку" ),
+echo $OUTPUT->confirm( format_string( "Вы уверены, что хотите удалить достижение?" ),
     "upload_documents_del.php?id={$applicationid}&docid={$docid}&action=DELETE", "./upload_documents.php?id={$applicationid}" );
 
 echo $OUTPUT->footer();
