@@ -1,10 +1,7 @@
 <?php
-
 require_once ("../../config.php");
 require_once ("../../lib/dataformatlib.php");
 require_once($CFG->dirroot.'/blocks/application_request/applicantslib.php');
-
-
 	
 	$dataformat = optional_param('dataformat', '', PARAM_ALPHA);
 	$columns = array(
@@ -19,5 +16,5 @@ require_once($CFG->dirroot.'/blocks/application_request/applicantslib.php');
 	"Кол. заявлений",
 	'Статус');		
 		$sv = require_table_download ($USER->id);
-		\core\dataformat::download_data('myfilename', $dataformat, $columns, $sv); 
+		\core\dataformat::download_data('tableapplicants', $dataformat, $columns, $sv); 
 		//download_as_dataformat('myfilename', $dataformat, $columns, $rs);
