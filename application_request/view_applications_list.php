@@ -48,7 +48,7 @@ if (!empty($data))
 {
     $table = new html_table();
     //$table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта', 'Документы','Статус','');
-    $table->head = array('Номер заявления'get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
+    $table->head = array('Номер заявления', get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
 	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),
 	get_string('documents', 'block_application_request'),get_string('status', 'block_application_request'),'');
     foreach ($data as $item)
