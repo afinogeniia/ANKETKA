@@ -48,12 +48,13 @@ if (!empty($data))
 {
     $table = new html_table();
     //$table->head = array('Фамилия, имя, отчество', 'Институт', 'Телефон','Почта', 'Документы','Статус','');
-    $table->head = array(get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
+    $table->head = array('Номер заявления'get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
 	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),
 	get_string('documents', 'block_application_request'),get_string('status', 'block_application_request'),'');
     foreach ($data as $item)
     {
-        $f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
+        $nomer = $item -> id;
+		$f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
         $k = $item -> applicantinstitute;
         $y = $item -> applicantphone;
         $m = $item -> applicantemail;
@@ -67,7 +68,7 @@ if (!empty($data))
             $link = '';
         }
         
-        $table->data[] = array ($f, $k, $y, $m,$docs,$status,$link);
+        $table->data[] = array ($nomer, $f, $k, $y, $m,$docs,$status,$link);
     }
     //echo $OUTPUT->heading('Ваши заявления', 2);
 	echo $OUTPUT->heading(get_string('yourapplication', 'block_application_request'), 2);
