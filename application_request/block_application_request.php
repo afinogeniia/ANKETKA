@@ -57,7 +57,7 @@ class block_application_request extends block_list
 		$this -> content->text = '';
 		$this -> content -> items = array();
 		if (student_membership_check($USER -> id)){
-			//$this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/application_request/add_application.php'));
+			$this -> content -> items[] = html_writer::tag('a', 'Создать заявку для получения повышенной стипендии', array('href' => '../blocks/application_request/add_application.php'));
 			if (is_application_exists()){
 				$this -> content -> items[] = html_writer::tag('a', 'Посмотреть существующие заявки на получение повышенной стипендии', array('href' => '../blocks/application_request/view_applications_list.php'));
 			}
