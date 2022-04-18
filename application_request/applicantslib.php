@@ -470,7 +470,8 @@ function create_table_applicant_date(int $id){
     
     foreach ($data as $item)
     {
-        $f = $item -> applicantlastname;
+        $number = $item -> id;
+		$f = $item -> applicantlastname;
 		$i = $item -> applicantname;
 		$o = $item -> applicantmiddlename;
 		$ii = $item -> applicantinstitute;
@@ -483,6 +484,7 @@ function create_table_applicant_date(int $id){
 		$grade = $item->grade;
 		$status = $item->applicationstatus;
     }
+	$table->data[] = array ('Номер заявления', $number);
 	$table->data[] = array ('Фамилия', $f);
 	//$table->data[] = array (get_string('lastname', block_anketka), $f);
 	$table->data[] = array ('Имя', $i);
