@@ -44,13 +44,14 @@ $data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} wh
 if (!empty($data))
 {
     $table = new html_table();
-    $table->head = array(get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
+    $table->head = array('Номер', get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
 	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),'Направление',
 	get_string('date', 'block_application_request'), get_string('documents', 'block_application_request'),'Средний балл',"Кол. заявлений",'Статус');
     
     foreach ($data as $item)
     {
-        $f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
+        $number = $item -> id;
+		$f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
 		$f = html_writer::tag('a', $f, array('href' => 'application_review.php?id='.$item->id));
         $k = $item -> applicantinstitute;
         $y = $item -> applicantphone;
@@ -61,7 +62,7 @@ if (!empty($data))
 		$d = date('d.m.y', $item->applicationsenddate);
 		$docs = render_docs_list($item->id,$item->itemid,$item->contextid);
 		$status = resolve_status($item -> applicationstatus);
-        $table->data[] = array ($f, $k, $y, $m,$direct,$d, $docs,$grade,$app_count,$status);
+        $table->data[] = array ($number, $f, $k, $y, $m,$direct,$d, $docs,$grade,$app_count,$status);
 		
     }
 
