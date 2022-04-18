@@ -2,6 +2,7 @@
 	require_once (dirname(dirname(__DIR__)).'/config.php'); 
 	require_once($CFG->libdir . '/outputcomponents.php');
 	require_once($CFG->dirroot .'/blocks/application_request/applicantslib.php');
+	require_once($CFG->dirroot.'/blocks/application_request/time_sort_application_form.php');
 	global $PAGE;
 require_login();
 
@@ -33,13 +34,87 @@ $PAGE->set_pagelayout('standard');
 
 $PAGE->set_pagetype('my-index');
 
-echo $OUTPUT->header();	
-$k = verification_group_membership ($USER->id);
+echo $OUTPUT->header();
+echo ('**********************');
+$mform = new time_sort_application_form();
+$datas = $mform->get_data();
+$mform->display();
+echo ('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+var_dump ($datas);
+if ($datas === NULL)
+{
+	echo ('Выберите интересующий Вас период подачи заявлений');
+}
+else
+{
+echo ($datas -> assesstimestart);
+$taim = $datas -> assesstimestart;
+$k = verification_group_membership_grant ($USER->id);
+// Массив ссылок для сортировки
+		$sort_list = array(
+		'fio_asc' => '`applicantlastname`',
+		'fio_desc' => '`applicantlastname` DESC',
+		'inst_asc' => '`applicantinstitute`',
+		'inst_desc' => '`applicantinstitute` DESC',
+		'napr_asc' => '`directionofactivity`',
+		'napr_desc' => '`ditectionofactivity` DESC',
+		);
+
+// Проверка переменной GET		
+		$sort = @$_GET['sort'];
+		if (array_key_exists($sort, $sort_list))
+		{
+			$sort_sql = $sort_list[$sort];
+		}
+			else
+			{
+				$sort_sql = reset($sort_list);
+			}
+// Функция вывода ссылок для сортировки			
+			function sort_link_bar($title, $a, $b)
+			{
+				$sort = @$_GET['sort'];
+				if ($sort == $a)
+				{
+					return '<a class="active" href="?sort=' . $b . '">' . $title .'   '. ' <i>↑</i></a>';
+				}
+					elseif ($sort == $b)
+					{
+						return '<a class="active" href="?sort=' . $a . '">' . $title .'   '. ' <i>↓</i></a>';
+					}
+						else
+						{
+							return '<a href="?sort=' . $a . '">' . $title .'   '. '</a>';
+						}
+			}
+			
+echo '<div class="sort-bar">';
+echo '<div class="sort-bar-title">Сортировать по:</div>';
+echo '<div class="sort-bar-list">';
+echo sort_link_bar ('Фамилия, имя, отчество  ', 'fio_asc', 'fio_desc');
+echo sort_link_bar ('Институт  ', 'inst_asc', 'inst_desc');
+echo sort_link_bar ('Направление  ', 'napr_asc', 'napr_desc');
+echo '</div></div>';
+$sort = @$_GET['sort'];
+if (array_key_exists($sort, $sort_list))
+{
+	$sort_sql = $sort_list[$sort];
+}
+else 
+{
+	$sort_sql = reset($sort_list);
+}
+echo ('__________________________');
+var_dump($k);
+$k["taim"] = $taim;
+echo ('))))))))))))))))))))))))))))))))))');
+var_dump ($k);
+//$k = verification_group_membership ($USER->id);
 $data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where ((applicationstatus<>1)
 									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
 									OR directionofactivity = ? OR directionofactivity = ?) OR 
 									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
-									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k);
+									OR applicantinstitute = ? OR applicantinstitute = ?))) AND (applicationsenddate > ?)', $k, $sort_sql, '*');
 
 if (!empty($data))
 {
@@ -71,5 +146,6 @@ if (!empty($data))
 	echo $OUTPUT -> download_dataformat_selector('Скачать данные из таблицы', 'download.php');
 }
 
-	else echo '<li> соискателей пока нет </li>';	
+	else echo '<li> соискателей пока нет </li>';
+}	
 echo $OUTPUT->footer();		
