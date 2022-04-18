@@ -49,7 +49,7 @@ else
 {
 echo ($datas -> assesstimestart);
 $taim = $datas -> assesstimestart;
-$k = verification_group_membership_grant ($USER->id);
+$k = verification_group_membership ($USER->id);
 // Массив ссылок для сортировки
 		$sort_list = array(
 		'fio_asc' => '`applicantlastname`',
@@ -109,7 +109,6 @@ var_dump($k);
 $k["taim"] = $taim;
 echo ('))))))))))))))))))))))))))))))))))');
 var_dump ($k);
-//$k = verification_group_membership ($USER->id);
 $data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where ((applicationstatus<>1)
 									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
 									OR directionofactivity = ? OR directionofactivity = ?) OR 
