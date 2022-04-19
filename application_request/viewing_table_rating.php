@@ -82,14 +82,19 @@ if (!empty($data))
 		else return 1;
 }*/
 
-usort ($cult_creat, 'sorting_array_elements');
-usort ($sport, 'sorting_array_elements');
-usort ($publ, 'sorting_array_elements');
-usort ($scien_res, 'sorting_array_elements');
-usort ($educ, 'sorting_array_elements');
+if (isset($cult_creat)){usort ($cult_creat, 'sorting_array_elements'); $razm_cult_creat = count ($cult_creat);} 
+	else $razm_cult_creat = 0;
+if (isset($sport)){usort ($sport, 'sorting_array_elements'); $razm_sport = count ($sport);}
+	else $razm_sport = 0;
+if (isset($publ)) {usort ($publ, 'sorting_array_elements'); $razm_publ = count ($publ);}
+	else $razm_publ = 0;
+if (isset($scien_res)) {usort ($scien_res, 'sorting_array_elements'); $razm_scien_res = count ($scien_res);}
+	else $razm_scien_res = 0;
+if (isset($educ)) {usort ($educ, 'sorting_array_elements'); $razm_educ = count ($educ);}
+	else $razm_educ = 0;
 
-$quantity = max(count($cult_creat), count($sport), count($publ), count($scien_res), count($educ));
-
+//$quantity = max(count($cult_creat), count($sport), count($publ), count($scien_res), count($educ));
+$quantity = max($razm_cult_creat, $razm_sport, $razm_publ, $razm_scien_res, $razm_educ);
 $table = new html_table();
 	$table->head = array ('Учебная', 'деятельность', 'Научно-исследовтельская', 'деятельность',
 						  'Общественная', 'деятельность', 'Культурно-творческая', 'деятельность',
