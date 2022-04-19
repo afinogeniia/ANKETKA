@@ -35,7 +35,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_pagetype('my-index');
 
 echo $OUTPUT->header();
-echo ('**********************');
+//echo ('**********************');
 //$mform = new time_sort_application_form();
 //$datas = $mform->get_data();
 //$mform->display();
