@@ -1,6 +1,6 @@
 <?php
 	require_once (dirname(dirname(__DIR__)).'/config.php'); 
-	require_once($CFG->dirroot.'/blocks/grant_proposals/applicantslib.php');
+	require_once($CFG->dirroot.'/blocks/application_request/applicantslib.php');
 	require_once($CFG->libdir . '/outputcomponents.php');
 	
 	global $PAGE;
@@ -18,7 +18,7 @@ if (isguestuser()) {
 $returnurl = optional_param('returnurl', '', PARAM_LOCALURL);
 
 if (empty($returnurl)) {
-    $returnurl = new moodle_url('/blocks/grant_proposals/view_applications_list.php');
+    $returnurl = new moodle_url('/blocks/application_request/view_applications_list.php');
 }
 
 
@@ -30,7 +30,7 @@ require_capability('moodle/user:manageownfiles', $context);
 $title = get_string('privatefiles');
 $struser = get_string('user');
 
-$PAGE->set_url('/blocks/grant_proposals/view_application_list.php');
+$PAGE->set_url('/blocks/application_request/view_application_list.php');
 $PAGE->set_context($context);
 $PAGE->set_title($title);
 $PAGE->set_heading(fullname($USER));
@@ -41,35 +41,35 @@ $PAGE->set_pagetype('my-index');
 
 echo $OUTPUT->header();	
 
-$data = $DB -> get_records_sql ('SELECT * FROM {block_grant_proposals_stud}',[]);
+$data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants}',[]);
 if (!empty($data))
 {
 	foreach ($data as $item)
     {
 		if (($item -> directionofactivity) == 'культурно-творческая деятельность')
 		{
-			$data1 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data1 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data1 as $summa1)	$cult_creat[] = array ($item -> id, $summa1);
 		}
 			
 		if (($item -> directionofactivity) == 'спортивная деятельность')
 		{
-			$data2 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data2 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data2 as $summa2) $sport[] = array ($item -> id, $summa2);
 		}
 		if (($item -> directionofactivity) == 'общественная деятельность')
 		{
-			$data3 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data3 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data3 as $summa3) $publ[] = array ($item -> id, $summa3);
 		}
 		if (($item -> directionofactivity) == 'учебная деятельность')
 		{
-			$data4 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data4 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data4 as $summa4) $educ[] = array ($item -> id, $summa4);
 		}
 		if (($item -> directionofactivity) == 'научно-исследовательская деятельность')
 		{
-			$data5 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data5 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data5 as $summa5) $scien_res[] = array ($item -> id, $summa5);
 		}
 	}
@@ -202,31 +202,3 @@ if (empty($educ[$q]))
         }
         $$column = "<a href=\"user.php?sort=$column&amp;dir=$columndir\">".$string[$column]."</a>$columnicon";
     }*/
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
