@@ -36,19 +36,13 @@ $PAGE->set_pagetype('my-index');
 
 echo $OUTPUT->header();
 echo ('**********************');
-$mform = new time_sort_application_form();
-$datas = $mform->get_data();
-$mform->display();
-echo ('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
-var_dump ($datas);
-if ($datas === NULL)
-{
-	echo ('Выберите интересующий Вас период подачи заявлений');
-}
-else
-{
-echo ($datas -> assesstimestart);
-$taim = $datas -> assesstimestart;
+//$mform = new time_sort_application_form();
+//$datas = $mform->get_data();
+//$mform->display();
+//echo ('&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&');
+//var_dump ($datas);
+//echo ($datas -> assesstimestart);
+//$taim = $datas -> assesstimestart;
 $k = verification_group_membership ($USER->id);
 // Массив ссылок для сортировки
 		$sort_list = array(
@@ -57,7 +51,7 @@ $k = verification_group_membership ($USER->id);
 		'inst_asc' => '`applicantinstitute`',
 		'inst_desc' => '`applicantinstitute` DESC',
 		'napr_asc' => '`directionofactivity`',
-		'napr_desc' => '`ditectionofactivity` DESC',
+		'napr_desc' => '`directionofactivity` DESC',
 		);
 
 // Проверка переменной GET		
@@ -91,7 +85,7 @@ $k = verification_group_membership ($USER->id);
 echo '<div class="sort-bar">';
 echo '<div class="sort-bar-title">Сортировать по:</div>';
 echo '<div class="sort-bar-list">';
-echo sort_link_bar ('Фамилия, имя, отчество  ', 'fio_asc', 'fio_desc');
+echo sort_link_bar ('Фамилия', 'fio_asc', 'fio_desc');
 echo sort_link_bar ('Институт  ', 'inst_asc', 'inst_desc');
 echo sort_link_bar ('Направление  ', 'napr_asc', 'napr_desc');
 echo '</div></div>';
@@ -104,16 +98,23 @@ else
 {
 	$sort_sql = reset($sort_list);
 }
-echo ('__________________________');
-var_dump($k);
-$k["taim"] = $taim;
-echo ('))))))))))))))))))))))))))))))))))');
-var_dump ($k);
-$data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where ((applicationstatus<>1)
+//echo ('__________________________');
+//var_dump($k);
+//if ($datas === NULL) $k["taim"] = '';
+//else $k["taim"] = $taim;
+//echo ('))))))))))))))))))))))))))))))))))');
+//var_dump ($k);
+/*$data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants} where ((applicationstatus<>1)
 									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
 									OR directionofactivity = ? OR directionofactivity = ?) OR 
 									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
-									OR applicantinstitute = ? OR applicantinstitute = ?))) AND (applicationsenddate > ?)', $k, $sort_sql, '*');
+									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k, $sort_sql, '*');*/
+									
+$data = $DB -> get_records_select ('block_app_request_applicants', '((applicationstatus<>1)
+									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
+									OR directionofactivity = ? OR directionofactivity = ?) OR 
+									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
+									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k, $sort_sql, '*');									
 
 if (!empty($data))
 {
@@ -145,6 +146,5 @@ if (!empty($data))
 	echo $OUTPUT -> download_dataformat_selector('Скачать данные из таблицы', 'download.php');
 }
 
-	else echo '<li> соискателей пока нет </li>';
-}	
+	else echo '<li> соискателей пока нет </li>';	
 echo $OUTPUT->footer();		
