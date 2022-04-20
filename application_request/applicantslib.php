@@ -815,46 +815,6 @@ function sorting_array_desc ($a, $b)
 		else return 1;
 }
 
-/**
- * Функция скачивает таблицу в виде файла.
- *
- * @param int $u идентификационный номер члена комиссии в mdl_user.
- *
- * @return array ???.
- */
-function require_table_download_grant ($u)
-{
-	global $DB;
-	global $USER;
-	
-	$k1 = verification_group_membership_grant ($u);
-	$data = $DB -> get_records_sql ('SELECT * FROM {block_grant_proposals_stud} where ((applicationstatus<>1)
-									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
-									OR directionofactivity = ? OR directionofactivity = ?) OR 
-									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
-									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k1);
-
-	$sv = array();
-	if (!empty($data))
-	{
-		foreach ($data as $item)
-		{
-			$f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
-			$k = $item -> applicantinstitute;
-			$y = $item -> applicantphone;
-			$m = $item -> applicantemail;
-			$grade = $item -> grade;
-			$app_count = application_count_grant($item->applicantid);
-			$direct = $item -> directionofactivity;
-			$d = date('d.m.y', $item->applicationsenddate);
-			$docs = render_docs_list1_grant($item->id,$item->itemid,$item->contextid);
-			$status = resolve_status_grant($item -> applicationstatus);
-			$sv[] = array ($f, $k, $y, $m, $direct, $d, $docs, $grade, $app_count, $status);
-		}
-	}
-	return $sv;
-}
-
 function table_grant_rating_download ($u)
 {
 	global $DB;
