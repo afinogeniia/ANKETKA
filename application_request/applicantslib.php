@@ -815,11 +815,16 @@ function sorting_array_desc ($a, $b)
 		else return 1;
 }
 
-function table_grant_rating_download ($u)
+/** 
+ * Функция создаёт массив для вывода данных таблицы рейтинга в файла
+ *
+ */
+ 
+function table_request_rating_download ($u)
 {
 	global $DB;
 	global $USER;
-	$data = $DB -> get_records_sql ('SELECT * FROM {block_grant_proposals_stud}',[]);
+	$data = $DB -> get_records_sql ('SELECT * FROM {block_app_request_applicants}',[]);
 if (!empty($data))
 {
 	
@@ -827,39 +832,53 @@ if (!empty($data))
     {
 		if (($item -> directionofactivity) == 'культурно-творческая деятельность')
 		{
-			$data1 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data1 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data1 as $summa1)	$cult_creat[] = array ($item -> id, $summa1);
 		}
 			
 		if (($item -> directionofactivity) == 'спортивная деятельность')
 		{
-			$data2 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data2 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data2 as $summa2) $sport[] = array ($item -> id, $summa2);
 		}
 		if (($item -> directionofactivity) == 'общественная деятельность')
 		{
-			$data3 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data3 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data3 as $summa3) $publ[] = array ($item -> id, $summa3);
 		}
 		if (($item -> directionofactivity) == 'учебная деятельность')
 		{
-			$data4 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data4 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data4 as $summa4) $educ[] = array ($item -> id, $summa4);
 		}
 		if (($item -> directionofactivity) == 'научно-исследовательская деятельность')
 		{
-			$data5 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			$data5 = $DB -> get_record_sql('SELECT SUM(grade) from {block_app_request_documents} where applicationid = ?',[$item -> id]);
 			foreach ($data5 as $summa5) $scien_res[] = array ($item -> id, $summa5);
 		}
 	}
 }
-usort ($cult_creat, 'sorting_array_elements');
+
+
+/*usort ($cult_creat, 'sorting_array_elements');
 usort ($sport, 'sorting_array_elements');
 usort ($publ, 'sorting_array_elements');
 usort ($scien_res, 'sorting_array_elements');
-usort ($educ, 'sorting_array_elements');
+usort ($educ, 'sorting_array_elements');*/
 
-$quantity = max(count($cult_creat), count($sport), count($publ), count($scien_res), count($educ));
+if (isset($cult_creat)){usort ($cult_creat, 'sorting_array_desc'); $razm_cult_creat = count ($cult_creat);} 
+	else $razm_cult_creat = 0;
+if (isset($sport)){usort ($sport, 'sorting_array_desc'); $razm_sport = count ($sport);}
+	else $razm_sport = 0;
+if (isset($publ)) {usort ($publ, 'sorting_array_desc'); $razm_publ = count ($publ);}
+	else $razm_publ = 0;
+if (isset($scien_res)) {usort ($scien_res, 'sorting_array_desc'); $razm_scien_res = count ($scien_res);}
+	else $razm_scien_res = 0;
+if (isset($educ)) {usort ($educ, 'sorting_array_desc'); $razm_educ = count ($educ);}
+	else $razm_educ = 0;
+
+//$quantity = max(count($cult_creat), count($sport), count($publ), count($scien_res), count($educ));
+$quantity = max($razm_cult_creat, $razm_sport, $razm_publ, $razm_scien_res, $razm_educ);
 	$sv = array();
 	$sv[] = array('Номер заявления', 'Рейтинг обучающегося', 'Номер заявления', 'Рейтинг обучающегося', 
 						   'Номер заявления', 'Рейтинг обучающегося', 'Номер заявления', 'Рейтинг обучающегося', 
