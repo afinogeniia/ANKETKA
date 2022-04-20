@@ -815,4 +815,173 @@ function sorting_array_desc ($a, $b)
 		else return 1;
 }
 
+/**
+ * Функция скачивает таблицу в виде файла.
+ *
+ * @param int $u идентификационный номер члена комиссии в mdl_user.
+ *
+ * @return array ???.
+ */
+function require_table_download_grant ($u)
+{
+	global $DB;
+	global $USER;
+	
+	$k1 = verification_group_membership_grant ($u);
+	$data = $DB -> get_records_sql ('SELECT * FROM {block_grant_proposals_stud} where ((applicationstatus<>1)
+									AND ((directionofactivity = ? OR directionofactivity = ? OR directionofactivity = ?
+									OR directionofactivity = ? OR directionofactivity = ?) OR 
+									(applicantinstitute = ? OR applicantinstitute = ? OR applicantinstitute = ?
+									OR applicantinstitute = ? OR applicantinstitute = ?)))', $k1);
+
+	$sv = array();
+	if (!empty($data))
+	{
+		foreach ($data as $item)
+		{
+			$f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
+			$k = $item -> applicantinstitute;
+			$y = $item -> applicantphone;
+			$m = $item -> applicantemail;
+			$grade = $item -> grade;
+			$app_count = application_count_grant($item->applicantid);
+			$direct = $item -> directionofactivity;
+			$d = date('d.m.y', $item->applicationsenddate);
+			$docs = render_docs_list1_grant($item->id,$item->itemid,$item->contextid);
+			$status = resolve_status_grant($item -> applicationstatus);
+			$sv[] = array ($f, $k, $y, $m, $direct, $d, $docs, $grade, $app_count, $status);
+		}
+	}
+	return $sv;
+}
+
+function table_grant_rating_download ($u)
+{
+	global $DB;
+	global $USER;
+	$data = $DB -> get_records_sql ('SELECT * FROM {block_grant_proposals_stud}',[]);
+if (!empty($data))
+{
+	
+	foreach ($data as $item)
+    {
+		if (($item -> directionofactivity) == 'культурно-творческая деятельность')
+		{
+			$data1 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			foreach ($data1 as $summa1)	$cult_creat[] = array ($item -> id, $summa1);
+		}
+			
+		if (($item -> directionofactivity) == 'спортивная деятельность')
+		{
+			$data2 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			foreach ($data2 as $summa2) $sport[] = array ($item -> id, $summa2);
+		}
+		if (($item -> directionofactivity) == 'общественная деятельность')
+		{
+			$data3 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			foreach ($data3 as $summa3) $publ[] = array ($item -> id, $summa3);
+		}
+		if (($item -> directionofactivity) == 'учебная деятельность')
+		{
+			$data4 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			foreach ($data4 as $summa4) $educ[] = array ($item -> id, $summa4);
+		}
+		if (($item -> directionofactivity) == 'научно-исследовательская деятельность')
+		{
+			$data5 = $DB -> get_record_sql('SELECT SUM(grade) from {block_grant_proposals_doc} where applicationid = ?',[$item -> id]);
+			foreach ($data5 as $summa5) $scien_res[] = array ($item -> id, $summa5);
+		}
+	}
+}
+usort ($cult_creat, 'sorting_array_elements');
+usort ($sport, 'sorting_array_elements');
+usort ($publ, 'sorting_array_elements');
+usort ($scien_res, 'sorting_array_elements');
+usort ($educ, 'sorting_array_elements');
+
+$quantity = max(count($cult_creat), count($sport), count($publ), count($scien_res), count($educ));
+	$sv = array();
+	$sv[] = array('Номер заявления', 'Рейтинг обучающегося', 'Номер заявления', 'Рейтинг обучающегося', 
+						   'Номер заявления', 'Рейтинг обучающегося', 'Номер заявления', 'Рейтинг обучающегося', 
+						   'Номер заявления', 'Рейтинг обучающегося');
+		for ($q = 0; $q < $quantity; $q++)
+	{
+		if (empty($cult_creat[$q]))
+		{
+			$ccn = ''; 
+			$ccr = '';
+		}
+			else 
+			{
+				$ccn = $cult_creat[$q][0];
+				$ccr = $cult_creat[$q][1];
+			}
+if (empty($sport[$q]))
+		{
+			$sn = ''; 
+			$sr = '';
+		}
+			else 
+			{
+				$sn = $sport[$q][0];
+				$sr = $sport[$q][1];
+			}
+if (empty($publ[$q]))
+		{
+			$pn = ''; 
+			$pr = '';
+		}
+			else 
+			{
+				$pn = $publ[$q][0];
+				$pr = $publ[$q][1];
+			}
+if (empty($scien_res[$q]))
+		{
+			$srn = ''; 
+			$srr = '';
+		}
+			else 
+			{
+				$srn = $scien_res[$q][0];
+				$srr = $scien_res[$q][1];
+			}
+if (empty($educ[$q]))
+		{
+			$en = ''; 
+			$er = '';
+		}
+			else 
+			{
+				$en = $educ[$q][0];
+				$er = $educ[$q][1];
+			}
+			
+			$sv[] = array ($en, $er,
+									$srn, $srr,
+									$pn, $pr,
+									$ccn, $ccr,
+									$sn, $sr);
+	}
+	//echo ('************************');
+	//var_dump($sv);
+	/*if (!empty($data))
+	{
+		foreach ($data as $item)
+		{
+			$f = $item -> applicantlastname.' '.$item -> applicantname.' '.$item -> applicantmiddlename;
+			$k = $item -> applicantinstitute;
+			$y = $item -> applicantphone;
+			$m = $item -> applicantemail;
+			$grade = $item -> grade;
+			$app_count = application_count_grant($item->applicantid);
+			$direct = $item -> directionofactivity;
+			$d = date('d.m.y', $item->applicationsenddate);
+			$docs = render_docs_list1_grant($item->id,$item->itemid,$item->contextid);
+			$status = resolve_status_grant($item -> applicationstatus);
+			$sv[] = array ($f, $k, $y, $m, $direct, $d, $docs, $grade, $app_count, $status);
+		}
+	}*/
+	return $sv;
+}
 ?>

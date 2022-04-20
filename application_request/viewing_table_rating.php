@@ -182,7 +182,7 @@ if (empty($educ[$q]))
  echo $OUTPUT->heading('Рейтинг заявлений обучающихся на повышенные стипендии', 2);
  //$table->sortable(true, 'Учебная', SORT_ASC);
  echo html_writer::table($table);
- echo $OUTPUT -> download_dataformat_selector('Скачать данные из таблицы', 'download_rating.php');
+ echo $OUTPUT -> download_dataformat_selector('Скачать данные из таблицы', 'download_rating_table.php');
  echo $OUTPUT->footer();
  
  /*    foreach ($columns as $column) {
