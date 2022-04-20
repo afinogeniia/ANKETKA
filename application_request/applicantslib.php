@@ -808,7 +808,7 @@ function render_docs_list1(int $id,int $itemid=null,int $contextid=null){
  *
  * @return int 0, если элементы массива равны, -1, если элемент $a больше $b и 1, если элемент $a меньше элемента $b.
  */
-function sorting_array_elements ($a, $b)
+function sorting_array_desc ($a, $b)
 {
 	if ($a[1] == $b[1]) return 0;
 	if ($a[1] > $b[1]) return -1;
