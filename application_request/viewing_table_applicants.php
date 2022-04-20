@@ -35,7 +35,7 @@ $PAGE->set_pagelayout('standard');
 $PAGE->set_pagetype('my-index');
 
 echo $OUTPUT->header();
-//echo ('**********************');
+echo ('**********************');
 //$mform = new time_sort_application_form();
 //$datas = $mform->get_data();
 //$mform->display();
@@ -70,11 +70,11 @@ $k = verification_group_membership ($USER->id);
 				$sort = @$_GET['sort'];
 				if ($sort == $a)
 				{
-					return '<a class="active" href="?sort=' . $b . '">' . $title .'   '. ' <i>↑</i></a>';
+					return '<a class="active" href="?sort=' . $b . '">&nbsp;' . $title .'   '. ' <i>▲</i></a>';
 				}
 					elseif ($sort == $b)
 					{
-						return '<a class="active" href="?sort=' . $a . '">' . $title .'   '. ' <i>↓</i></a>';
+						return '<a class="active" href="?sort=' . $a . '">&nbsp;' . $title .'   '. ' <i>▼</i></a>';
 					}
 						else
 						{
@@ -119,8 +119,8 @@ $data = $DB -> get_records_select ('block_app_request_applicants', '((applicatio
 if (!empty($data))
 {
     $table = new html_table();
-    $table->head = array('Номер', get_string('fio', 'block_application_request'), get_string('institute', 'block_application_request'), 
-	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),'Направление',
+    $table->head = array('Номер', sort_link_bar ('Фамилия', 'fio_asc', 'fio_desc').'имя, отчество', sort_link_bar ('Институт  ', 'inst_asc', 'inst_desc'), 
+	get_string('telephone', 'block_application_request'), get_string('email', 'block_application_request'),sort_link_bar ('Направление  ', 'napr_asc', 'napr_desc'),
 	get_string('date', 'block_application_request'), get_string('documents', 'block_application_request'),'Средний балл',"Кол. заявлений",'Статус');
     
     foreach ($data as $item)
