@@ -963,4 +963,25 @@ if (empty($educ[$q]))
 	}*/
 	return $sv;
 }
+
+/**
+ * Функция вывода массива для ссылок
+ * 
+ */
+			function sort_link_columns($title, $a, $b)
+			{
+				$sort = @$_GET['sort'];
+				if ($sort == $a)
+				{
+					return '<a class="active" href="?sort=' . $b . '">&nbsp;' . $title .'   '. ' <i>▲</i></a>';
+				}
+					elseif ($sort == $b)
+					{
+						return '<a class="active" href="?sort=' . $a . '">&nbsp;' . $title .'   '. ' <i>▼</i></a>';
+					}
+						else
+						{
+							return '<a href="?sort=' . $a . '">' . $title .'   '. '</a>';
+						}
+			}
 ?>
